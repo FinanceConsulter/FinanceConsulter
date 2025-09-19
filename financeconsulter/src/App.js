@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Sidebar, useSidebar, Button, Table, Badge } from '@rewind-ui/core';
+import { Sidebar, Table, Badge } from '@rewind-ui/core';
 import './App.css';
 
 const mockItems = [
@@ -10,22 +10,63 @@ const mockItems = [
   { id: 5, name: 'Invoice #1005', type: 'Transfer', status: 'Done', amount: 14.99 },
 ];
 
-function HeaderActions() {
+function AccountBadge({ name = 'Basti', email = 'basti@example.com' }) {
+  const initials = name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
-    <div className="ml-auto flex gap-2">
-      <Button size="sm" color="blue">Primary</Button>
-      <Button size="sm" color="gray" tone="light">Secondary</Button>
+    <div className="ml-auto flex items-center gap-3">
+      <div className="flex items-center gap-2 rounded-full border bg-white px-3 py-1.5 shadow-sm">
+        <div className="h-8 w-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-semibold">
+          {initials}
+        </div>
+        <div className="hidden sm:block leading-tight">
+          <div className="text-sm font-medium">{name}</div>
+          <div className="text-xs text-gray-500">{email}</div>
+        </div>
+      </div>
     </div>
   );
 }
 
+function MobileChapters() {
+  const chapters = [
+    { label: 'Overview', active: true },
+    { label: 'Transactions' },
+    { label: 'Scan' },
+    { label: 'Settings' },
+  ];
+  return (
+    <aside className="fixed inset-y-0 left-0 w-40 bg-white border-r z-20 md:hidden">
+      <div className="px-4 py-3 font-semibold">Sites</div>
+      <nav className="flex flex-col">
+        {chapters.map((c) => (
+          <a
+            key={c.label}
+            href="#"
+            className={`px-4 py-3 text-sm hover:bg-slate-50 ${
+              c.active ? 'bg-slate-50 font-medium text-slate-900' : 'text-slate-600'
+            }`}
+          >
+            {c.label}
+          </a>
+        ))}
+      </nav>
+    </aside>
+  );
+}
+
 function App() {
-  const sidebar = useSidebar();
   const total = useMemo(() => mockItems.reduce((s, i) => s + i.amount, 0), []);
 
   return (
     <div className="relative flex flex-row w-full min-h-screen text-slate-800">
-      <Sidebar color="white" shadow="sm" className="fixed">
+      <MobileChapters />
+      <Sidebar color="white" shadow="sm" className="fixed hidden md:block">
         <Sidebar.Head>
           <Sidebar.Head.Title>Finance</Sidebar.Head.Title>
           <Sidebar.Head.Toggle />
@@ -45,17 +86,11 @@ function App() {
         </Sidebar.Footer>
       </Sidebar>
 
-      <main className="flex flex-col w-full md:ml-64 ml-20">
+    <main className="flex flex-col w-full ml-40 md:ml-64">
         <header className="flex items-center gap-4 px-6 h-16 border-b bg-white sticky top-0 z-10">
           <span className="font-semibold">Overview</span>
           <div className="hidden md:block text-sm text-gray-500">Total: ${total.toFixed(2)}</div>
-          <HeaderActions />
-          <Button className="ml-2 md:hidden" color="white" icon onClick={() => sidebar.toggleMobile()}>
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-              <path d="M448 96c0-17.7-14.3-32-32-32H32C14.3 64 0 78.3 0 96s14.3 32 32 32H416c17.7 0 32-14.3 32-32zm0 320c0-17.7-14.3-32-32-32H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32z" />
-              <path className="opacity-50" d="M0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32z" />
-            </svg>
-          </Button>
+      <AccountBadge name="Basti" email="basti@example.com" />
         </header>
 
         <section className="p-6">
