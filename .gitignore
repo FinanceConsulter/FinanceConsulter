@@ -1,0 +1,34 @@
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.venv/
+env/
+venv/
+
+# Node
+node_modules/
+dist/
+build/
+
+# Python packaging
+*.egg-info/
+
+# Local data
+*.db
+*.sqlite
+finance.db
+
+# Logs
+logs/
+*.log
+
+# Coverage
+.coverage
+coverage.xml
