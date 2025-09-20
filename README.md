@@ -54,3 +54,6 @@
 ## Notes
 - Keep AI features privacy-first and optional; no external calls required for MVP.
 - Prioritize offline/local processing for OCR to avoid external dependencies.
+
+# Installation
+When cloning, move to the project and run `npm install`. This loads all dependencies (Matrial UI). This requires the installation of [Node.js](https://nodejs.org/en).
