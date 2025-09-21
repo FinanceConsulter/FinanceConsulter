@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 import Header from './Components/Header';
 import NavBar from './Components/Navbar';
 import TransactionTable from './Components/TransactionTable';
-import Dashboard from './Dashboard';
+import Dashboard from './Pages/Dashboard';
 import { fetchTransactions } from './services/api';
+import ReceiptCapture from './Pages/ReceiptCapture';
+import Transactions from './Pages/Transactions';
 
 function App() {
   const [tableHeader, setTableHeader] = useState({ date: 'Date', amount: 'Amount', actions: 'Actions' });
@@ -46,7 +48,9 @@ function App() {
       case 'transactions':
         if (loading) return <div>Loading…</div>;
         if (error) return <div>Failed to load</div>;
-        return <TransactionTable TableHeader={tableHeader} TableData={tableData} />;
+        return <Transactions header={tableHeader} data={tableData} setCurrentPage={setCurrentPage} />;
+      case 'scanReceipts':
+        return <ReceiptCapture />;
       case 'settings':
         return <div>Settings Page</div>;
       default:
