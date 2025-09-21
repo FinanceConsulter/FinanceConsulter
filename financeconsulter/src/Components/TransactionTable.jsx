@@ -1,6 +1,6 @@
 import { Box, Table, TableBody, TableHead, TableRow, TableCell, Button, ButtonGroup } from '@mui/material';
 
-function TransactionTable({ TableHeader, TableData }) {
+function TransactionTable({ TableHeader, TableData, setCurrentPage = () => {} }) {
     return (
         <Box>
             <Table>
@@ -13,7 +13,7 @@ function TransactionTable({ TableHeader, TableData }) {
                 </TableHead>
                 <TableBody>
                     {TableData.map(element => (
-                        <TableRow>
+                        <TableRow key={element.id}>
                             <TableCell>{element.date}</TableCell>
                             <TableCell>{element.amount}</TableCell>
                             <TableCell>
