@@ -11,8 +11,8 @@ function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle }) {
         <ListItem button onClick={() => setCurrentPage('dashboard')}>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button onClick={() => setCurrentPage('users')}>
-          <ListItemText primary="Users" />
+        <ListItem button onClick={() => setCurrentPage('transactions')}>
+          <ListItemText primary="Transactions" />
         </ListItem>
         <ListItem button onClick={() => setCurrentPage('settings')}>
           <ListItemText primary="Settings" />

@@ -8,23 +8,27 @@ import Dashboard from './Dashboard';
 function App() {
   const TableHeader = {
     date: "Date",
-    amount: "Amount"
+    amount: "Amount",
+    actions: "Actions"
   }
   const TableData = [
     {
+      id: 1,
       date: "20.09.2025",
       amount: "19.50",
-
+      actions: "RUD"
     },
     {
+      id: 2,
       date: "21.09.2025",
       amount: "19.50",
-
+      actions: "RUD"
     },
     {
+      id: 3,
       date: "22.09.2025",
       amount: "19.50",
-
+      actions: "RUD"
     }
   ]
 
@@ -41,7 +45,7 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard': return <Dashboard />;
-      case 'users': return <TransactionTable TableHeader={TableHeader} TableData={TableData} />;
+      case 'transactions': return <TransactionTable TableHeader={TableHeader} TableData={TableData} />;
       case 'settings': return <div>Settings Page</div>;
       default: return <Dashboard />;
     }
