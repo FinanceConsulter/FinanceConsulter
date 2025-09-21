@@ -21,6 +21,9 @@ function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle }) {
         <ListItem button onClick={() => onNavigate('transactions')}>
           <ListItemText primary="Transactions" />
         </ListItem>
+        <ListItem button onClick={() => onNavigate('scanReceipts')}>
+          <ListItemText primary="Scan receipts" />
+        </ListItem>
         <ListItem button onClick={() => onNavigate('settings')}>
           <ListItemText primary="Settings" />
         </ListItem>
