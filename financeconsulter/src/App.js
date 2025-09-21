@@ -53,7 +53,7 @@ function App() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <Header handleDrawerToggle={handleDrawerToggle} />
+  <Header handleDrawerToggle={handleDrawerToggle} />
       <NavBar
         setCurrentPage={setCurrentPage}
         mobileOpen={mobileOpen}
@@ -65,7 +65,7 @@ function App() {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { md: `calc(100% - 240px)` }  // Responsive width
+          width: { xs: '100%', md: `calc(100% - 240px)` }
         }}
       >
         <Toolbar /> {/* Spacer for header */}

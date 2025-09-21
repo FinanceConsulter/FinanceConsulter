@@ -4,17 +4,24 @@ function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  const onNavigate = (page) => {
+    setCurrentPage(page);
+    if (isMobile) {
+      handleDrawerToggle();
+    }
+  };
+
   const drawerContent = (
     <>
       <Toolbar /> {/* Spacer for header */}
       <List>
-        <ListItem button onClick={() => setCurrentPage('dashboard')}>
+        <ListItem button onClick={() => onNavigate('dashboard')}>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button onClick={() => setCurrentPage('transactions')}>
+        <ListItem button onClick={() => onNavigate('transactions')}>
           <ListItemText primary="Transactions" />
         </ListItem>
-        <ListItem button onClick={() => setCurrentPage('settings')}>
+        <ListItem button onClick={() => onNavigate('settings')}>
           <ListItemText primary="Settings" />
         </ListItem>
       </List>
