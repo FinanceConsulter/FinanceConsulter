@@ -58,4 +58,4 @@
 # Installation
 When cloning, move to the project and run `npm install`. This loads all dependencies (Matrial UI). This requires the installation of [Node.js](https://nodejs.org/en). To start the app, navigate into the folder `financeconsulter` and use command `npm start` to start the app.
 
-For the server, we use ![FastAPI](). Please use pip to install `pip install "fastapi[standard]"`. To start the server, navigate to the folder `backend/app` and use prompt `python -m fastapi dev .\main.py` to start the server.
+For the server, we use [FastAPI](https://fastapi.tiangolo.com/). Please use pip to install `pip install "fastapi[standard]"`. To start the server, navigate to the folder `backend/app` and use prompt `python -m fastapi dev .\main.py` to start the server.
