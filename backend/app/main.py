@@ -1,6 +1,9 @@
-from typing import Union
-from fastapi import FastAPI
+from typing import Union, Generator
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+
+from app.db.session import SessionLocal, init_db
 
 app = FastAPI()
 
@@ -20,3 +23,23 @@ def read_root():
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
+
+
+# --- Database setup & dependency ---
+@app.on_event("startup")
+def on_startup():
+    init_db()
+
+def get_db() -> Generator[Session, None, None]:
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+@app.get("/health")
+def health(db: Session = Depends(get_db)):
+    # simple probe: count users (table may be empty)
+    result = db.execute("SELECT COUNT(1) FROM users").scalar_one_or_none()
+    return {"status": "ok", "users": result}
