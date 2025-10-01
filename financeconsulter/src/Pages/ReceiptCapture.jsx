@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, Paper, Stack, Typography, Tabs, Tab, CircularProgress, Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -11,6 +11,7 @@ export default function ReceiptCapture({ onSubmit }) {
   const [mode, setMode] = useState('camera'); // 'camera' | 'upload'
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const streamRef = useRef(null);
   const [preview, setPreview] = useState(null); // data URL
   const [file, setFile] = useState(null); // File object
   const [error, setError] = useState(null);
@@ -20,38 +21,71 @@ export default function ReceiptCapture({ onSubmit }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const stopStream = useCallback(() => {
+    const currentStream = streamRef.current;
+    if (currentStream) {
+      currentStream.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+  }, []);
+
   useEffect(() => {
-    if (mode !== 'camera') return;
-    let stream;
+    if (mode !== 'camera') {
+      stopStream();
+      return;
+    }
+    let cancelled = false;
+    let localStream;
     async function startCamera() {
       try {
         setCamLoading(true);
+
         if (!navigator.mediaDevices?.getUserMedia) {
           throw new Error('getUserMedia not supported');
         }
-        stream = await navigator.mediaDevices.getUserMedia({
+        localStream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: { ideal: 'environment' } },
           audio: false,
         });
+
+        if (cancelled) {
+          localStream.getTracks().forEach((track) => track.stop());
+          return;
+        }
+
+        streamRef.current = localStream;
+
         if (videoRef.current) {
-          videoRef.current.srcObject = stream;
+          videoRef.current.srcObject = localStream;
         }
       } catch (e) {
-  setError('Camera access denied or not available.');
+        stopStream();
+        setError('Camera access denied or not available.');
         // Fallback to Upload-Tab on smartphones
         setMode('upload');
-      }
-      finally {
+      } finally {
         setCamLoading(false);
       }
     }
     startCamera();
     return () => {
-      if (stream) {
-        stream.getTracks().forEach(t => t.stop());
-      }
+      cancelled = true;
+      stopStream();
     };
-  }, [mode]);
+  }, [mode, stopStream]);
+
+  useEffect(() => () => stopStream(), [stopStream]);
+
+  const handleModeChange = (_, value) => {
+    if (mode === 'camera' && value !== 'camera') {
+      stopStream();
+    }
+    setMode(value);
+  };
 
   const capturePhoto = () => {
     const video = videoRef.current;
@@ -108,7 +142,7 @@ export default function ReceiptCapture({ onSubmit }) {
   return (
     <Box>
       <Paper elevation={0} sx={{ mb: 2, bgcolor: 'transparent' }}>
-        <Tabs value={mode} onChange={(_, v) => setMode(v)}>
+        <Tabs value={mode} onChange={handleModeChange}>
           <Tab value="camera" icon={<PhotoCameraIcon />} iconPosition="start" label="Take photo" />
           <Tab value="upload" icon={<UploadFileIcon />} iconPosition="start" label="Upload PDF/Image" />
         </Tabs>
@@ -169,10 +203,6 @@ export default function ReceiptCapture({ onSubmit }) {
             </Paper>
           )}
         </Stack>
-      )}
-
-      {error && (
-        <Typography color="error" sx={{ mt: 2 }}>{error}</Typography>
       )}
 
       {!!error && (
