@@ -27,6 +27,9 @@ function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle }) {
         <ListItem button onClick={() => onNavigate('settings')}>
           <ListItemText primary="Settings" />
         </ListItem>
+        <ListItem button onClick={() => onNavigate('login')}>
+          <ListItemText primary="Login" />
+        </ListItem>
       </List>
     </>
   );
