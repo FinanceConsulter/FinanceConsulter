@@ -7,6 +7,9 @@ import Dashboard from './Pages/Dashboard';
 import { fetchTransactions } from './services/api';
 import ReceiptCapture from './Pages/ReceiptCapture';
 import Transactions from './Pages/Transactions';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+
 
 function App() {
   const [tableHeader, setTableHeader] = useState({ date: 'Date', amount: 'Amount', actions: 'Actions' });
@@ -45,6 +48,14 @@ function App() {
     switch (currentPage) {
       case 'dashboard':
         return <Dashboard />;
+      case 'login':
+        return <Login 
+          onSubmit={Login}
+          onNavigate={(page) => setCurrentPage(page)}
+        />;
+      case 'register':
+        return <Register 
+        />;
       case 'transactions':
         if (loading) return <div>Loading…</div>;
         if (error) return <div>Failed to load</div>;
