@@ -1,7 +1,7 @@
-from data_access.data_access import Base
+from data_access.data_access import base
 from sqlalchemy import Column, Integer, String
 
-class User(Base):
+class User(base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement="auto")

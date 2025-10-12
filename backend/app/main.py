@@ -27,11 +27,12 @@ def get_db():
 @app.post("/user")
 def create_user(request: User_Schema, db: Session = Depends(get_db)):
     new_user = User(
-        id=request.id, 
         email = request.email,
         password_hash = request.password_hash,
         name = request.name,
-        first_name = request.first_name,
-        created_at = request.created_at
+        first_name = request.first_name
         )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
     pass
