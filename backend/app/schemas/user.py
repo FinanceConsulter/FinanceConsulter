@@ -4,7 +4,7 @@ from typing import Optional
 # Schema für User-Erstellung (REQUEST)
 class UserCreate(BaseModel):
     email: str
-    password_hash: str
+    password: str
     name: str
     first_name: str
 
@@ -12,7 +12,6 @@ class UserCreate(BaseModel):
 class UserResponse(BaseModel):
     id: int
     email: str
-    password_hash: str
     name: str
     first_name: str
     created_at: str

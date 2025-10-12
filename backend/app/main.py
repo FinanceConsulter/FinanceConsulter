@@ -2,6 +2,10 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from data_access.data_access import SessionLocal
+from passlib.context import CryptContext
+
+
+
 
 # Import aller Models (wichtig für SQLAlchemy)
 from models.user import User
@@ -16,6 +20,7 @@ from models.tag import Tag, TransactionTag, ReceiptLineItemTag
 from schemas.user import UserCreate, UserResponse
 
 app = FastAPI(title="FinanceConsulter API", version="0.1.0")
+
 
 # Datenbank beim Start initialisieren (nur einmalig)
 @app.on_event("startup")
@@ -56,8 +61,16 @@ def get_db():
         yield db
     finally:
         db.close()
+        
+        
+pwd_context = CryptContext(schemes=['argon2'], deprecated='auto')
 
-# ============= USER ENDPOINTS =============
+def verify_password(plain_pwd, hash_pwd):
+    return pwd_context.verify(plain_pwd, hash_pwd)
+
+def get_pwd_hash(pwd):
+    return pwd_context.hash(pwd)
+
 @app.post("/user", response_model=UserResponse, status_code=201)
 def create_user(request: UserCreate, db: Session = Depends(get_db)):
     """Erstellt einen neuen Benutzer"""
@@ -68,7 +81,7 @@ def create_user(request: UserCreate, db: Session = Depends(get_db)):
     
     new_user = User(
         email=request.email,
-        password_hash=request.password_hash,
+        password_hash= get_pwd_hash(request.password),
         name=request.name,
         first_name=request.first_name
     )
@@ -91,7 +104,6 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Benutzer nicht gefunden")
     return user
 
-# ============= HEALTH CHECK =============
 @app.get("/")
 def root():
     return {
