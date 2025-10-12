@@ -2,9 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pathlib import Path
 
-# Korrigierter Pfad
-BASE_DIR = Path(__file__).resolve().parent.parent.parent  # 3x parent: app -> backend -> FinanceConsulter
-DATABASE_PATH = BASE_DIR / "backend" / "db" / "finance_consulter.db"
+# Von backend/app/data_access/data_access.py aus:
+# parent: data_access -> app -> backend -> ROOT
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+DATABASE_PATH = BASE_DIR / "db" / "finance_consulter.db"
 
 print(f"DATABASE_PATH: {DATABASE_PATH}")
 print(f"Datei existiert: {DATABASE_PATH.exists()}")
@@ -19,7 +20,7 @@ engine = create_engine(
 )
 
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
-base = declarative_base()
+Base = declarative_base()
 
 def get_db():
     db = SessionLocal()
@@ -27,3 +28,20 @@ def get_db():
         yield db
     finally:
         db.close()
+
+def init_db():
+    """
+    Erstellt alle Tabellen in der Datenbank.
+    Einmalig beim ersten Start ausführen!
+    """
+    # Importiere alle Models, damit sie registriert werden
+    from models.user import User
+    from models.account import Account
+    from models.category import Category
+    from models.transaction import Transaction
+    from models.merchant import Merchant
+    from models.receipt import Receipt, ReceiptLineItem
+    from models.tag import Tag, TransactionTag, ReceiptLineItemTag
+    
+    Base.metadata.create_all(bind=engine)
+    print("✅ Alle Tabellen wurden erfolgreich erstellt!")
