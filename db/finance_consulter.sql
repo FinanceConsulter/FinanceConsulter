@@ -8,7 +8,18 @@ CREATE TABLE users (
   password_hash TEXT,
   name TEXT,
   first_name TEXT,
+  last_name TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Seed admin user (password: Admin1234!)
+INSERT INTO users (email, password_hash, name, first_name, last_name)
+VALUES (
+  'admin@local',
+  '664819d8c5343676c9225b5ed00a5cdc6f3a1ff3',  -- PW: Admin123!
+  'Admin',
+  'System',
+  'Admin'
 );
 
 CREATE TABLE accounts (
