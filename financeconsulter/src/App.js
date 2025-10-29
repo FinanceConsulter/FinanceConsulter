@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Header from './Components/Header';
 import NavBar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
-import { fetchTransactions, registerUser } from './services/api';
+import { fetchTransactions, registerUser, loginUser, setAuthToken } from './services/api';
 import ReceiptCapture from './Pages/ReceiptCapture';
 import Transactions from './Pages/Transactions';
 import Login from './Pages/Login';
@@ -19,6 +19,8 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const isAuthPage = currentPage === 'login' || currentPage === 'register';
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -46,7 +48,9 @@ function App() {
     setCurrentPage('login');
   };
 
-  const handleLogin = () => {
+  const handleLogin = async (payload) => {
+    const res = await loginUser(payload);
+    setAuthToken(res.access_token);
     setCurrentPage('dashboard');
   };
 

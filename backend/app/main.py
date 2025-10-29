@@ -1,31 +1,31 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from data_access.data_access import SessionLocal
-from passlib.context import CryptContext
-
-
+from backend.app.data_access.data_access import SessionLocal
+from backend.app.core.security import hash_password
+from backend.app.routers.auth import router as auth_router
 
 
 # Import aller Models (wichtig für SQLAlchemy)
-from models.user import User
-from models.account import Account
-from models.category import Category
-from models.transaction import Transaction
-from models.merchant import Merchant
-from models.receipt import Receipt, ReceiptLineItem
-from models.tag import Tag, TransactionTag, ReceiptLineItemTag
+from backend.app.models.user import User
+from backend.app.models.account import Account
+from backend.app.models.category import Category
+from backend.app.models.transaction import Transaction
+from backend.app.models.merchant import Merchant
+from backend.app.models.receipt import Receipt, ReceiptLineItem
+from backend.app.models.tag import Tag, TransactionTag, ReceiptLineItemTag
 
 # Import Schemas
-from schemas.user import UserCreate, UserResponse
+from backend.app.schemas.user import UserCreate, UserResponse
 
 app = FastAPI(title="FinanceConsulter API", version="0.1.0")
+app.include_router(auth_router)
 
 
 # Datenbank beim Start initialisieren (nur einmalig)
 @app.on_event("startup")
 def startup_event():
-    from data_access.data_access import init_db, DATABASE_PATH, engine
+    from backend.app.data_access.data_access import init_db, DATABASE_PATH, engine
     from sqlalchemy import text, inspect
     
     print(f"📍 DATABASE_PATH: {DATABASE_PATH}")
@@ -61,15 +61,6 @@ def get_db():
         yield db
     finally:
         db.close()
-        
-        
-pwd_context = CryptContext(schemes=['argon2'], deprecated='auto')
-
-def verify_password(plain_pwd, hash_pwd):
-    return pwd_context.verify(plain_pwd, hash_pwd)
-
-def get_pwd_hash(pwd):
-    return pwd_context.hash(pwd)
 
 @app.post("/user", response_model=UserResponse, status_code=201)
 def create_user(request: UserCreate, db: Session = Depends(get_db)):
@@ -81,9 +72,10 @@ def create_user(request: UserCreate, db: Session = Depends(get_db)):
     
     new_user = User(
         email=request.email,
-        password_hash= get_pwd_hash(request.password),
+        password_hash=hash_password(request.password),
         name=request.name,
-        first_name=request.first_name
+        first_name=request.first_name,
+        last_name=request.last_name,
     )
     db.add(new_user)
     db.commit()
