@@ -7,12 +7,12 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String(255), nullable=False, unique=True)  # Länge hinzugefügt
-    password_hash = Column(String(255))  # Länge hinzugefügt
-    name = Column(String(100))  # Länge hinzugefügt
-    first_name = Column(String(100))  # Länge hinzugefügt
-    last_name = Column(String(100))  # Länge hinzugefügt
-    created_at = Column(String(50), nullable=False, default=lambda: datetime.utcnow().isoformat())  # Länge hinzugefügt
+    email = Column(String(255), nullable=False, unique=True)
+    password_hash = Column(String(255))
+    name = Column(String(100))
+    first_name = Column(String(100))
+    last_name = Column(String(100))
+    created_at = Column(String(50), nullable=False, default=lambda: datetime.utcnow().isoformat())
 
     # Relationships
     accounts = relationship("Account", back_populates="user", cascade="all, delete-orphan")
