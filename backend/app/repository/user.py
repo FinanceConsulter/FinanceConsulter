@@ -11,6 +11,14 @@ def get_all(db: Session):
 def get_user(db: Session, user_id: int):
     return db.query(User).filter(User.id == user_id).first()
 
+def authenticate_user(db: Session, user_email: str, user_password: str):
+    auth_user =  db.query(User).filter(User.email == user_email).first()
+    if not auth_user:
+        return None
+    if not password.verify_password(user_password, auth_user.password_hash):
+        return None
+    return auth_user
+
 def create_user(db: Session,request: UserCreate):
     if check_existingUser(db, request):
         return None
