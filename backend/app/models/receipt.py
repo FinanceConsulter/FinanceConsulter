@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Index
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from backend.app.data_access.data_access import Base
+from data_access.data_access import Base
 
 class Receipt(Base):
     __tablename__ = "receipts"
