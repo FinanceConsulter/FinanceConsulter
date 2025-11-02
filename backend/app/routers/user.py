@@ -3,9 +3,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
 import password
+import oauth2 as oauth2
+from schemas.user import UserCreate
 
 # Import Request
 from schemas.user import UserCreate, UserResponse
+from schemas.login import TokenData
 
 # Import Model
 from models.user import User
@@ -20,7 +23,7 @@ router = APIRouter(
 )
 
 @router.get("/", response_model=List[UserResponse])
-def get_users(db: Session = Depends(get_db)):
+def get_users(db: Session = Depends(get_db), get_current_user: UserCreate = Depends(oauth2.get_current_user)):
     return user.get_all(db)
 
 @router.get("/{user_id}", response_model=List[UserResponse])
