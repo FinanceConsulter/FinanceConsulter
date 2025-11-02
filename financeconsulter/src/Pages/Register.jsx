@@ -27,10 +27,57 @@ export default function Register({ onSubmit, onNavigate }) {
     };
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 4, md: 8 } }}>
-            <Card sx={{ width: '100%', maxWidth: 480, p: { xs: 3, md: 4 } }}>
-                <form onSubmit={handleSubmit}>
-                    <Stack spacing={2.5}>
+        <Box
+            sx={{
+                minHeight: '100dvh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                px: 2,
+                py: { xs: 1.5, md: 3 },
+                backgroundColor: '#fff'
+            }}
+        >
+            <Card
+                elevation={10}
+                sx={{
+                    width: '100%',
+                    maxWidth: 880,
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+                    overflow: 'hidden'
+                }}
+            >
+                <Box
+                    sx={{
+                        background: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #4c1d95 100%)',
+                        color: '#fff',
+                        p: { xs: 4, md: 6 },
+                        display: { xs: 'none', md: 'flex' },
+                        flexDirection: 'column',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <Box>
+                        <Typography variant="h4" fontWeight={700} gutterBottom>
+                            Join FinanceConsulter
+                        </Typography>
+                        <Typography variant="body1" sx={{ opacity: 0.85 }}>
+                            Create your account to unlock real-time insights, receipt automation, and smarter planning.
+                        </Typography>
+                    </Box>
+                </Box>
+
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    sx={{
+                        p: { xs: 4, md: 6 },
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}
+                >
+                    <Stack spacing={3} sx={{ width: '100%' }}>
                         <Box>
                             <Typography variant="h4" fontWeight={600} gutterBottom>
                                 Create your account
@@ -41,12 +88,20 @@ export default function Register({ onSubmit, onNavigate }) {
                         </Box>
 
                         <Stack spacing={2}>
-                            <TextField name="email" label="Email" type="email" required fullWidth />
+                            <TextField name="email" label="Email" type="email" required fullWidth autoComplete="email" />
                             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                                <TextField name="firstName" label="First name" fullWidth />
-                                <TextField name="lastName" label="Last name" fullWidth />
+                                <TextField name="firstName" label="First name" fullWidth autoComplete="given-name" />
+                                <TextField name="lastName" label="Last name" fullWidth autoComplete="family-name" />
                             </Stack>
-                            <TextField name="password" label="Password" type="password" required fullWidth helperText="Use at least 8 characters." />
+                            <TextField
+                                name="password"
+                                label="Password"
+                                type="password"
+                                required
+                                fullWidth
+                                autoComplete="new-password"
+                                helperText="Use at least 8 characters."
+                            />
                         </Stack>
 
                         {error ? (
@@ -55,7 +110,13 @@ export default function Register({ onSubmit, onNavigate }) {
                             </Typography>
                         ) : null}
 
-                        <Button type="submit" variant="contained" size="large" disabled={submitting}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            size="large"
+                            disabled={submitting}
+                            sx={{ py: 1.25, borderRadius: 2 }}
+                        >
                             {submitting ? 'Registering…' : 'Register'}
                         </Button>
 
@@ -64,7 +125,7 @@ export default function Register({ onSubmit, onNavigate }) {
                             Go to login
                         </Link>
                     </Stack>
-                </form>
+                </Box>
             </Card>
         </Box>
     );

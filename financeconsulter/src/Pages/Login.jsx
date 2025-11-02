@@ -7,9 +7,7 @@ import {
     TextField,
     Button,
     Divider,
-    Link,
-    FormControlLabel,
-    Checkbox
+    Link
 } from '@mui/material';
 
 export default function Login({ onSubmit, onNavigate }) {
@@ -39,34 +37,33 @@ export default function Login({ onSubmit, onNavigate }) {
     return (
         <Box
             sx={{
-                minHeight: '100vh',
+                minHeight: '100dvh',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 px: 2,
-                py: { xs: 6, md: 10 },
-                background: 'linear-gradient(135deg, #f8fafc 0%, #eef2ff 50%, #ede9fe 100%)'
+                py: { xs: 1.5, md: 3 },
+                backgroundColor: '#fff'
             }}
         >
             <Card
                 elevation={10}
                 sx={{
                     width: '100%',
-                    maxWidth: 960,
-                    display: 'flex',
-                    flexDirection: { xs: 'column', md: 'row' },
+                    maxWidth: 880,
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
                     overflow: 'hidden'
                 }}
             >
                 <Box
                     sx={{
-                        flexBasis: { md: '45%' },
                         background: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #4c1d95 100%)',
                         color: '#fff',
                         p: { xs: 4, md: 6 },
-                        display: 'flex',
+                        display: { xs: 'none', md: 'flex' },
                         flexDirection: 'column',
-                        gap: 6
+                        justifyContent: 'space-between'
                     }}
                 >
                     <Box>
@@ -77,24 +74,18 @@ export default function Login({ onSubmit, onNavigate }) {
                             Sign in to explore THE FINANCE UNIVERSE, manage receipts, and stay ahead of your finances.
                         </Typography>
                     </Box>
-                    <Stack spacing={2}>
-                        <Stack spacing={1.5}>
-                            <Typography variant="body2">• Instant overview of all accounts</Typography>
-                            <Typography variant="body2">• AI-assisted receipt management</Typography>
-                            <Typography variant="body2">• Personalized spend insights</Typography>
-                        </Stack>
-                    </Stack>
                 </Box>
 
                 <Box
                     component="form"
                     onSubmit={handleSubmit}
                     sx={{
-                        flexBasis: { md: '55%' },
-                        p: { xs: 4, md: 6 }
+                        p: { xs: 4, md: 6 },
+                        display: 'flex',
+                        alignItems: 'center'
                     }}
                 >
-                    <Stack spacing={3}>
+                    <Stack spacing={3} sx={{ width: '100%' }}>
                         <Box>
                             <Typography variant="h4" fontWeight={600} gutterBottom>
                                 Log in to FinanceConsulter

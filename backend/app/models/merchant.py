@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, Index
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from data_access.data_access import Base
+from backend.app.data_access.data_access import Base
 
 class Merchant(Base):
     __tablename__ = "merchants"

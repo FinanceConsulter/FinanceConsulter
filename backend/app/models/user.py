@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from data_access.data_access import Base
+from backend.app.data_access.data_access import Base
 
 class User(Base):
     __tablename__ = "users"
@@ -11,6 +11,7 @@ class User(Base):
     password_hash = Column(String)
     name = Column(String)
     first_name = Column(String)
+    last_name = Column(String)
     created_at = Column(String, nullable=False, default=lambda: datetime.utcnow().isoformat())
 
     # Relationships

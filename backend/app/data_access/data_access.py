@@ -35,13 +35,13 @@ def init_db():
     Einmalig beim ersten Start ausführen!
     """
     # Importiere alle Models, damit sie registriert werden
-    from models.user import User
-    from models.account import Account
-    from models.category import Category
-    from models.transaction import Transaction
-    from models.merchant import Merchant
-    from models.receipt import Receipt, ReceiptLineItem
-    from models.tag import Tag, TransactionTag, ReceiptLineItemTag
+    from backend.app.models.user import User
+    from backend.app.models.account import Account
+    from backend.app.models.category import Category
+    from backend.app.models.transaction import Transaction
+    from backend.app.models.merchant import Merchant
+    from backend.app.models.receipt import Receipt, ReceiptLineItem
+    from backend.app.models.tag import Tag, TransactionTag, ReceiptLineItemTag
     
     Base.metadata.create_all(bind=engine)
     print("✅ Alle Tabellen wurden erfolgreich erstellt!")

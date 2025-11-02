@@ -36,13 +36,52 @@ export default function ReceiptCapture({ onSubmit }) {
   useEffect(() => {
     if (mode !== 'camera') {
       stopStream();
+      setCamLoading(false);
       return;
     }
+
     let cancelled = false;
     let localStream;
+    let detachVideoListeners = () => {};
+
+    const attachStreamToVideo = (stream) => {
+      const videoEl = videoRef.current;
+      if (!videoEl) {
+        setCamLoading(false);
+        return;
+      }
+
+      const handleVideoReady = () => {
+        videoEl.removeEventListener('loadedmetadata', handleVideoReady);
+        videoEl.removeEventListener('loadeddata', handleVideoReady);
+        videoEl.removeEventListener('canplay', handleVideoReady);
+        const playPromise = videoEl.play?.();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+        setCamLoading(false);
+        setError(null);
+      };
+
+      videoEl.addEventListener('loadedmetadata', handleVideoReady);
+      videoEl.addEventListener('loadeddata', handleVideoReady);
+      videoEl.addEventListener('canplay', handleVideoReady);
+      detachVideoListeners = () => {
+        videoEl.removeEventListener('loadedmetadata', handleVideoReady);
+        videoEl.removeEventListener('loadeddata', handleVideoReady);
+        videoEl.removeEventListener('canplay', handleVideoReady);
+      };
+
+      videoEl.srcObject = stream;
+      if (videoEl.readyState >= 2 && videoEl.videoWidth > 0 && videoEl.videoHeight > 0) {
+        handleVideoReady();
+      }
+    };
+
     async function startCamera() {
       try {
         setCamLoading(true);
+        setError(null);
 
         if (!navigator.mediaDevices?.getUserMedia) {
           throw new Error('getUserMedia not supported');
@@ -58,22 +97,18 @@ export default function ReceiptCapture({ onSubmit }) {
         }
 
         streamRef.current = localStream;
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = localStream;
-        }
+        attachStreamToVideo(localStream);
       } catch (e) {
         stopStream();
         setError('Camera access denied or not available.');
-        // Fallback to Upload-Tab on smartphones
         setMode('upload');
-      } finally {
-        setCamLoading(false);
       }
     }
+
     startCamera();
     return () => {
       cancelled = true;
+      detachVideoListeners();
       stopStream();
     };
   }, [mode, stopStream]);
@@ -151,20 +186,21 @@ export default function ReceiptCapture({ onSubmit }) {
       {mode === 'camera' ? (
         <Stack spacing={2}>
           <Paper sx={{ p: 1 }}>
-            {camLoading ? (
-              <Stack alignItems="center" justifyContent="center" sx={{ minHeight: 240 }}>
-                <CircularProgress />
-                <Typography variant="body2" sx={{ mt: 1 }}>Starting camera…</Typography>
-              </Stack>
-            ) : (
+            <Box sx={{ position: 'relative', minHeight: 240 }}>
               <video
                 ref={videoRef}
                 autoPlay
                 playsInline
                 muted
-                style={{ width: '100%', borderRadius: 4, maxHeight: '60vh', objectFit: 'cover' }}
+                style={{ width: '100%', borderRadius: 4, maxHeight: '60vh', objectFit: 'cover', opacity: camLoading ? 0 : 1, transition: 'opacity 0.2s ease' }}
               />
-            )}
+              {camLoading && (
+                <Stack alignItems="center" justifyContent="center" sx={{ position: 'absolute', inset: 0 }}>
+                  <CircularProgress />
+                  <Typography variant="body2" sx={{ mt: 1 }}>Starting camera…</Typography>
+                </Stack>
+              )}
+            </Box>
           </Paper>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
             <Button fullWidth={isMobile} size="large" variant="contained" onClick={capturePhoto} startIcon={<PhotoCameraIcon />}>Capture photo</Button>
