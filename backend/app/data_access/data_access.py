@@ -45,3 +45,10 @@ def init_db():
     
     Base.metadata.create_all(bind=engine)
     print("✅ Alle Tabellen wurden erfolgreich erstellt!")
+    
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
