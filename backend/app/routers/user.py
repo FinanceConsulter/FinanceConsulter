@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 import password
 import oauth2 as oauth2
 from schemas.user import UserCreate
+from models.user import User
 
 # Import Request
 from schemas.user import UserCreate, UserResponse
@@ -23,8 +24,9 @@ router = APIRouter(
 )
 
 @router.get("/", response_model=List[UserResponse])
-def get_users(db: Session = Depends(get_db), get_current_user: UserCreate = Depends(oauth2.get_current_user)):
+def get_users(db: Session = Depends(get_db), current_user: User = Depends(oauth2.get_current_user)):
     return user.get_all(db)
+
 
 @router.get("/{user_id}", response_model=List[UserResponse])
 def get_user(user_id: int, db: Session = Depends(get_db)):
