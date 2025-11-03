@@ -13,6 +13,7 @@ dependencies = [
 	"pytesseract==0.3.13",
 	"Pillow==10.4.0",
 	"opencv-python-headless==4.10.0.84",
+	"email-validator==2.2.0",
 ]
 
 [project.optional-dependencies]
