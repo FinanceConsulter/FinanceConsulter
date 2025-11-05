@@ -1,9 +1,9 @@
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from backend.app.data_access.data_access import SessionLocal, get_db
-from backend.app.data_access.db_init import startup
-import backend.app.password 
+from data_access.data_access import SessionLocal, get_db
+from data_access.db_init import startup
+import password 
 
 # Import Routers
 from routers import user, authentication
