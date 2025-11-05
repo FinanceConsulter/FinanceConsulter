@@ -21,7 +21,7 @@ router = APIRouter(
 )
 
 @router.get("/", response_model=List[MerchantResponse])
-def get_merchant(db:Session = Depends(get_db), current_user: User = Depends(oauth2.get_current_user)):
+def get_merchants(db:Session = Depends(get_db), current_user: User = Depends(oauth2.get_current_user)):
     merchants = RepositoryMerchant().get_userspecific_merchants(db, current_user)
     if merchants == []:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No merchants from this user were found")
