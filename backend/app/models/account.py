@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from data_access.data_access import Base
+from schemas.account import AccountResponse
 
 class Account(Base):
     __tablename__ = "accounts"
@@ -19,3 +20,12 @@ class Account(Base):
     # Relationships
     user = relationship("User", back_populates="accounts")
     transactions = relationship("Transaction", back_populates="account", cascade="all, delete-orphan")
+    
+    def to_Respone(self):
+        return AccountResponse(
+            id=self.id, 
+            user_id=self.user_id, 
+            name=self.name, 
+            type=self.type,
+            currency_code=self.currency_code
+        )
