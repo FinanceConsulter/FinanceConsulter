@@ -55,7 +55,42 @@
 - Keep AI features privacy-first and optional; no external calls required for MVP.
 - Prioritize offline/local processing for OCR to avoid external dependencies.
 
-# Installation
-When cloning, move to the project and run `npm install`. This loads all dependencies (Matrial UI). This requires the installation of [Node.js](https://nodejs.org/en). To start the app, navigate into the folder `financeconsulter` and use command `npm start` to start the app.
+# Installation & Setup
 
-For the server, we use [FastAPI](https://fastapi.tiangolo.com/). Please use pip to install `pip install "fastapi[standard]"`. To start the server, navigate to the folder `backend/app` and use prompt `python -m fastapi dev .\main.py` to start the server.
+## Prerequisites
+- [Node.js](https://nodejs.org/en), [Python 3.10+](https://www.python.org/), [Git](https://git-scm.com/)
+
+## Setup
+```powershell
+# Backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r backend/requirements.txt
+
+# Frontend
+cd financeconsulter
+npm install
+```
+
+## Start Servers
+
+**Backend (Terminal 1):**
+```powershell
+.\.venv\Scripts\Activate.ps1
+python -m uvicorn backend.app.main:app --reload
+```
+→ http://127.0.0.1:8000 | Docs: http://127.0.0.1:8000/docs
+
+**Frontend (Terminal 2):**
+```powershell
+cd financeconsulter
+npm start
+```
+→ http://localhost:3000
+
+## Login
+- Email: `admin@local`
+- Password: `Admin1234!`
+
+## Tech Stack
+Backend: FastAPI, SQLAlchemy, JWT | Frontend: React, MUI, Mantine | DB: SQLite
