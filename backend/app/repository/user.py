@@ -38,3 +38,4 @@ def check_existingUser(db: Session, request: UserCreate):
     existing_user = db.query(User).filter(User.email == request.email).first()
     if existing_user:
         return True
+    return False
