@@ -63,10 +63,8 @@
 ## Setup
 ```powershell
 # Backend
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r backend/requirements.txt
-
+move to dir `cd .\backend\app`
+execute command `python -m fastapi dev .\main.py`
 # Frontend
 cd financeconsulter
 npm install
