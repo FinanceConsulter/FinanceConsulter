@@ -13,14 +13,14 @@ class RepositoryMerchant:
         return merchants
     
     # If merchant exists, True will be given back
-    def check_existing_merchant(self, db: Session, user: User, merchant:MerchantCreate):
-        existing_merchant = db.query(Merchant).filter(Merchant.user_id == user.id,Merchant.name == merchant.name).all()
+    def check_existing_merchant(self, db: Session, user: User, merchant_name:str):
+        existing_merchant = db.query(Merchant).filter(Merchant.user_id == user.id,Merchant.name == merchant_name).all()
         if existing_merchant:
             return True
         return False
     
     def create_merchant(self, db:Session, user: User, merchant:MerchantCreate):
-        if self.check_existing_merchant(db, user, merchant):
+        if self.check_existing_merchant(db, user, merchant.name):
             return None
         new_merchant = Merchant(
             user_id = user.id,
@@ -32,7 +32,7 @@ class RepositoryMerchant:
         return new_merchant
     
     def update_merchant(self, db:Session, user: User, updated_merchant:MerchantUpdate):
-        if self.check_existing_merchant(db, user, MerchantCreate(name=updated_merchant.new_name)):
+        if self.check_existing_merchant(db, user, updated_merchant.new_name):
             return False
         merchant = db.query(Merchant).filter(Merchant.user_id == user.id,Merchant.id == updated_merchant.id).one_or_none() 
         merchant.name = updated_merchant.new_name
