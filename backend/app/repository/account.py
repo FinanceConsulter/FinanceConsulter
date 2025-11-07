@@ -11,15 +11,21 @@ class RepositoryAccount:
             newList.append(item.to_response())
         return newList
     
-    def get_userspecific_accounts(self, db:Session, currentUser: User):
-        accounts = db.query(Account).filter(User.id == currentUser.id).all()
+    def get_userspecific_accounts(self, db:Session, current_user: User):
+        accounts = db.query(Account).filter(Account.user_id == current_user.id).all()
         return self.convert_to_response(accounts)
     
-    def create_account(self, db:Session, currentUser: User, account: AccountCreate):
-        if self.check_existing_account(db,currentUser, account):
+    def get_account(self, db:Session, current_user: User, account_id: int):
+        account = db.query(Account).filter(Account.user_id == current_user.id, Account.id == account_id).first()
+        if account == None:
+            return None
+        return account.to_response()
+ 
+    def create_account(self, db:Session, current_user: User, account: AccountCreate):
+        if self.check_existing_account(db,current_user, account.name):
             return None
         new_account = Account(
-            user_id = currentUser.id,
+            user_id = current_user.id,
             name = account.name,
             type = account.type,
             currency_code = account.currency_code
@@ -29,8 +35,28 @@ class RepositoryAccount:
         db.refresh(new_account)
         return new_account.to_response()
     
-    def check_existing_account(self, db:Session, currentUser: User, account: AccountCreate):
-        existing_account = db.query(Account).filter(Account.name == account.name, Account.user_id == currentUser.id).first()
+    def update_account(self, db:Session, current_user: User, updated_account: AccountUpdate):
+        if self.check_existing_account(db, current_user, updated_account.name):
+            return None
+        account = db.query(Account).filter(
+            Account.id == updated_account.id,
+            Account.user_id == current_user.id
+        ).first()
+        if not updated_account.name == "":
+            account.name = updated_account.name
+        if not updated_account.type == "":
+            account.type = updated_account.type
+        if not updated_account.currency_code == "":
+            account.currency_code = updated_account.currency_code
+        db.add(account)
+        db.commit()
+        db.refresh(account)
+        return account.to_response()
+    
+    def check_existing_account(self, db:Session, current_user: User, account_name: str):
+        existing_account = db.query(Account).filter(
+            Account.name == account_name, 
+            Account.user_id == current_user.id).first()
         if existing_account:
             return True
         return False
