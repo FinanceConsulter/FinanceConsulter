@@ -18,7 +18,7 @@ class Transaction(Base):
     date = Column(String, nullable=False)
     description = Column(String)
     amount_cents = Column(Integer, nullable=False)  # negative = out, positive = in
-    currency_code = Column(String, nullable=False, default='EUR')
+    currency_code = Column(String, nullable=False, default='CHF')
     created_at = Column(String, nullable=False, default=lambda: datetime.utcnow().isoformat())
 
     # Relationships
