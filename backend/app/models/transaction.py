@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Index
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from data_access.data_access import Base
+from schemas.transaction import TransactionResponse
 
 class Transaction(Base):
     __tablename__ = "transactions"
@@ -18,7 +19,7 @@ class Transaction(Base):
     date = Column(String, nullable=False)
     description = Column(String)
     amount_cents = Column(Integer, nullable=False)  # negative = out, positive = in
-    currency_code = Column(String, nullable=False, default='EUR')
+    currency_code = Column(String, nullable=False, default='CHF')
     created_at = Column(String, nullable=False, default=lambda: datetime.utcnow().isoformat())
 
     # Relationships
@@ -27,3 +28,16 @@ class Transaction(Base):
     category = relationship("Category", back_populates="transactions")
     tags = relationship("TransactionTag", back_populates="transaction", cascade="all, delete-orphan")
     receipts = relationship("Receipt", back_populates="transaction")
+
+    def to_response(self):
+        return TransactionResponse(
+            id=self.id,
+            user_id = self.user_id,
+            account_id=self.account_id,
+            category_id=self.category_id,
+            date=self.date,
+            description=self.description,
+            amount_cents=self.amount_cents,
+            currency_code=self.currency_code,
+            created_at=self.created_at
+        )

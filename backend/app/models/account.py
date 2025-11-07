@@ -21,7 +21,7 @@ class Account(Base):
     user = relationship("User", back_populates="accounts")
     transactions = relationship("Transaction", back_populates="account", cascade="all, delete-orphan")
     
-    def to_Respone(self):
+    def to_response(self):
         return AccountResponse(
             id=self.id, 
             user_id=self.user_id, 
