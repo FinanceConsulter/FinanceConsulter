@@ -31,4 +31,7 @@ def get_accounts(db:Session = Depends(get_db), current_user: User = Depends(oaut
 
 @router.post('/new', response_model=AccountResponse)
 def create_account(account:AccountCreate,db:Session = Depends(get_db), current_user: User = Depends(oauth2.get_current_user)):
-    return
+    account = RepositoryAccount().create_account(db, current_user, account)
+    if account == None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to create account")
+    return account
