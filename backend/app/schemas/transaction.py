@@ -18,7 +18,7 @@ class TransactionUpdate(BaseModel):
     amount_cents: Optional[int]
     currency_code: Optional[str]
 
-class TransactionResponse[BaseModel]:
+class TransactionResponse(BaseModel):
     id: int
     user_id: int
     account_id: int
