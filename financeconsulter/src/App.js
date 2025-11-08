@@ -44,8 +44,24 @@ function App() {
   }, []);
 
   const handleRegister = async (payload) => {
-    await registerUser(payload);
-    setCurrentPage('login');
+    try {
+        const response = await fetch('http://127.0.0.1:8000/user/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Registration failed');
+        }
+
+        setCurrentPage('login');
+    } catch (error) {
+        throw error;
+    }
   };
 
   const handleLogin = async (payload) => {

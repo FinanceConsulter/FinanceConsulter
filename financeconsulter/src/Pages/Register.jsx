@@ -12,8 +12,9 @@ export default function Register({ onSubmit, onNavigate }) {
         const payload = {
             email: data.get('email')?.toString().trim(),
             password: data.get('password')?.toString() || '',
-            first_name: data.get('firstName')?.toString().trim() || null,
-            last_name: data.get('lastName')?.toString().trim() || null,
+            name: data.get('name')?.toString().trim(),
+            first_name: data.get('first_name')?.toString().trim(),
+            last_name: data.get('last_name')?.toString().trim(),
         };
 
         try {
@@ -89,19 +90,10 @@ export default function Register({ onSubmit, onNavigate }) {
 
                         <Stack spacing={2}>
                             <TextField name="email" label="Email" type="email" required fullWidth autoComplete="email" />
-                            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                                <TextField name="firstName" label="First name" fullWidth autoComplete="given-name" />
-                                <TextField name="lastName" label="Last name" fullWidth autoComplete="family-name" />
-                            </Stack>
-                            <TextField
-                                name="password"
-                                label="Password"
-                                type="password"
-                                required
-                                fullWidth
-                                autoComplete="new-password"
-                                helperText="Use at least 8 characters."
-                            />
+                            <TextField name="password" label="Password" type="password" required fullWidth autoComplete="new-password" />
+                            <TextField name="username" label="Username" type="text" required fullWidth autoComplete="name" />
+                            <TextField name="first_name" label="First Name" type="text" required fullWidth autoComplete="given-name" />
+                            <TextField name="last_name" label="Last Name" type="text" required fullWidth autoComplete="family-name" />
                         </Stack>
 
                         {error ? (
