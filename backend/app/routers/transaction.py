@@ -64,7 +64,7 @@ def create_transactions(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to create transaction")
     return transaction
 
-@router.post('/{transaction_id}/tags', response_model=TransactionResponse, tags=['tag'])
+@router.post('/{transaction_id}/tags', response_model=TransactionResponse)
 def get_tags(
     transaction_id: int,
     repo: TransactionRepository = Depends(get_repository),
@@ -72,7 +72,7 @@ def get_tags(
 ):
     pass
 
-@router.post('/{transaction_id}/add_tags', response_model=TransactionResponse, tags=['tag'])
+@router.post('/{transaction_id}/add_tags', response_model=TransactionResponse)
 def add_tags(
     transaction_id: int,
     tags_id: list[int],
@@ -81,7 +81,7 @@ def add_tags(
 ):
     pass
 
-@router.put('/{transaction_id}/remove_tags', response_model=TransactionResponse, tags=['tag'])
+@router.put('/{transaction_id}/remove_tags', response_model=TransactionResponse)
 def remove_tags(
     transaction_id: int,
     tags_id: list[int],
@@ -90,7 +90,7 @@ def remove_tags(
 ):
     pass
 
-@router.get('/{transaction_id}/category', response_model=TransactionResponse, tags=['category'])
+@router.get('/{transaction_id}/category', response_model=TransactionResponse)
 def get_category(
     transaction_id: int,
     repo: TransactionRepository = Depends(get_repository),
@@ -98,7 +98,7 @@ def get_category(
 ):
     pass
 
-@router.post('/{transaction_id}/set_category', response_model=TransactionResponse, tags=['category'])
+@router.post('/{transaction_id}/set_category', response_model=TransactionResponse)
 def change_category(
     transaction_id: int,
     category_id: int,
@@ -107,7 +107,7 @@ def change_category(
 ):
     pass
 
-@router.put('/{transaction_id}/remove_category', response_model=TransactionResponse, tags=['category'])
+@router.put('/{transaction_id}/remove_category', response_model=TransactionResponse)
 def remove_category(
     transaction_id: int,
     category_id: int,
@@ -116,7 +116,7 @@ def remove_category(
 ):
     pass
 
-@router.put('/', response_model=TransactionResponse, tags=['category'])
+@router.put('/', response_model=TransactionResponse)
 def set_receipt(
     receipt_id: int,
     repo: TransactionRepository = Depends(get_repository),
