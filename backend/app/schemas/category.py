@@ -18,11 +18,17 @@ class CategoryUpdate(BaseModel):
     type: Optional[str]
     parent_id: Optional[int]
 
-    @field_validator('name','type','parent_id')
-    def empty_str_to_none(cls, v):
-        if v == '':
+    @field_validator('name','type')
+    def empty_str_to_none(cls, item):
+        if item == '':
             return None
-        return v
+        return item
+    
+    @field_validator('parent_id')
+    def zero_to_end(cls, item):
+        if item == 0:
+            return None
+        return item
 
 class CategoryResponse(BaseModel):
     id: int

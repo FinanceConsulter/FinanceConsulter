@@ -26,6 +26,8 @@ class CategoryRepository:
             Category.user_id == current_user.id,
             Category.id == category_id
         ).first()
+        if category == None:
+            return None
         return category.to_response()
     
     def create_category(self, current_user:User, category: CategoryCreate):
@@ -40,11 +42,34 @@ class CategoryRepository:
         self.db.refresh(new_category)
         return new_category.to_response()
     
-    def update_category(self, currenUser:User, updated_category: CategoryUpdate):
-        return
+    def update_category(self, current_user:User, updated_category: CategoryUpdate):
+        if updated_category.name != "":
+            if self.check_existing_category(current_user, updated_category.name):
+                return None
+        category = self.db.query(Category).filter(
+            Category.id == updated_category.id,
+            Category.user_id == current_user.id
+        ).first()
+
+        update_data = updated_category.model_dump(exclude_none=True)
+        for field, value in update_data.items():
+            if field != 'id':
+                setattr(category, field, value)
+        self.db.commit()
+        self.db.refresh(category)
+        return category.to_response()
     
-    def delete_category(self, currentUser: User, category_id: int):
-        return
+    def delete_category(self, current_user: User, category_id: int):
+        category = self.db.query(Category).filter(
+            Category.id == category_id,
+            Category.user_id == current_user.id
+        ).first()
+
+        if not category:
+            return None
+        self.db.delete(category)
+        self.db.commit()
+        return True
 
     def check_existing_category(self, current_user:User, category_name: str):
         existing_category = self.db.query(Category).filter(

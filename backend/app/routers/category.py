@@ -29,7 +29,10 @@ def get_categories(
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    return
+    categories = repo.get_userspecific_categories(current_user)
+    if categories == []:
+        raise HTTPException(status_code=status.HTTP_200_OK, detail="No Categories found for this user")
+    return categories
 
 @router.get('/{lcategory_id}', response_model=CategoryResponse)
 def get_categories(
@@ -37,7 +40,10 @@ def get_categories(
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    return
+    category = repo.get_category(current_user, category_id)
+    if category == None:
+        raise HTTPException(status_code=status.HTTP_200_OK, detail=f"No category with id {category_id} found for this user")
+    return category
 
 @router.post('/', response_model=CategoryResponse)
 def create_category(
@@ -45,7 +51,10 @@ def create_category(
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    return
+    category = repo.create_category(current_user, new_category)
+    if category == None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unable to create category")
+    return category
 
 @router.put('/', response_model=CategoryResponse)
 def update_category(
@@ -53,12 +62,18 @@ def update_category(
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    return
+    category = repo.update_category(current_user, updated_category)
+    if category == None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to update category")
+    return category
 
-@router.delete('/{category_id}', response_model=CategoryResponse)
+@router.delete('/{category_id}', status_code=status.HTTP_200_OK)
 def update_category(
     category_id: int, 
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    return
+    result = repo.delete_category(current_user,category_id)
+    if not result:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to delete category")
+    return {"action": "deleted"}
