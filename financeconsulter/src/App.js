@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Header from './Components/Header';
 import NavBar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
-import { fetchTransactions, registerUser, loginUser, setAuthToken } from './services/api';
+import { fetchTransactions} from './services/api';
 import ReceiptCapture from './Pages/ReceiptCapture';
 import Transactions from './Pages/Transactions';
 import Login from './Pages/Login';
@@ -49,10 +49,31 @@ function App() {
   };
 
   const handleLogin = async (payload) => {
-    const res = await loginUser(payload);
-    setAuthToken(res.access_token);
-    setCurrentPage('dashboard');
-  };
+    try {
+        const formData = new URLSearchParams();
+        formData.append('username', payload.email);
+        formData.append('password', payload.password);
+
+        const response = await fetch('http://127.0.0.1:8000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData.toString()
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Login failed');
+        }
+
+        const result = await response.json();
+        localStorage.setItem('authToken', result.access_token);
+        setCurrentPage('dashboard');
+    } catch (error) {
+        throw error;
+    }
+};
 
   const renderPage = () => {
     switch (currentPage) {
