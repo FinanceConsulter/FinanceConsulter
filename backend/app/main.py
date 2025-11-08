@@ -6,13 +6,14 @@ from data_access.db_init import startup
 import password 
 
 # Import Routers
-from routers import user, authentication, merchant, account, category, tag
+from routers import user, authentication, merchant, account, category, tag, transaction
 
 app = FastAPI(title="FinanceConsulter API", version="0.1.0")
 app.include_router(authentication.router)
 app.include_router(user.router)
-app.include_router(merchant.router)
+app.include_router(transaction.router)
 app.include_router(account.router)
+app.include_router(merchant.router)
 app.include_router(category.router)
 app.include_router(tag.router)
 

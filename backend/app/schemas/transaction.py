@@ -8,6 +8,8 @@ class TransactionCreate(BaseModel):
     description: Optional[str]
     amount_cents: int
     currency_code: Optional[str]
+    tags: Optional[list[int]]
+    category: Optional[int]
 
 class TransactionUpdate(BaseModel):
     id: int
@@ -28,3 +30,14 @@ class TransactionResponse(BaseModel):
     amount_cents: int
     currency_code: str
     created_at: str
+
+class TransactionFilter(BaseModel):
+    account_id: Optional[int]
+    category_id: Optional[int]
+    date: Optional[str]
+    date_operation: Optional[str]
+    description: Optional[str]
+    amount_cents: Optional[int]
+    amount_operation: Optional[str]
+    currency_code: Optional[str]
+    created_at: Optional[str]

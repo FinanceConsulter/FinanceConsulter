@@ -3,7 +3,7 @@ from models.user import User
 from schemas.transaction import TransactionCreate, TransactionUpdate, TransactionResponse
 from models.transaction import Transaction
 
-class RepositoryTransaction:
+class TransactionRepository:
     @staticmethod
     def convert_to_response(list:list[Transaction]):
         new_list = []

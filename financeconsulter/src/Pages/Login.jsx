@@ -18,15 +18,12 @@ export default function Login({ onSubmit, onNavigate }) {
         event.preventDefault();
         setError(null);
         const data = new FormData(event.currentTarget);
-        const payload = {
-            email: data.get('email')?.toString().trim(),
-            password: data.get('password')?.toString() || '',
-            remember: Boolean(data.get('remember'))
-        };
+        const email = data.get('email')?.toString().trim();
+        const password = data.get('password')?.toString() || '';
 
         try {
             setSubmitting(true);
-            await onSubmit?.(payload);
+            await onSubmit?.({ email, password });
         } catch (err) {
             setError(err?.message || 'Login failed');
         } finally {
