@@ -3,7 +3,10 @@ from models.user import User
 from models.account import Account
 from schemas.account import AccountCreate, AccountUpdate, AccountResponse
 
-class RepositoryAccount:
+class AccountRepository:
+    def __init__(self, db:Session):
+        self.db = db
+        
     @staticmethod
     def convert_to_response(list:list[Account]):
         newList = []
@@ -11,26 +14,54 @@ class RepositoryAccount:
             newList.append(item.to_response())
         return newList
     
-    def get_userspecific_accounts(self, db:Session, currentUser: User):
-        accounts = db.query(Account).filter(User.id == currentUser.id).all()
+    def get_userspecific_accounts(self, current_user: User):
+        accounts = self.db.query(Account).filter(
+            Account.user_id == current_user.id
+        ).all()
         return self.convert_to_response(accounts)
     
-    def create_account(self, db:Session, currentUser: User, account: AccountCreate):
-        if self.check_existing_account(db,currentUser, account):
+    def get_account(self, current_user: User, account_id: int):
+        account = self.db.query(Account).filter(
+            Account.user_id == current_user.id, 
+            Account.id == account_id
+        ).first()
+        if account == None:
+            return None
+        return account.to_response()
+ 
+    def create_account(self, current_user: User, account: AccountCreate):
+        if self.check_existing_account(current_user, account.name):
             return None
         new_account = Account(
-            user_id = currentUser.id,
-            name = account.name,
-            type = account.type,
-            currency_code = account.currency_code
+            user_id = current_user.id,
+            **account.model_dump()
         )
-        db.add(new_account)
-        db.commit()
-        db.refresh(new_account)
+        self.db.add(new_account)
+        self.db.commit()
+        self.db.refresh(new_account)
         return new_account.to_response()
     
-    def check_existing_account(self, db:Session, currentUser: User, account: AccountCreate):
-        existing_account = db.query(Account).filter(Account.name == account.name, Account.user_id == currentUser.id).first()
+    def update_account(self, current_user: User, updated_account: AccountUpdate):
+        if self.check_existing_account(current_user, updated_account.name):
+            return None
+        account = self.db.query(Account).filter(
+            Account.id == updated_account.id,
+            Account.user_id == current_user.id
+        ).first()
+        
+        update_data = updated_account.model_dump(exclude_none=True)
+        for field, value in update_data.items():
+            if field != 'id':
+                setattr(account, field, value)
+            
+        self.db.commit()
+        self.db.refresh(account)
+        return account.to_response()
+    
+    def check_existing_account(self, current_user: User, account_name: str):
+        existing_account = self.db.query(Account).filter(
+            Account.name == account_name, 
+            Account.user_id == current_user.id).first()
         if existing_account:
             return True
         return False

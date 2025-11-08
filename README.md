@@ -74,8 +74,8 @@ npm install
 
 **Backend (Terminal 1):**
 ```powershell
-.\.venv\Scripts\Activate.ps1
-python -m uvicorn backend.app.main:app --reload
+move to dir `cd .\backend\app`
+execute command `python -m fastapi dev .\main.py`
 ```
 → http://127.0.0.1:8000 | Docs: http://127.0.0.1:8000/docs
 

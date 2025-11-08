@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 
 class AccountCreate(BaseModel):
@@ -8,9 +8,15 @@ class AccountCreate(BaseModel):
     
 class AccountUpdate(BaseModel):
     id: int
-    name: Optional[str]
-    type: Optional[str]
-    currency_code: Optional[str]
+    name: Optional[str] = None
+    type: Optional[str] = None
+    currency_code: Optional[str] = None
+    
+    @field_validator('name', 'type', 'currency_code')
+    def empty_str_to_none(cls, v):
+        if v == '':
+            return None
+        return v
 
 class AccountResponse(BaseModel):
     id: int
