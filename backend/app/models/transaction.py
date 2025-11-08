@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Index
+from sqlalchemy import Column, Integer, String, ForeignKey, Index, Date
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, date
 from data_access.data_access import Base
 from schemas.transaction import TransactionResponse
 
@@ -16,7 +16,7 @@ class Transaction(Base):
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     account_id = Column(Integer, ForeignKey('accounts.id', ondelete='CASCADE'), nullable=False)
     category_id = Column(Integer, ForeignKey('categories.id', ondelete='SET NULL'))
-    date = Column(String, nullable=False)
+    date = Column(Date, nullable=False)
     description = Column(String)
     amount_cents = Column(Integer, nullable=False)  # negative = out, positive = in
     currency_code = Column(String, nullable=False, default='CHF')

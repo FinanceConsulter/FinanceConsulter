@@ -1,21 +1,41 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional
+from datetime import date
 
 class TransactionCreate(BaseModel):
     account_id: int
-    category_id: int
-    date: str
+    date: date
     description: Optional[str]
     amount_cents: int
     currency_code: Optional[str]
     tags: Optional[list[int]]
-    category: Optional[int]
+    category_id: Optional[int]
+    
+    @field_validator('description')
+    def empty_str_to_none(cls,item):
+        if item == '':
+            return None
+        return item
+    
+    @field_validator('category_id')
+    def zero_to_none(cls, item):
+        if item == 0:
+            return None
+        return item
+    
+    @field_validator('tags', mode='before')
+    @classmethod
+    def filter_zero_tags(cls, value):
+        if value is None:
+            return None
+        return [item for item in value if item != 0]
+    
 
 class TransactionUpdate(BaseModel):
     id: int
     account_id: Optional[int]
     category_id: Optional[int]
-    date: Optional[str]
+    date: Optional[date]
     description: Optional[str]
     amount_cents: Optional[int]
     currency_code: Optional[str]
@@ -24,8 +44,8 @@ class TransactionResponse(BaseModel):
     id: int
     user_id: int
     account_id: int
-    category_id: int
-    date: str
+    category_id: Optional[int]
+    date: date
     description: Optional[str]
     amount_cents: int
     currency_code: str
@@ -34,7 +54,7 @@ class TransactionResponse(BaseModel):
 class TransactionFilter(BaseModel):
     account_id: Optional[int]
     category_id: Optional[int]
-    date: Optional[str]
+    date: Optional[date]
     date_operation: Optional[str]
     description: Optional[str]
     amount_cents: Optional[int]

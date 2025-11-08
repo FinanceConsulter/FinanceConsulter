@@ -36,7 +36,7 @@ def get_tags(
     return tags
 
 @router.get('/{tag_id}', response_model=TagResponse)
-def get_tags(
+def get_tag(
     tag_id: int,
     repo: TagRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
@@ -47,7 +47,7 @@ def get_tags(
     return tag
 
 @router.post('/', response_model=TagResponse)
-def get_tags(
+def create_tags(
     new_tag: TagCreate,
     repo: TagRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
@@ -58,7 +58,7 @@ def get_tags(
     return tag
 
 @router.put('/', response_model=TagResponse)
-def get_tags(
+def update_tags(
     updated_tag: TagUpdate,
     repo: TagRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
@@ -69,7 +69,7 @@ def get_tags(
     return tag
 
 @router.delete('/{tag_id}', status_code=status.HTTP_200_OK)
-def get_tags(
+def delete_tags(
     tag_id: int,
     repo: TagRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
