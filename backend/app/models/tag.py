@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint, In
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from data_access.data_access import Base
+from schemas.tag import TagResponse
 
 class Tag(Base):
     __tablename__ = "tags"
@@ -21,6 +22,14 @@ class Tag(Base):
     transaction_tags = relationship("TransactionTag", back_populates="tag", cascade="all, delete-orphan")
     line_item_tags = relationship("ReceiptLineItemTag", back_populates="tag", cascade="all, delete-orphan")
 
+    def to_response(self):
+        return TagResponse(
+            id = self.id,
+            user_id = self.user_id,
+            name = self.name,
+            color = self.color
+        )
+    
 
 class TransactionTag(Base):
     __tablename__ = "transaction_tags"

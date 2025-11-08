@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-from models.merchant import Merchant
 from models.user import User
 from models.category import Category
 from schemas.category import CategoryCreate, CategoryResponse, CategoryUpdate

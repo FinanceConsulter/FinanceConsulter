@@ -6,7 +6,7 @@ from data_access.db_init import startup
 import password 
 
 # Import Routers
-from routers import user, authentication, merchant, account, category
+from routers import user, authentication, merchant, account, category, tag
 
 app = FastAPI(title="FinanceConsulter API", version="0.1.0")
 app.include_router(authentication.router)
@@ -14,6 +14,7 @@ app.include_router(user.router)
 app.include_router(merchant.router)
 app.include_router(account.router)
 app.include_router(category.router)
+app.include_router(tag.router)
 
 # Datenbank beim Start initialisieren (nur einmalig)
 @app.on_event("startup")
