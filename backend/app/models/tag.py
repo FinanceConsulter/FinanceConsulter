@@ -21,7 +21,11 @@ class Tag(Base):
     user = relationship("User", back_populates="tags")
     transaction_tags = relationship("TransactionTag", back_populates="tag", cascade="all, delete-orphan")
     line_item_tags = relationship("ReceiptLineItemTag", back_populates="tag", cascade="all, delete-orphan")
-
+    transactions = relationship(
+        "Transaction", 
+        secondary="transaction_tags", 
+        overlaps="tags" 
+    )
     def to_response(self):
         return TagResponse(
             id = self.id,
@@ -41,7 +45,7 @@ class TransactionTag(Base):
     tag_id = Column(Integer, ForeignKey('tags.id', ondelete='CASCADE'), primary_key=True)
 
     # Relationships
-    transaction = relationship("Transaction", back_populates="tags")
+    transaction = relationship("Transaction", back_populates="_tag_links") 
     tag = relationship("Tag", back_populates="transaction_tags")
 
 

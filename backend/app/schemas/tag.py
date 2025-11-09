@@ -21,3 +21,6 @@ class TagResponse(BaseModel):
     user_id: int
     name: str
     color: str
+    
+    class Config:
+        from_attributes = True
