@@ -10,6 +10,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Settings from './Pages/Settings';
 import AIInsights from './Pages/AIInsights';
+import QuickEntry from './Pages/QuickEntry';
 
 
 function App() {
@@ -129,6 +130,8 @@ function App() {
         if (loading) return <div>Loading…</div>;
         if (error) return <div>Failed to load</div>;
         return <Transactions header={tableHeader} data={tableData} setCurrentPage={setCurrentPage} />;
+      case 'quickEntry':
+        return <QuickEntry />;
       case 'scanReceipts':
         return <ReceiptCapture />;
       case 'settings':

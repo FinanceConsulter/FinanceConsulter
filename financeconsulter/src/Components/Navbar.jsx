@@ -1,5 +1,13 @@
 import { Drawer, List, ListItem, ListItemText, Toolbar, useMediaQuery, useTheme, Divider, ListItemIcon } from '@mui/material';
-import { Logout as LogoutIcon } from '@mui/icons-material';
+import { 
+  Logout as LogoutIcon,
+  Dashboard as DashboardIcon,
+  Receipt as ReceiptIcon,
+  AddCircle as AddCircleIcon,
+  CameraAlt as CameraAltIcon,
+  SmartToy as SmartToyIcon,
+  Settings as SettingsIcon
+} from '@mui/icons-material';
 
 function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle, onLogout }) {
   const theme = useTheme();
@@ -24,18 +32,39 @@ function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle, onLogout }) {
       <Toolbar /> {/* Spacer for header */}
       <List>
         <ListItem button onClick={() => onNavigate('dashboard')}>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
         <ListItem button onClick={() => onNavigate('transactions')}>
+          <ListItemIcon>
+            <ReceiptIcon />
+          </ListItemIcon>
           <ListItemText primary="Transactions" />
         </ListItem>
+        <ListItem button onClick={() => onNavigate('quickEntry')}>
+          <ListItemIcon>
+            <AddCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Quick Entry" />
+        </ListItem>
         <ListItem button onClick={() => onNavigate('scanReceipts')}>
-          <ListItemText primary="Scan receipts" />
+          <ListItemIcon>
+            <CameraAltIcon />
+          </ListItemIcon>
+          <ListItemText primary="Receipts" />
         </ListItem>
         <ListItem button onClick={() => onNavigate('aiInsights')}>
+          <ListItemIcon>
+            <SmartToyIcon />
+          </ListItemIcon>
           <ListItemText primary="AI Insights" />
         </ListItem>
         <ListItem button onClick={() => onNavigate('settings')}>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
           <ListItemText primary="Settings" />
         </ListItem>
       </List>
