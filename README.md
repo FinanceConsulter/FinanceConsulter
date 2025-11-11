@@ -87,8 +87,8 @@ npm start
 → http://localhost:3000
 
 ## Login
-- Email: `admin@local`
-- Password: `Admin1234!`
+- Email: `admin@test.ch`
+- Password: `admin`
 
 ## Tech Stack
 Backend: FastAPI, SQLAlchemy, JWT | Frontend: React, MUI, Mantine | DB: SQLite
