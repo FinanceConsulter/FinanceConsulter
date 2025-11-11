@@ -1,6 +1,7 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional
 from datetime import date
+from schemas.tag import TagResponse
 
 class TransactionCreate(BaseModel):
     account_id: int
@@ -50,6 +51,7 @@ class TransactionResponse(BaseModel):
     amount_cents: int
     currency_code: str
     created_at: str
+    tags: Optional[list[TagResponse]]
 
 class TransactionFilter(BaseModel):
     account_id: Optional[int]

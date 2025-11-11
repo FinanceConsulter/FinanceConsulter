@@ -26,7 +26,17 @@ class Transaction(Base):
     user = relationship("User", back_populates="transactions")
     account = relationship("Account", back_populates="transactions")
     category = relationship("Category", back_populates="transactions")
-    tags = relationship("TransactionTag", back_populates="transaction", cascade="all, delete-orphan")
+    _tag_links = relationship(
+        "TransactionTag", 
+        back_populates="transaction", 
+        cascade="all, delete-orphan"
+    )
+    tags = relationship(
+        "Tag", 
+        secondary="transaction_tags", 
+        back_populates="transactions",
+        overlaps="_tag_links"
+    )
     receipts = relationship("Receipt", back_populates="transaction")
 
     def to_response(self):
@@ -39,5 +49,6 @@ class Transaction(Base):
             description=self.description,
             amount_cents=self.amount_cents,
             currency_code=self.currency_code,
-            created_at=self.created_at
+            created_at=self.created_at,
+            tags=self.tags
         )

@@ -13,6 +13,13 @@ class TagRepository:
         for item in list:
             new_list.append(item.to_response())
         return new_list
+    
+    def internal_get_tags_by_id(self, current_user:User, tags:list[int]):
+        tags = self.db.query(Tag).filter(
+            Tag.id.in_(tags),
+            Tag.user_id == current_user.id
+            ).all()
+        return tags
 
     def get_userspecific_tags(self, current_user:User):
         tags = self.db.query(Tag).filter(

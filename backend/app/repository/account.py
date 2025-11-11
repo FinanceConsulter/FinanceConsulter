@@ -2,7 +2,8 @@ from sqlalchemy.orm import Session
 from models.user import User
 from models.account import Account
 from schemas.account import AccountCreate, AccountUpdate, AccountResponse
-
+from InternalResponse import InternalResponse
+from fastapi import status
 class AccountRepository:
     def __init__(self, db:Session):
         self.db = db
@@ -65,3 +66,11 @@ class AccountRepository:
         if existing_account:
             return True
         return False
+    
+    def check_existing_account_id(self, current_user: User, account_id: int):
+        existing_account = self.db.query(Account).filter(
+            Account.name == account_id, 
+            Account.user_id == current_user.id).first()
+        if existing_account:
+            return InternalResponse(state=status.HTTP_200_OK, detail=f"Found account with id {account_id} and name {existing_account.name} for user {current_user.id}")
+        return InternalResponse(state=status.HTTP_409_CONFLICT, detail=f"Found no account with id {account_id} for user {current_user.id}")
