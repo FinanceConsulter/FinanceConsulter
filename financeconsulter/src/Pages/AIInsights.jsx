@@ -89,7 +89,14 @@ export default function AIInsights() {
   return (
     <Box>
       {/* Header */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+      <Box 
+        display="flex" 
+        flexDirection={{ xs: 'column', sm: 'row' }}
+        justifyContent="space-between" 
+        alignItems={{ xs: 'flex-start', sm: 'center' }}
+        gap={2}
+        mb={3}
+      >
         <Box>
           <Typography variant="h4" fontWeight={600} gutterBottom>
             🤖 AI Financial Insights
@@ -102,6 +109,7 @@ export default function AIInsights() {
           variant="outlined" 
           startIcon={<RefreshIcon />}
           onClick={() => alert('Refreshing analysis...')}
+          fullWidth={{ xs: true, sm: false }}
         >
           Refresh Analysis
         </Button>
@@ -112,11 +120,18 @@ export default function AIInsights() {
         sx={{ 
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
           color: 'white',
-          mb: 3 
+          mb: 3,
+          overflow: 'hidden'
         }}
       >
         <CardContent>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box 
+            display="flex" 
+            flexDirection={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between" 
+            alignItems={{ xs: 'flex-start', sm: 'center' }}
+            gap={2}
+          >
             <Box flex={1}>
               <Typography variant="h3" fontWeight={700}>
                 {healthScore}/100
@@ -130,7 +145,7 @@ export default function AIInsights() {
                 size="small" 
               />
             </Box>
-            <Box sx={{ fontSize: '80px' }}>📈</Box>
+            <Box sx={{ fontSize: { xs: '60px', sm: '80px' }, alignSelf: 'center' }}>📈</Box>
           </Box>
           
           <LinearProgress 
@@ -154,18 +169,23 @@ export default function AIInsights() {
       </Card>
 
       {/* Category Filter Badges */}
-      <Stack direction="row" spacing={2} mb={3}>
+      <Stack 
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={2} 
+        mb={3}
+      >
         <Card 
           sx={{ 
             flex: 1, 
             bgcolor: filter === 'all' ? 'action.selected' : 'background.paper',
             cursor: 'pointer',
-            '&:hover': { bgcolor: 'action.hover' }
+            '&:hover': { bgcolor: 'action.hover' },
+            minWidth: { xs: '100%', sm: 'auto' }
           }}
           onClick={() => setFilter('all')}
         >
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
-            <Typography variant="h2" sx={{ mb: 1 }}>📊</Typography>
+            <Typography variant="h2" sx={{ mb: 1, fontSize: { xs: '2.5rem', sm: '3.75rem' } }}>📊</Typography>
             <Typography variant="h5" fontWeight={600}>
               {counts.good + counts.warning + counts.alert}
             </Typography>
@@ -180,12 +200,13 @@ export default function AIInsights() {
             flex: 1, 
             bgcolor: filter === 'good' ? 'success.light' : 'background.paper',
             cursor: 'pointer',
-            '&:hover': { bgcolor: 'success.lighter' }
+            '&:hover': { bgcolor: 'success.lighter' },
+            minWidth: { xs: '100%', sm: 'auto' }
           }}
           onClick={() => setFilter('good')}
         >
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
-            <Typography variant="h2" sx={{ mb: 1 }}>✅</Typography>
+            <Typography variant="h2" sx={{ mb: 1, fontSize: { xs: '2.5rem', sm: '3.75rem' } }}>✅</Typography>
             <Typography variant="h5" fontWeight={600}>
               {counts.good}
             </Typography>
@@ -200,12 +221,13 @@ export default function AIInsights() {
             flex: 1, 
             bgcolor: filter === 'warning' ? 'warning.light' : 'background.paper',
             cursor: 'pointer',
-            '&:hover': { bgcolor: 'warning.lighter' }
+            '&:hover': { bgcolor: 'warning.lighter' },
+            minWidth: { xs: '100%', sm: 'auto' }
           }}
           onClick={() => setFilter('warning')}
         >
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
-            <Typography variant="h2" sx={{ mb: 1 }}>⚠️</Typography>
+            <Typography variant="h2" sx={{ mb: 1, fontSize: { xs: '2.5rem', sm: '3.75rem' } }}>⚠️</Typography>
             <Typography variant="h5" fontWeight={600}>
               {counts.warning}
             </Typography>
@@ -220,12 +242,13 @@ export default function AIInsights() {
             flex: 1, 
             bgcolor: filter === 'alert' ? 'error.light' : 'background.paper',
             cursor: 'pointer',
-            '&:hover': { bgcolor: 'error.lighter' }
+            '&:hover': { bgcolor: 'error.lighter' },
+            minWidth: { xs: '100%', sm: 'auto' }
           }}
           onClick={() => setFilter('alert')}
         >
           <CardContent sx={{ textAlign: 'center', py: 2 }}>
-            <Typography variant="h2" sx={{ mb: 1 }}>🔴</Typography>
+            <Typography variant="h2" sx={{ mb: 1, fontSize: { xs: '2.5rem', sm: '3.75rem' } }}>🔴</Typography>
             <Typography variant="h5" fontWeight={600}>
               {counts.alert}
             </Typography>
@@ -249,16 +272,23 @@ export default function AIInsights() {
           >
             <CardContent>
               {/* Header */}
-              <Box display="flex" justifyContent="space-between" alignItems="start" mb={2}>
-                <Box display="flex" gap={2} flex={1}>
+              <Box 
+                display="flex" 
+                flexDirection={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between" 
+                alignItems={{ xs: 'flex-start', sm: 'start' }}
+                gap={2}
+                mb={2}
+              >
+                <Box display="flex" gap={2} flex={1} width="100%">
                   <Avatar sx={{ bgcolor: `${getSeverityColor(insight.severity)}.main` }}>
                     {getSeverityIcon(insight.severity)}
                   </Avatar>
-                  <Box flex={1}>
-                    <Typography variant="h6" fontWeight={600}>
+                  <Box flex={1} minWidth={0}>
+                    <Typography variant="h6" fontWeight={600} sx={{ wordBreak: 'break-word' }}>
                       {insight.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{ wordBreak: 'break-word' }}>
                       {insight.category} • Detected {insight.detected_at}
                     </Typography>
                   </Box>
@@ -266,7 +296,8 @@ export default function AIInsights() {
                 <Chip 
                   label={insight.severity.toUpperCase()} 
                   color={getSeverityColor(insight.severity)}
-                  size="small" 
+                  size="small"
+                  sx={{ alignSelf: { xs: 'flex-start', sm: 'auto' } }}
                 />
               </Box>
 
@@ -326,11 +357,16 @@ export default function AIInsights() {
 
               {/* Actions */}
               <Divider sx={{ my: 2 }} />
-              <Box display="flex" gap={1} flexWrap="wrap">
+              <Stack 
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={1}
+                flexWrap="wrap"
+              >
                 <Button 
                   size="small" 
                   startIcon={<ShowChartIcon />}
                   onClick={() => alert('View detailed analytics...')}
+                  fullWidth={{ xs: true, sm: false }}
                 >
                   View Details
                 </Button>
@@ -339,6 +375,7 @@ export default function AIInsights() {
                   startIcon={<CheckIcon />}
                   color="success"
                   onClick={() => handleResolve(insight.id)}
+                  fullWidth={{ xs: true, sm: false }}
                 >
                   Mark as Resolved
                 </Button>
@@ -346,10 +383,11 @@ export default function AIInsights() {
                   size="small" 
                   startIcon={<NotificationsOffIcon />}
                   onClick={() => alert('Snoozed for 7 days')}
+                  fullWidth={{ xs: true, sm: false }}
                 >
                   Snooze
                 </Button>
-              </Box>
+              </Stack>
             </CardContent>
           </Card>
         ))}
