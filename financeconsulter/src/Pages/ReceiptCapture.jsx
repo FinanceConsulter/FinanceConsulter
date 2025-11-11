@@ -113,13 +113,32 @@ export default function ReceiptCapture({ onSubmit }) {
     };
   }, [mode, stopStream]);
 
-  useEffect(() => () => stopStream(), [stopStream]);
+  useEffect(() => {
+    return () => {
+      // Ensure camera stream is stopped when component unmounts
+      const currentStream = streamRef.current;
+      if (currentStream) {
+        currentStream.getTracks().forEach((track) => {
+          track.stop();
+        });
+        streamRef.current = null;
+      }
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+    };
+  }, []); 
 
   const handleModeChange = (_, value) => {
-    if (mode === 'camera' && value !== 'camera') {
-      stopStream();
+    if (value) {
+      // Stop camera stream when switching away from camera mode
+      if (mode === 'camera' && value !== 'camera') {
+        stopStream();
+        setCamLoading(false);
+      }
+      setMode(value);
     }
-    setMode(value);
   };
 
   const capturePhoto = () => {
