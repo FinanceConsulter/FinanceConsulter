@@ -176,6 +176,13 @@ export default function ReceiptCapture({ onSubmit }) {
 
   return (
     <Box>
+      <Typography variant="h4" fontWeight={600} gutterBottom>
+        📸 Receipt Scanner
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        Capture or upload your receipts
+      </Typography>
+
       <Paper elevation={0} sx={{ mb: 2, bgcolor: 'transparent' }}>
         <Tabs value={mode} onChange={handleModeChange}>
           <Tab value="camera" icon={<PhotoCameraIcon />} iconPosition="start" label="Take photo" />
@@ -246,7 +253,13 @@ export default function ReceiptCapture({ onSubmit }) {
       )}
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} sx={{ mt: 3 }}>
-        <Button fullWidth={isMobile} size="large" variant="contained" onClick={handleSubmit} disabled={submitting}>
+        <Button 
+          fullWidth={isMobile} 
+          size="large" 
+          variant="contained" 
+          onClick={handleSubmit} 
+          disabled={submitting}
+        >
           {submitting ? 'Uploading…' : 'Continue / Upload'}
         </Button>
       </Stack>
