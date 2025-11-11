@@ -9,6 +9,7 @@ import Transactions from './Pages/Transactions';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Settings from './Pages/Settings';
+import AIInsights from './Pages/AIInsights';
 
 
 function App() {
@@ -117,6 +118,8 @@ function App() {
         return <ReceiptCapture />;
       case 'settings':
         return <Settings />;
+      case 'aiInsights':
+        return <AIInsights />;
       default:
         return <Dashboard />;
     }
