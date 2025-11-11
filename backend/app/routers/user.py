@@ -25,6 +25,10 @@ router = APIRouter(
 def get_users(db: Session = Depends(get_db), current_user: User = Depends(oauth2.get_current_user)):
     return RepoUser.get_all(db)
 
+@router.get("/me", response_model=UserResponse)
+def get_current_user_info(current_user: User = Depends(oauth2.get_current_user)):
+    """Get current authenticated user"""
+    return current_user
 
 @router.get("/{user_id}", response_model=List[UserResponse])
 def get_user(user_id: int, db: Session = Depends(get_db)):
@@ -39,11 +43,6 @@ def create_user(request: UserCreate, db: Session = Depends(get_db)):
     if new_user == None:
         raise HTTPException(status_code=400, detail="Email bereits registriert")
     return new_user
-
-@router.get("/me", response_model=UserResponse)
-def get_current_user_info(current_user: User = Depends(oauth2.get_current_user)):
-    """Get current authenticated user"""
-    return current_user
 
 @router.put("/{user_id}", response_model=UserResponse)
 def update_user(user_id: int, request: UserCreate, db: Session = Depends(get_db), current_user: User = Depends(oauth2.get_current_user)):
