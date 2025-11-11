@@ -20,8 +20,16 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const isAuthPage = currentPage === 'login' || currentPage === 'register';
+  //Token Check
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    setIsAuthenticated(!!token);
+    if (!token) {
+      setCurrentPage('login');
+    }
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -86,11 +94,18 @@ function App() {
 
         const result = await response.json();
         localStorage.setItem('authToken', result.access_token);
+        setIsAuthenticated(true);
         setCurrentPage('dashboard');
     } catch (error) {
         throw error;
     }
 };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    setIsAuthenticated(false);
+    setCurrentPage('login');
+  };
 
   const renderPage = () => {
     switch (currentPage) {
@@ -125,13 +140,39 @@ function App() {
     }
   };
 
+  // Show fullscreen login if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        minHeight: '100vh',
+        bgcolor: 'background.default'
+      }}>
+        {currentPage === 'register' ? (
+          <Register
+            onSubmit={handleRegister}
+            onNavigate={(page) => setCurrentPage(page)}
+          />
+        ) : (
+          <Login
+            onSubmit={handleLogin}
+            onNavigate={(page) => setCurrentPage(page)}
+          />
+        )}
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
-  <Header handleDrawerToggle={handleDrawerToggle} />
+      <Header handleDrawerToggle={handleDrawerToggle} />
       <NavBar
         setCurrentPage={setCurrentPage}
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
+        onLogout={handleLogout}
       />
 
       <Box

@@ -1,6 +1,7 @@
-import { Drawer, List, ListItem, ListItemText, Toolbar, useMediaQuery, useTheme } from '@mui/material';
+import { Drawer, List, ListItem, ListItemText, Toolbar, useMediaQuery, useTheme, Divider, ListItemIcon } from '@mui/material';
+import { Logout as LogoutIcon } from '@mui/icons-material';
 
-function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle }) {
+function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle, onLogout }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -9,6 +10,13 @@ function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle }) {
     if (isMobile) {
       handleDrawerToggle();
     }
+  };
+
+  const handleLogoutClick = () => {
+    if (isMobile) {
+      handleDrawerToggle();
+    }
+    onLogout();
   };
 
   const drawerContent = (
@@ -30,8 +38,14 @@ function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle }) {
         <ListItem button onClick={() => onNavigate('settings')}>
           <ListItemText primary="Settings" />
         </ListItem>
-        <ListItem button onClick={() => onNavigate('login')}>
-          <ListItemText primary="Login" />
+      </List>
+      <Divider />
+      <List>
+        <ListItem button onClick={handleLogoutClick}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
         </ListItem>
       </List>
     </>
