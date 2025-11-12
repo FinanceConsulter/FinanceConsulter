@@ -105,14 +105,6 @@ export default function AIInsights() {
             Last analyzed: {lastAnalyzed}
           </Typography>
         </Box>
-        <Button 
-          variant="outlined" 
-          startIcon={<RefreshIcon />}
-          onClick={() => alert('Refreshing analysis...')}
-          fullWidth={{ xs: true, sm: false }}
-        >
-          Refresh Analysis
-        </Button>
       </Box>
 
       {/* Health Score Card */}
