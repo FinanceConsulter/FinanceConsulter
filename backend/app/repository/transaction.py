@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from models.user import User
-from schemas.transaction import TransactionCreate, TransactionUpdate, TransactionResponse
+from schemas.transaction import TransactionCreate, TransactionUpdate, TransactionResponse, TransactionFilter
 from models.transaction import Transaction
 from repository.account import AccountRepository
 from repository.tag import TagRepository
@@ -60,3 +60,5 @@ class TransactionRepository:
         self.db.refresh(transaction)
         return transaction.to_response()
     
+    def filter_transactions(self, current_user: User, transaction_filter: TransactionFilter)->list[Transaction]|InternalResponse:
+        return

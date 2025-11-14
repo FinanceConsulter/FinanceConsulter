@@ -63,3 +63,15 @@ class TransactionFilter(BaseModel):
     amount_operation: Optional[str]
     currency_code: Optional[str]
     created_at: Optional[str]
+
+    @field_validator('date', 'date_operation', 'description', 'amount_operation', 'currency_code', 'created_at')
+    def empty_str_to_none(cls,item):
+        if item == '':
+            return None
+        return item
+    
+    @field_validator('account_id','category_id', 'amount_cents')
+    def zero_to_none(cls, item):
+        if item == 0:
+            return None
+        return item

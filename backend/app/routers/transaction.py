@@ -9,6 +9,7 @@ from schemas.transaction import TransactionCreate, TransactionUpdate, Transactio
 
 # Import Model
 from models.user import User
+from InternalResponse import InternalResponse
 
 # Import Repository
 from repository.transaction import TransactionRepository
@@ -47,14 +48,16 @@ def get_transaction(
 
 @router.get('/filter', response_model=TransactionResponse)
 def filter_transactions(
-    transactin_filter: TransactionFilter,
+    transaction_filter: TransactionFilter,
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    transaction = repo.filter_transactions(current_user, transaction_filter)
+    if type(transaction) == InternalResponse:
+        raise HTTPException(status_code=transaction.state, detail=transaction.detail)
 
 @router.post('/', response_model=TransactionResponse)
-def create_transactions(
+def create_transaction(
     new_transaction: TransactionCreate,
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
