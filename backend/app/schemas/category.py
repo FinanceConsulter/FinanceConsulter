@@ -4,6 +4,7 @@ from typing import Optional
 class CategoryCreate(BaseModel):
     name: str
     type: str
+    description: str
     parent_id: Optional[int]
 
     @field_validator('parent_id')
@@ -17,6 +18,7 @@ class CategoryUpdate(BaseModel):
     name: Optional[str]
     type: Optional[str]
     parent_id: Optional[int]
+    description: Optional[str]
 
     @field_validator('name','type')
     def empty_str_to_none(cls, item):
@@ -34,4 +36,5 @@ class CategoryResponse(BaseModel):
     id: int
     name: str
     type: str
+    description: str
     parent_id: Optional[int]
