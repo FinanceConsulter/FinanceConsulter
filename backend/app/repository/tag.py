@@ -49,13 +49,19 @@ class TagRepository:
         return tag.to_response()
     
     def update_tag(self, current_user: User, update_tag: TagUpdate):
-        if update_tag.name != "":
-            if self.check_existing_tag(current_user, update_tag.name):
-                return None
+        # Get the tag first
         tag = self.db.query(Tag).filter(
             Tag.id == update_tag.id,
             Tag.user_id == current_user.id
         ).first()
+        
+        if not tag:
+            return None
+        
+        # Only check for existing name if the name is being changed
+        if update_tag.name != "" and update_tag.name != tag.name:
+            if self.check_existing_tag(current_user, update_tag.name):
+                return None
 
         update_data = update_tag.model_dump(exclude_none=True)
         for field, value in update_data.items():
