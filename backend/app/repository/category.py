@@ -42,13 +42,19 @@ class CategoryRepository:
         return new_category.to_response()
     
     def update_category(self, current_user:User, updated_category: CategoryUpdate):
-        if updated_category.name != "":
-            if self.check_existing_category(current_user, updated_category.name):
-                return None
+        # Get the category first
         category = self.db.query(Category).filter(
             Category.id == updated_category.id,
             Category.user_id == current_user.id
         ).first()
+        
+        if not category:
+            return None
+        
+        # Only check for existing name if the name is being changed
+        if updated_category.name != "" and updated_category.name != category.name:
+            if self.check_existing_category(current_user, updated_category.name):
+                return None
 
         update_data = updated_category.model_dump(exclude_none=True)
         for field, value in update_data.items():
