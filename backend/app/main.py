@@ -6,7 +6,7 @@ from data_access.db_init import startup
 import password 
 
 # Import Routers
-from routers import user, authentication, merchant, account, category, tag, transaction
+from routers import user, authentication, merchant, account, category, tag, transaction, receipt
 
 app = FastAPI(title="FinanceConsulter API", version="0.1.0")
 app.include_router(authentication.router)
@@ -16,6 +16,7 @@ app.include_router(account.router)
 app.include_router(merchant.router)
 app.include_router(category.router)
 app.include_router(tag.router)
+app.include_router(receipt.router)
 
 # Datenbank beim Start initialisieren (nur einmalig)
 @app.on_event("startup")
@@ -25,7 +26,7 @@ def startup_event():
 # CORS-Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
