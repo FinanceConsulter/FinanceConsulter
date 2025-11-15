@@ -94,6 +94,15 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
       return;
     }
 
+    // Check depth limit (max 10 levels: 0-9)
+    if (categoryFormData.parent_id && categoryFormData.parent_id !== 0) {
+      const parentDepth = getCategoryDepth(categoryFormData.parent_id);
+      if (parentDepth >= 9) {
+        onError('Maximum category depth of 10 levels reached. Cannot create subcategories beyond this level.');
+        return;
+      }
+    }
+
     try {
       const url = 'http://127.0.0.1:8000/category/';
       
@@ -189,11 +198,59 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
     return parent ? parent.name : null;
   };
 
-  // Get available parent categories (exclude self and children to avoid circular references)
+  // Helper function to calculate category depth
+  const getCategoryDepth = (categoryId) => {
+    let depth = 0;
+    let currentId = categoryId;
+    const maxIterations = 15;
+    let iterations = 0;
+    
+    while (currentId && iterations < maxIterations) {
+      const category = categories.find(cat => cat.id === currentId);
+      if (!category || !category.parent_id || category.parent_id === 0) {
+        break;
+      }
+      depth++;
+      currentId = category.parent_id;
+      iterations++;
+    }
+    
+    return depth;
+  };
+
+  // Get available parent categories (exclude self, children, and categories at max depth)
   const getAvailableParentCategories = () => {
-    if (!editingCategory) return categories;
-    // When editing, exclude the category itself to avoid circular reference
-    return categories.filter(cat => cat.id !== editingCategory.id);
+    const MAX_DEPTH = 9; 
+    
+    if (!editingCategory) {
+      return categories.filter(cat => getCategoryDepth(cat.id) < MAX_DEPTH);
+    }
+    
+    return categories.filter(cat => {
+      if (cat.id === editingCategory.id) return false;
+      return getCategoryDepth(cat.id) < MAX_DEPTH;
+    });
+  };
+
+  // Build hierarchical category structure (supports unlimited depth)
+  const buildCategoryTree = (maxDepth = 10) => {
+    const mainCategories = categories.filter(cat => !cat.parent_id || cat.parent_id === 0);
+    const subcategories = categories.filter(cat => cat.parent_id && cat.parent_id !== 0);
+    
+    const getChildren = (parentId, depth = 0) => {
+      if (depth >= maxDepth) return [];
+      
+      const children = subcategories.filter(cat => cat.parent_id === parentId);
+      return children.flatMap(child => [
+        { ...child, depth: depth + 1 },
+        ...getChildren(child.id, depth + 1)
+      ]);
+    };
+    
+    return mainCategories.flatMap(parent => [
+      { ...parent, depth: 0 },
+      ...getChildren(parent.id, 0)
+    ]);
   };
 
   return (
@@ -234,9 +291,10 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
           </Paper>
         ) : (
           <List>
-            {Array.isArray(categories) && categories.map((category) => {
+            {buildCategoryTree().map((category) => {
               const parentName = getParentCategoryName(category.parent_id);
               const isSubcategory = category.parent_id && category.parent_id !== 0;
+              const indentLevel = category.depth || 0;
               
               return (
                 <ListItem
@@ -246,17 +304,29 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
                     borderColor: 'divider',
                     borderRadius: 1,
                     mb: 1,
-                    ml: isSubcategory ? 4 : 0,
                     '&:hover': { bgcolor: 'action.hover' },
                     alignItems: 'flex-start',
-                    py: 2
+                    py: 2,
+                    pl: 2 + (indentLevel * 4),
+                    pr: 2,
+                    position: 'relative'
                   }}
                   secondaryAction={
-                    <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
-                      <IconButton edge="end" onClick={() => handleEditCategory(category)}>
+                    <Stack 
+                      direction="row" 
+                      spacing={1} 
+                      sx={{ 
+                        mt: 0.5,
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)'
+                      }}
+                    >
+                      <IconButton edge="end" onClick={() => handleEditCategory(category)} size="small">
                         <EditIcon />
                       </IconButton>
-                      <IconButton edge="end" onClick={() => openDeleteCategoryDialog(category)}>
+                      <IconButton edge="end" onClick={() => openDeleteCategoryDialog(category)} size="small">
                         <DeleteIcon />
                       </IconButton>
                     </Stack>
@@ -317,7 +387,8 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
                     }
                     sx={{
                       flex: 1,
-                      mr: 8
+                      mr: 10,
+                      pr: 10
                     }}
                     primaryTypographyProps={{
                       component: 'div'
