@@ -16,6 +16,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import LabelIcon from '@mui/icons-material/Label';
 import CategoryIcon from '@mui/icons-material/Category';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 
@@ -23,6 +24,7 @@ import ProfileTab from './Settings/ProfileTab';
 import SecurityTab from './Settings/SecurityTab';
 import TagsTab from './Settings/TagsTab';
 import CategoriesTab from './Settings/CategoriesTab';
+import AccountsTab from './Settings/AccountsTab';
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -137,6 +139,12 @@ export default function Settings() {
               iconPosition="start"
               aria-label="Categories"
             />
+            <Tab 
+              label={isMobile ? '' : 'Accounts'} 
+              icon={<AccountBalanceIcon />} 
+              iconPosition="start"
+              aria-label="Accounts"
+            />
           </Tabs>
         </Box>
 
@@ -169,6 +177,14 @@ export default function Settings() {
 
           <TabPanel value={tabValue} index={3}>
             <CategoriesTab 
+              onSuccess={setSuccess} 
+              onError={setError} 
+              isMobile={isMobile}
+            />
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={4}>
+            <AccountsTab 
               onSuccess={setSuccess} 
               onError={setError} 
               isMobile={isMobile}
