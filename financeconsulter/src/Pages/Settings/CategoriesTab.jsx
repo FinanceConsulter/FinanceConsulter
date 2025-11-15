@@ -426,10 +426,12 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
         onClose={() => setCategoryDialogOpen(false)} 
         maxWidth="sm" 
         fullWidth
-        PaperProps={{
-          sx: {
-            m: { xs: 2, sm: 3 },
-            maxHeight: { xs: '90vh', sm: '80vh' }
+        slotProps={{
+          paper: {
+            sx: {
+              m: { xs: 2, sm: 3 },
+              maxHeight: { xs: '90vh', sm: '80vh' }
+            }
           }
         }}
       >
