@@ -16,19 +16,25 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Chip,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import CategoryIcon from '@mui/icons-material/Category';
 import CloseIcon from '@mui/icons-material/Close';
+import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 
 export default function CategoriesTab({ onSuccess, onError, isMobile }) {
   const [categories, setCategories] = useState([]);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
-  const [categoryFormData, setCategoryFormData] = useState({ name: '', type: '' });
+  const [categoryFormData, setCategoryFormData] = useState({ name: '', type: '', parent_id: 0 });
   const [deleteCategoryDialogOpen, setDeleteCategoryDialogOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
 
@@ -53,11 +59,13 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
 
       if (response.ok) {
         const data = await response.json();
+        console.log('Categories received from API:', data);
         setCategories(Array.isArray(data) ? data : []);
       } else if (response.status === 200) {
         setCategories([]);
       }
     } catch (err) {
+      console.error('Error fetching categories:', err);
       setCategories([]);
     } finally {
       setCategoriesLoading(false);
@@ -66,13 +74,17 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
 
   const handleCreateCategory = () => {
     setEditingCategory(null);
-    setCategoryFormData({ name: '', type: '' });
+    setCategoryFormData({ name: '', type: '', parent_id: 0 });
     setCategoryDialogOpen(true);
   };
 
   const handleEditCategory = (category) => {
     setEditingCategory(category);
-    setCategoryFormData({ name: category.name, type: category.type || '' });
+    setCategoryFormData({ 
+      name: category.name, 
+      type: category.type || '', 
+      parent_id: category.parent_id 
+    });
     setCategoryDialogOpen(true);
   };
 
@@ -85,18 +97,31 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
     try {
       const url = 'http://127.0.0.1:8000/category/';
       
+      // Clean the data before sending
+      const cleanName = categoryFormData.name.trim();
+      const cleanType = categoryFormData.type.trim();
+      // Convert parent_id: if it's 0 or "0", send null; otherwise send as integer
+      let cleanParentId = categoryFormData.parent_id;
+      if (cleanParentId === 0 || cleanParentId === "0" || cleanParentId === "" || cleanParentId === null) {
+        cleanParentId = null;
+      } else {
+        cleanParentId = parseInt(cleanParentId, 10);
+      }
+      
       const body = editingCategory
         ? { 
             id: editingCategory.id, 
-            name: categoryFormData.name, 
-            type: categoryFormData.type || '', 
-            parent_id: editingCategory.parent_id || 0 
+            name: cleanName, 
+            type: cleanType, 
+            parent_id: cleanParentId
           }
         : { 
-            name: categoryFormData.name, 
-            type: categoryFormData.type || '', 
-            parent_id: 0 
+            name: cleanName, 
+            type: cleanType, 
+            parent_id: cleanParentId
           };
+
+      console.log('Request body:', body);
 
       const response = await fetch(url, {
         method: editingCategory ? 'PUT' : 'POST',
@@ -123,7 +148,7 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
       onSuccess(editingCategory ? 'Category updated!' : 'Category created!');
       setCategoryDialogOpen(false);
       setEditingCategory(null);
-      setCategoryFormData({ name: '', type: '' });
+      setCategoryFormData({ name: '', type: '', parent_id: 0 });
       fetchCategories();
     } catch (err) {
       onError(err.message);
@@ -155,6 +180,20 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
   const openDeleteCategoryDialog = (category) => {
     setCategoryToDelete(category);
     setDeleteCategoryDialogOpen(true);
+  };
+
+  // Helper function to get parent category name
+  const getParentCategoryName = (parentId) => {
+    if (!parentId || parentId === 0) return null;
+    const parent = categories.find(cat => cat.id === parentId);
+    return parent ? parent.name : null;
+  };
+
+  // Get available parent categories (exclude self and children to avoid circular references)
+  const getAvailableParentCategories = () => {
+    if (!editingCategory) return categories;
+    // When editing, exclude the category itself to avoid circular reference
+    return categories.filter(cat => cat.id !== editingCategory.id);
   };
 
   return (
@@ -195,54 +234,101 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
           </Paper>
         ) : (
           <List>
-            {Array.isArray(categories) && categories.map((category) => (
-              <ListItem
-                key={category.id}
-                sx={{
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  borderRadius: 1,
-                  mb: 1,
-                  '&:hover': { bgcolor: 'action.hover' },
-                  alignItems: 'flex-start',
-                  py: 2
-                }}
-                secondaryAction={
-                  <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
-                    <IconButton edge="end" onClick={() => handleEditCategory(category)}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton edge="end" onClick={() => openDeleteCategoryDialog(category)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Stack>
-                }
-              >
-                <ListItemText
-                  primary={
-                    <Typography 
-                      variant="body1" 
-                      fontWeight={600}
-                      sx={{ 
-                        whiteSpace: 'normal',
-                        wordBreak: 'break-word',
-                        pr: 2
-                      }}
-                    >
-                      {category.name}
-                    </Typography>
-                  }
-                  secondary={category.type || 'No type'}
+            {Array.isArray(categories) && categories.map((category) => {
+              const parentName = getParentCategoryName(category.parent_id);
+              const isSubcategory = category.parent_id && category.parent_id !== 0;
+              
+              return (
+                <ListItem
+                  key={category.id}
                   sx={{
-                    flex: 1,
-                    mr: 8
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: 1,
+                    mb: 1,
+                    ml: isSubcategory ? 4 : 0,
+                    '&:hover': { bgcolor: 'action.hover' },
+                    alignItems: 'flex-start',
+                    py: 2
                   }}
-                  primaryTypographyProps={{
-                    component: 'div'
-                  }}
-                />
-              </ListItem>
-            ))}
+                  secondaryAction={
+                    <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
+                      <IconButton edge="end" onClick={() => handleEditCategory(category)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton edge="end" onClick={() => openDeleteCategoryDialog(category)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </Stack>
+                  }
+                >
+                  <ListItemText
+                    primary={
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        {isSubcategory && (
+                          <SubdirectoryArrowRightIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
+                        )}
+                        <Typography 
+                          variant="body1" 
+                          fontWeight={600}
+                          sx={{ 
+                            whiteSpace: 'normal',
+                            wordBreak: 'break-word',
+                            pr: 2
+                          }}
+                        >
+                          {category.name}
+                        </Typography>
+                      </Stack>
+                    }
+                    secondary={
+                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} sx={{ mt: 0.5 }}>
+                        <Chip 
+                          label={`Type: ${category.type || 'No type'}`} 
+                          size="small" 
+                          color="primary"
+                          variant="outlined"
+                          sx={{ width: 'fit-content', fontSize: '0.75rem' }}
+                        />
+                        {parentName ? (
+                          <Chip 
+                            label={`Parent: ${parentName}`} 
+                            size="small" 
+                            color="secondary"
+                            variant="outlined"
+                            sx={{ width: 'fit-content', fontSize: '0.75rem' }}
+                          />
+                        ) : (
+                          <Chip 
+                            label="Main Category" 
+                            size="small" 
+                            sx={{ 
+                              width: 'fit-content', 
+                              fontSize: '0.75rem',
+                              backgroundColor: '#9c27b0',
+                              color: 'white',
+                              '&:hover': {
+                                backgroundColor: '#7b1fa2'
+                              }
+                            }}
+                          />
+                        )}
+                      </Stack>
+                    }
+                    sx={{
+                      flex: 1,
+                      mr: 8
+                    }}
+                    primaryTypographyProps={{
+                      component: 'div'
+                    }}
+                    secondaryTypographyProps={{
+                      component: 'div'
+                    }}
+                  />
+                </ListItem>
+              );
+            })}
           </List>
         )}
       </Stack>
@@ -278,15 +364,33 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
               required
               placeholder="e.g., Food, Transport, Entertainment"
             />
+            
             <TextField
               label="Type"
               value={categoryFormData.type}
               onChange={(e) => setCategoryFormData(prev => ({ ...prev, type: e.target.value }))}
               fullWidth
-              multiline
-              rows={3}
-              placeholder="Add a type/description for this category..."
+              required
+              placeholder="e.g., expense, income"
             />
+
+            <FormControl fullWidth>
+              <InputLabel>Parent Category (Optional)</InputLabel>
+              <Select
+                value={categoryFormData.parent_id || 0}
+                onChange={(e) => setCategoryFormData(prev => ({ ...prev, parent_id: e.target.value }))}
+                label="Parent Category (Optional)"
+              >
+                <MenuItem value={0}>
+                  <em>None (Main Category)</em>
+                </MenuItem>
+                {getAvailableParentCategories().map((cat) => (
+                  <MenuItem key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Stack>
         </DialogContent>
         <DialogActions sx={{ p: 2, gap: 1, flexDirection: { xs: 'column', sm: 'row' } }}>
