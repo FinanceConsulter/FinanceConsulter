@@ -1,5 +1,23 @@
-import { useState } from 'react';
-import { Box, Button, Card, CardContent, Stack, Typography, TextField, ToggleButtonGroup, ToggleButton, Alert } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { 
+  Box, 
+  Button, 
+  Card, 
+  CardContent, 
+  Stack, 
+  Typography, 
+  TextField, 
+  ToggleButtonGroup, 
+  ToggleButton, 
+  Alert,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Autocomplete,
+  Chip,
+  CircularProgress
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -12,11 +30,66 @@ export default function QuickEntry() {
   const [transactionType, setTransactionType] = useState('expense'); // 'income' | 'expense'
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+  const [selectedAccount, setSelectedAccount] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [transactionDate, setTransactionDate] = useState(new Date().toISOString().split('T')[0]);
+  
+  const [accounts, setAccounts] = useState([]);
+  const [tags, setTags] = useState([]);
+  
+  const [loading, setLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('authToken');
+    return {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
+  };
+
+  const fetchData = async () => {
+    try {
+      setDataLoading(true);
+      
+      // Fetch accounts
+      const accountsRes = await fetch('http://127.0.0.1:8000/account/', {
+        headers: getAuthHeaders()
+      });
+      if (accountsRes.ok) {
+        const accountsData = await accountsRes.json();
+        setAccounts(Array.isArray(accountsData) ? accountsData : []);
+
+        if (accountsData.length > 0) {
+          setSelectedAccount(accountsData[0].id);
+        }
+      }
+      
+      // Fetch tags
+      const tagsRes = await fetch('http://127.0.0.1:8000/tag/', {
+        headers: getAuthHeaders()
+      });
+      if (tagsRes.ok) {
+        const tagsData = await tagsRes.json();
+        setTags(Array.isArray(tagsData) ? tagsData : []);
+      }
+      
+    } catch (err) {
+      console.error('Error fetching data:', err);
+      setError('Failed to load data');
+    } finally {
+      setDataLoading(false);
+    }
+  };
+
   const handleSubmit = async () => {
+    setError(null);
     
     if (!amount || parseFloat(amount) === 0) {
       setError('Please enter a valid amount');
@@ -26,38 +99,81 @@ export default function QuickEntry() {
       setError('Please enter a description');
       return;
     }
+    if (!selectedAccount) {
+      setError('Please select an account');
+      return;
+    }
 
-    const transactionData = {
-      type: transactionType,
-      amount: parseFloat(amount),
-      description: description.trim(),
-      category: category.trim() || 'Other',
-      date: new Date().toISOString()
-    };
+    try {
+      setLoading(true);
+      
+      const amountInCents = Math.round(parseFloat(amount) * 100);
+      const finalAmount = transactionType === 'expense' ? -Math.abs(amountInCents) : Math.abs(amountInCents);
 
-    console.log('Quick Entry Transaction:', transactionData);
-    
+      // Get selected account to use its currency
+      const selectedAccountData = accounts.find(acc => acc.id === selectedAccount);
+      const accountCurrency = selectedAccountData?.currency_code || 'CHF';
 
-    // Success feedback
-    setSuccess(true);
-    setError(null);
+      const transactionData = {
+        account_id: selectedAccount,
+        date: transactionDate,
+        description: description.trim(),
+        amount_cents: finalAmount,
+        currency_code: accountCurrency,
+        category_id: null,
+        tags: selectedTags.length > 0 ? selectedTags : null
+      };
 
-    // Reset form
-    setTimeout(() => {
-      setAmount('');
-      setDescription('');
-      setCategory('');
-      setSuccess(false);
-    }, 2000);
+      console.log('Creating transaction:', transactionData);
+
+      const response = await fetch('http://127.0.0.1:8000/transaction/', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(transactionData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        throw new Error(errorData || 'Failed to create transaction');
+      }
+
+      // Success feedback
+      setSuccess(true);
+      setError(null);
+
+      // Reset form
+      setTimeout(() => {
+        setAmount('');
+        setDescription('');
+        setSelectedTags([]);
+        setTransactionDate(new Date().toISOString().split('T')[0]);
+        setSuccess(false);
+      }, 2000);
+      
+    } catch (err) {
+      console.error('Error creating transaction:', err);
+      setError(err.message || 'Failed to create transaction');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleReset = () => {
     setAmount('');
     setDescription('');
-    setCategory('');
+    setSelectedTags([]);
+    setTransactionDate(new Date().toISOString().split('T')[0]);
     setError(null);
     setSuccess(false);
   };
+
+  if (dataLoading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -150,41 +266,136 @@ export default function QuickEntry() {
               sx={{ mb: 2 }}
             />
 
-            {/* Preview Card */}
-            {amount && description && (
-              <Card 
-                variant="outlined" 
-                sx={{ 
-                  mt: 3, 
-                  borderColor: transactionType === 'income' ? 'success.main' : 'error.main',
-                  borderWidth: 2,
-                  bgcolor: transactionType === 'income' ? 'success.lighter' : 'error.lighter'
-                }}
+            {/* Date */}
+            <TextField
+              fullWidth
+              label="Date"
+              type="date"
+              value={transactionDate}
+              onChange={(e) => setTransactionDate(e.target.value)}
+              sx={{ mb: 2 }}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
+            />
+
+            {/* Account Selection */}
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <InputLabel>Account</InputLabel>
+              <Select
+                value={selectedAccount}
+                onChange={(e) => setSelectedAccount(e.target.value)}
+                label="Account"
+                required
               >
-                <CardContent>
-                  <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                    Preview
-                  </Typography>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center">
-                    <Box>
-                      <Typography variant="body2" color="text.secondary">
-                        {category || 'Other'}
-                      </Typography>
-                      <Typography variant="body1" fontWeight={600}>
-                        {description}
-                      </Typography>
-                    </Box>
-                    <Typography 
-                      variant="h5" 
-                      fontWeight={700}
-                      color={transactionType === 'income' ? 'success.main' : 'error.main'}
-                    >
-                      {transactionType === 'income' ? '+' : '-'}{amount}
+                {accounts.map((account) => (
+                  <MenuItem key={account.id} value={account.id}>
+                    {account.name} - {account.currency_code}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/* Tags Selection */}
+            <Autocomplete
+              multiple
+              options={tags}
+              getOptionLabel={(option) => option.name}
+              value={tags.filter(tag => selectedTags.includes(tag.id))}
+              onChange={(event, newValue) => {
+                setSelectedTags(newValue.map(tag => tag.id));
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Tags (Optional)"
+                  placeholder="Select tags"
+                />
+              )}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    label={option.name}
+                    {...getTagProps({ index })}
+                    key={option.id}
+                    sx={{ 
+                      backgroundColor: option.color, 
+                      color: 'white',
+                      '& .MuiChip-deleteIcon': {
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        '&:hover': {
+                          color: 'white'
+                        }
+                      }
+                    }}
+                  />
+                ))
+              }
+              sx={{ mb: 2 }}
+            />
+
+            {/* Preview Card */}
+            {amount && description && (() => {
+              const selectedAccountData = accounts.find(acc => acc.id === selectedAccount);
+              const accountCurrency = selectedAccountData?.currency_code || 'CHF';
+              
+              return (
+                <Card 
+                  variant="outlined" 
+                  sx={{ 
+                    mt: 3, 
+                    borderColor: transactionType === 'income' ? 'success.main' : 'error.main',
+                    borderWidth: 2,
+                    bgcolor: transactionType === 'income' ? 'rgba(46, 125, 50, 0.08)' : 'rgba(211, 47, 47, 0.08)'
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                      Preview
                     </Typography>
+                    <Stack spacing={1}>
+                      <Stack direction="row" justifyContent="space-between" alignItems="center">
+                        <Box>
+                          <Typography variant="body1" fontWeight={600}>
+                            {description}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            {new Date(transactionDate).toLocaleDateString()}
+                          </Typography>
+                        </Box>
+                        <Typography 
+                          variant="h5" 
+                          fontWeight={700}
+                          color={transactionType === 'income' ? 'success.main' : 'error.main'}
+                        >
+                          {transactionType === 'income' ? '+' : '-'}{parseFloat(amount).toFixed(2)} {accountCurrency}
+                        </Typography>
+                      </Stack>
+                    {selectedTags.length > 0 && (
+                      <Stack direction="row" spacing={0.5} flexWrap="wrap" sx={{ mt: 1 }}>
+                        {selectedTags.map(tagId => {
+                          const tag = tags.find(t => t.id === tagId);
+                          return tag ? (
+                            <Chip 
+                              key={tagId} 
+                              label={tag.name} 
+                              size="small"
+                              sx={{ 
+                                backgroundColor: tag.color, 
+                                color: 'white'
+                              }}
+                            />
+                          ) : null;
+                        })}
+                      </Stack>
+                    )}
                   </Stack>
                 </CardContent>
               </Card>
-            )}
+              );
+            })()}
           </CardContent>
         </Card>
 
@@ -209,16 +420,17 @@ export default function QuickEntry() {
             size="large" 
             variant="contained" 
             onClick={handleSubmit} 
-            disabled={!amount || !description}
+            disabled={!amount || !description || !selectedAccount || loading}
             sx={{ flex: 1 }}
           >
-            Save Transaction
+            {loading ? <CircularProgress size={24} /> : 'Save Transaction'}
           </Button>
           <Button 
             fullWidth={isMobile}
             size="large" 
             variant="outlined" 
             onClick={handleReset}
+            disabled={loading}
           >
             Reset
           </Button>
