@@ -69,6 +69,9 @@ class CategoryRepository:
         return category.to_response()
     
     def delete_category(self, current_user: User, category_id: int):
+        """
+        Delete a category and all its subcategories recursively.
+        """
         category = self.db.query(Category).filter(
             Category.id == category_id,
             Category.user_id == current_user.id
@@ -76,9 +79,29 @@ class CategoryRepository:
 
         if not category:
             return None
+        
+        # First, recursively delete all subcategories
+        self._delete_subcategories_recursive(current_user, category_id)
+        
         self.db.delete(category)
         self.db.commit()
         return True
+    
+    def _delete_subcategories_recursive(self, current_user: User, parent_id: int):
+        """
+        Helper method to recursively delete all subcategories of a given parent.
+        """
+        # Find all direct children
+        subcategories = self.db.query(Category).filter(
+            Category.parent_id == parent_id,
+            Category.user_id == current_user.id
+        ).all()
+        
+        for subcategory in subcategories:
+            self._delete_subcategories_recursive(current_user, subcategory.id)
+            self.db.delete(subcategory)
+        
+        self.db.commit()
 
     def check_existing_category(self, current_user:User, category_name: str):
         existing_category = self.db.query(Category).filter(

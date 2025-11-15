@@ -166,6 +166,8 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
 
   const handleDeleteCategory = async (categoryId) => {
     try {
+      const subcategoryCount = getSubcategoryCount(categoryId);
+      
       const response = await fetch(`http://127.0.0.1:8000/category/${categoryId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
@@ -175,7 +177,12 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
         throw new Error('Failed to delete category');
       }
 
-      onSuccess('Category deleted!');
+      const totalDeleted = subcategoryCount + 1;
+      const message = totalDeleted > 1 
+        ? `Category and ${subcategoryCount} subcategory(ies) deleted successfully!`
+        : 'Category deleted successfully!';
+      
+      onSuccess(message);
       setDeleteCategoryDialogOpen(false);
       setCategoryToDelete(null);
       fetchCategories();
@@ -189,6 +196,15 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
   const openDeleteCategoryDialog = (category) => {
     setCategoryToDelete(category);
     setDeleteCategoryDialogOpen(true);
+  };
+
+  const getAllSubcategories = (categoryId) => {
+    const subcategories = categories.filter(cat => cat.parent_id === categoryId);
+    return subcategories.flatMap(sub => [sub, ...getAllSubcategories(sub.id)]);
+  };
+
+  const getSubcategoryCount = (categoryId) => {
+    return getAllSubcategories(categoryId).length;
   };
 
   // Helper function to get parent category name
@@ -476,14 +492,47 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
       <Dialog 
         open={deleteCategoryDialogOpen} 
         onClose={() => setDeleteCategoryDialogOpen(false)}
-        maxWidth="xs"
+        maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>Delete Category</DialogTitle>
+        <DialogTitle sx={{ color: 'error.main', fontWeight: 600 }}>
+          Delete Category
+        </DialogTitle>
         <DialogContent>
-          <Typography>
-            Are you sure you want to delete the category "{categoryToDelete?.name}"?
-          </Typography>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            <Typography variant="body1">
+              Are you sure you want to delete the category <strong>"{categoryToDelete?.name}"</strong>?
+            </Typography>
+            
+            {categoryToDelete && getSubcategoryCount(categoryToDelete.id) > 0 && (
+              <Paper 
+                sx={{ 
+                  p: 2, 
+                  bgcolor: 'warning.lighter',
+                  border: '1px solid',
+                  borderColor: 'warning.main'
+                }}
+              >
+                <Stack spacing={1}>
+                  <Typography variant="body2" fontWeight={600} color="warning.dark">
+                    ⚠️ Warning: This category has subcategories
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Deleting this category will also delete <strong>{getSubcategoryCount(categoryToDelete.id)} subcategory(ies)</strong> under it.
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    This action cannot be undone.
+                  </Typography>
+                </Stack>
+              </Paper>
+            )}
+            
+            {categoryToDelete && getSubcategoryCount(categoryToDelete.id) === 0 && (
+              <Typography variant="body2" color="text.secondary">
+                This category has no subcategories. Only this category will be deleted.
+              </Typography>
+            )}
+          </Stack>
         </DialogContent>
         <DialogActions sx={{ p: 2, gap: 1 }}>
           <Button onClick={() => setDeleteCategoryDialogOpen(false)}>Cancel</Button>
@@ -492,7 +541,7 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
             color="error" 
             onClick={() => handleDeleteCategory(categoryToDelete?.id)}
           >
-            Delete
+            Delete {categoryToDelete && getSubcategoryCount(categoryToDelete.id) > 0 && `(${getSubcategoryCount(categoryToDelete.id) + 1} total)`}
           </Button>
         </DialogActions>
       </Dialog>

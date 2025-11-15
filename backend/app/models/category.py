@@ -12,7 +12,7 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
-    parent_id = Column(Integer, ForeignKey('categories.id', ondelete='SET NULL'))
+    parent_id = Column(Integer, ForeignKey('categories.id', ondelete='CASCADE'))
     name = Column(String, nullable=False)
     type = Column(String, nullable=False)  # 'expense', 'income'
 
