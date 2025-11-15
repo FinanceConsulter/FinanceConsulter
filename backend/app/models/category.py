@@ -15,7 +15,6 @@ class Category(Base):
     parent_id = Column(Integer, ForeignKey('categories.id', ondelete='SET NULL'))
     name = Column(String, nullable=False)
     type = Column(String, nullable=False)  # 'expense', 'income'
-    description = Column(String)
 
     # Relationships
     user = relationship("User", back_populates="categories")
@@ -27,5 +26,5 @@ class Category(Base):
             id = self.id,
             name = self.name,
             type = self.type,
-            parent_id=self.parent_id
+            parent_id = self.parent_id
         )
