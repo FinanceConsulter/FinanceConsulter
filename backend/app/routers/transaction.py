@@ -63,6 +63,8 @@ def create_transaction(
     current_user: User = Depends(oauth2.get_current_user)
 ):
     transaction = repo.create_transaction(current_user, new_transaction)
+    if type(transaction) == InternalResponse:
+        raise HTTPException(status_code=transaction.state, detail=transaction.detail)
     if transaction == None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to create transaction")
     return transaction
@@ -128,10 +130,26 @@ def set_receipt(
     pass
 
 
+@router.put('/{transaction_id}', response_model=TransactionResponse)
+def update_transaction(
+    transaction_id: int,
+    transaction_update: TransactionUpdate,
+    repo: TransactionRepository = Depends(get_repository),
+    current_user: User = Depends(oauth2.get_current_user)
+):
+    result = repo.update_transaction(current_user, transaction_id, transaction_update)
+    if type(result) == InternalResponse:
+        raise HTTPException(status_code=result.state, detail=result.detail)
+    return result
+
+
 @router.delete('/{transaction_id}', status_code=status.HTTP_200_OK)
 def delete_transaction(
     transaction_id:int,
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    result = repo.delete_transaction(current_user, transaction_id)
+    if result.state != status.HTTP_200_OK:
+        raise HTTPException(status_code=result.state, detail=result.detail)
+    return {"message": result.detail}

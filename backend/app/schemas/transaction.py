@@ -1,11 +1,11 @@
 from pydantic import BaseModel, field_validator
 from typing import Optional
-from datetime import date
+from datetime import date as date_type
 from schemas.tag import TagResponse
 
 class TransactionCreate(BaseModel):
     account_id: int
-    date: date
+    date: date_type
     description: Optional[str]
     amount_cents: int
     currency_code: Optional[str]
@@ -33,20 +33,28 @@ class TransactionCreate(BaseModel):
     
 
 class TransactionUpdate(BaseModel):
-    id: int
-    account_id: Optional[int]
-    category_id: Optional[int]
-    date: Optional[date]
-    description: Optional[str]
-    amount_cents: Optional[int]
-    currency_code: Optional[str]
+    id: Optional[int] = None
+    account_id: Optional[int] = None
+    category_id: Optional[int] = None
+    date: Optional[date_type] = None
+    description: Optional[str] = None
+    amount_cents: Optional[int] = None
+    currency_code: Optional[str] = None
+    tags: Optional[list[int]] = None
+    
+    @field_validator('tags', mode='before')
+    @classmethod
+    def filter_zero_tags(cls, value):
+        if value is None:
+            return None
+        return [item for item in value if item != 0]
 
 class TransactionResponse(BaseModel):
     id: int
     user_id: int
     account_id: int
     category_id: Optional[int]
-    date: date
+    date: date_type
     description: Optional[str]
     amount_cents: int
     currency_code: str
@@ -56,7 +64,7 @@ class TransactionResponse(BaseModel):
 class TransactionFilter(BaseModel):
     account_id: Optional[int]
     category_id: Optional[int]
-    date: Optional[date]
+    date: Optional[date_type]
     date_operation: Optional[str]
     description: Optional[str]
     amount_cents: Optional[int]
