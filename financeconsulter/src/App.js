@@ -111,7 +111,7 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard':
-        return <Dashboard />;
+        return <Dashboard onNavigate={setCurrentPage} />;
       case 'login':
         return (
           <Login
@@ -139,7 +139,7 @@ function App() {
       case 'aiInsights':
         return <AIInsights />;
       default:
-        return <Dashboard />;
+        return <Dashboard onNavigate={setCurrentPage} />;
     }
   };
 

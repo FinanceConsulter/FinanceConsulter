@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'];
@@ -6,12 +6,12 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'
 export default function SpendingBreakdownChart({ data, period }) {
   if (!data || data.length === 0) {
     return (
-      <Card sx={{ height: '100%' }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>Spending Breakdown</Typography>
-          <Typography color="text.secondary">No data for this period</Typography>
-        </CardContent>
-      </Card>
+      <Box sx={{ p: 2, textAlign: 'center' }}>
+        <Typography variant="h6" gutterBottom sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
+          Spending by Category
+        </Typography>
+        <Typography color="text.secondary">No data for this period</Typography>
+      </Box>
     );
   }
 
@@ -22,26 +22,29 @@ export default function SpendingBreakdownChart({ data, period }) {
   }));
 
   return (
-    <Card sx={{ height: '100%' }}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h6" gutterBottom sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
           Spending by Category
         </Typography>
-        <Typography variant="caption" color="text.secondary" gutterBottom>
+        <Typography variant="caption" color="text.secondary" display="block">
           For {period}
         </Typography>
+      </Box>
 
-        <ResponsiveContainer width="100%" height={300}>
+      <Box sx={{ flex: 1, minHeight: 0, width: '100%', position: 'relative' }}>
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
               cy="50%"
-              innerRadius={60}
-              outerRadius={100}
+              innerRadius="40%"
+              outerRadius="70%"
               fill="#8884d8"
               dataKey="value"
-              label={(entry) => `${entry.name}: ${entry.percent.toFixed(1)}%`}
+              label={false}
+              paddingAngle={2}
             >
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -49,11 +52,25 @@ export default function SpendingBreakdownChart({ data, period }) {
             </Pie>
             <Tooltip
               formatter={(value) => `CHF ${value.toFixed(2)}`}
+              contentStyle={{ 
+                fontSize: '0.875rem',
+                borderRadius: '8px',
+                border: '1px solid #ddd'
+              }}
             />
-            <Legend />
+            <Legend 
+              verticalAlign="bottom" 
+              height={36}
+              iconType="circle"
+              iconSize={8}
+              wrapperStyle={{
+                fontSize: '0.75rem',
+                paddingTop: '10px'
+              }}
+            />
           </PieChart>
         </ResponsiveContainer>
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 }
