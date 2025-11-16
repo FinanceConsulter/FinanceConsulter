@@ -235,10 +235,12 @@ export default function TagsTab({ onSuccess, onError, isMobile }) {
         onClose={() => setTagDialogOpen(false)} 
         maxWidth="sm" 
         fullWidth
-        PaperProps={{
-          sx: {
-            m: { xs: 2, sm: 2 },
-            maxHeight: { xs: '90vh', sm: '80vh' }
+        slotProps={{
+          paper: {
+            sx: {
+              m: { xs: 2, sm: 2 },
+              maxHeight: { xs: '90vh', sm: '80vh' }
+            }
           }
         }}
       >

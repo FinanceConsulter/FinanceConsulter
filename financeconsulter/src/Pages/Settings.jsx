@@ -16,6 +16,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import LabelIcon from '@mui/icons-material/Label';
 import CategoryIcon from '@mui/icons-material/Category';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 
@@ -23,6 +24,7 @@ import ProfileTab from './Settings/ProfileTab';
 import SecurityTab from './Settings/SecurityTab';
 import TagsTab from './Settings/TagsTab';
 import CategoriesTab from './Settings/CategoriesTab';
+import AccountsTab from './Settings/AccountsTab';
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -84,63 +86,105 @@ export default function Settings() {
   }
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 3 } }}>
-      <Typography variant="h4" fontWeight={600} gutterBottom sx={{ fontSize: { xs: '1.75rem', sm: '2.125rem' } }}>
-        Settings
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Manage your account settings and preferences
-      </Typography>
+    <Box 
+      sx={{ 
+        width: '100%',
+        minHeight: '100vh',
+        overflowX: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        boxSizing: 'border-box'
+      }}
+    >
+      <Box 
+        sx={{ 
+          width: '100%',
+          maxWidth: { xs: 'calc(95vw - 32px)', sm: 'calc(95vw - 48px)', md: '1200px' },
+          p: { xs: 2, sm: 3 },
+          pb: { xs: 6, sm: 4 },
+          boxSizing: 'border-box'
+        }}
+      >
+        <Typography variant="h4" fontWeight={600} gutterBottom sx={{ fontSize: { xs: '1.75rem', sm: '2.125rem' } }}>
+          Settings
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          Manage your account settings and preferences
+        </Typography>
 
-      <Card>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs 
-            value={tabValue} 
-            onChange={(e, newValue) => setTabValue(newValue)} 
-            variant="scrollable" 
-            scrollButtons="auto"
-            sx={{
-              minHeight: { xs: 56, sm: 64 },
-              '& .MuiTab-root': {
-                minHeight: { xs: 56, sm: 64 },
-                fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                minWidth: { xs: 80, sm: 120 },
-                px: { xs: 1, sm: 2 },
-                '& .MuiTab-iconWrapper': {
-                  fontSize: { xs: '1rem', sm: '1.25rem' },
-                  marginRight: { xs: 0.5, sm: 1 }
+        <Card>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs 
+              value={tabValue} 
+              onChange={(e, newValue) => setTabValue(newValue)} 
+              variant="scrollable" 
+              scrollButtons="auto"
+              allowScrollButtonsMobile
+              visibleScrollbar={false}
+              sx={{
+                minHeight: { xs: 64, sm: 64 },
+                '& .MuiTabs-scrollButtons': {
+                  width: { xs: 36, sm: 40 },
+                  '&.Mui-disabled': { opacity: 0.3 }
+                },
+                '& .MuiTabs-scroller': {
+                  overflow: 'hidden !important'
+                },
+                '& .MuiTab-root': {
+                  minHeight: { xs: 64, sm: 64 },
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                  fontWeight: { xs: 600, sm: 400 },
+                  minWidth: { xs: 92, sm: 100 },
+                  maxWidth: { xs: 95, sm: 160 },
+                  px: { xs: 0.75, sm: 2 },
+                  py: { xs: 1, sm: 1.5 },
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  gap: { xs: 0.5, sm: 0 },
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'clip',
+                  '& .MuiTab-iconWrapper': {
+                    fontSize: { xs: '1.25rem', sm: '1.25rem' },
+                    marginRight: { xs: 0, sm: 1 },
+                    marginBottom: { xs: 0.5, sm: 0 }
+                  }
                 }
-              }
-            }}
-          >
-            <Tab 
-              label={isMobile ? '' : 'Profile'} 
-              icon={<PersonIcon />} 
-              iconPosition="start"
-              aria-label="Profile"
-            />
-            <Tab 
-              label={isMobile ? '' : 'Security'} 
-              icon={<LockIcon />} 
-              iconPosition="start"
-              aria-label="Security"
-            />
-            <Tab 
-              label={isMobile ? '' : 'Tags'} 
-              icon={<LabelIcon />} 
-              iconPosition="start"
-              aria-label="Tags"
-            />
-            <Tab 
-              label={isMobile ? '' : 'Categories'} 
-              icon={<CategoryIcon />} 
-              iconPosition="start"
-              aria-label="Categories"
-            />
-          </Tabs>
-        </Box>
+              }}
+            >
+              <Tab 
+                label="Profile" 
+                icon={<PersonIcon />} 
+                iconPosition={isMobile ? 'top' : 'start'}
+                aria-label="Profile"
+              />
+              <Tab 
+                label="Security" 
+                icon={<LockIcon />} 
+                iconPosition={isMobile ? 'top' : 'start'}
+                aria-label="Security"
+              />
+              <Tab 
+                label="Tags" 
+                icon={<LabelIcon />} 
+                iconPosition={isMobile ? 'top' : 'start'}
+                aria-label="Tags"
+              />
+              <Tab 
+                label="Categories" 
+                icon={<CategoryIcon />} 
+                iconPosition={isMobile ? 'top' : 'start'}
+                aria-label="Categories"
+              />
+              <Tab 
+                label="Accounts" 
+                icon={<AccountBalanceIcon />} 
+                iconPosition={isMobile ? 'top' : 'start'}
+                aria-label="Accounts"
+              />
+            </Tabs>
+          </Box>
 
-        <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+          <CardContent sx={{ p: { xs: 2, sm: 3 }, pb: { xs: 4, sm: 4 } }}>
           <TabPanel value={tabValue} index={0}>
             <ProfileTab 
               user={user} 
@@ -169,6 +213,14 @@ export default function Settings() {
 
           <TabPanel value={tabValue} index={3}>
             <CategoriesTab 
+              onSuccess={setSuccess} 
+              onError={setError} 
+              isMobile={isMobile}
+            />
+          </TabPanel>
+
+          <TabPanel value={tabValue} index={4}>
+            <AccountsTab 
               onSuccess={setSuccess} 
               onError={setError} 
               isMobile={isMobile}
@@ -212,6 +264,7 @@ export default function Settings() {
           {success}
         </Alert>
       </Snackbar>
+      </Box>
     </Box>
   );
 }

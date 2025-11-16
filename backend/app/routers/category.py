@@ -51,10 +51,13 @@ def create_category(
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    category = repo.create_category(current_user, new_category)
-    if category == None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unable to create category")
-    return category
+    try:
+        category = repo.create_category(current_user, new_category)
+        if category == None:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unable to create category")
+        return category
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 @router.put('/', response_model=CategoryResponse)
 def update_category(
@@ -62,10 +65,13 @@ def update_category(
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    category = repo.update_category(current_user, updated_category)
-    if category == None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to update category")
-    return category
+    try:
+        category = repo.update_category(current_user, updated_category)
+        if category == None:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to update category")
+        return category
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 @router.delete('/{category_id}', status_code=status.HTTP_200_OK)
 def update_category(

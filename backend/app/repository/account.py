@@ -55,12 +55,18 @@ class AccountRepository:
         return new_account.to_response()
     
     def update_account(self, current_user: User, updated_account: AccountUpdate):
-        if self.check_existing_account(current_user, updated_account.name):
-            return None
         account = self.db.query(Account).filter(
             Account.id == updated_account.id,
             Account.user_id == current_user.id
         ).first()
+        
+        if not account:
+            return None
+        
+        # Check if name is being changed and if it conflicts with another account
+        if updated_account.name and updated_account.name != account.name:
+            if self.check_existing_account(current_user, updated_account.name):
+                return None
         
         update_data = updated_account.model_dump(exclude_none=True)
         for field, value in update_data.items():
@@ -70,6 +76,22 @@ class AccountRepository:
         self.db.commit()
         self.db.refresh(account)
         return account.to_response()
+    
+    def delete_account(self, current_user: User, account_id: int):
+        """
+        Delete an account and all its associated transactions (cascade delete).
+        """
+        account = self.db.query(Account).filter(
+            Account.id == account_id,
+            Account.user_id == current_user.id
+        ).first()
+
+        if not account:
+            return None
+        
+        self.db.delete(account)
+        self.db.commit()
+        return True
     
     def check_existing_account(self, current_user: User, account_name: str):
         existing_account = self.db.query(Account).filter(
