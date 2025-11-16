@@ -46,7 +46,11 @@ export default function LatestTransactionsList({ transactions }) {
                       )}
                     </>
                   }
-                  secondaryTypographyProps={{ component: 'span' }}
+                  slotProps={{
+                    secondary: {
+                      component: 'span'
+                    }
+                  }}
                 />
                 <Typography
                   variant="body2"

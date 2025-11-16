@@ -47,7 +47,11 @@ export default function LatestReceiptsList({ receipts }) {
                     </Typography>
                   </>
                 }
-                secondaryTypographyProps={{ component: 'span' }}
+                slotProps={{
+                  secondary: {
+                    component: 'span'
+                  }
+                }}
               />
               <Typography variant="body2" fontWeight={600}>
                 CHF {(receipt.total_cents / 100).toFixed(2)}

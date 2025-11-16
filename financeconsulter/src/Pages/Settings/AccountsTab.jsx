@@ -316,11 +316,13 @@ export default function AccountsTab({ onSuccess, onError, isMobile }) {
                     mr: 10,
                     pr: 10
                   }}
-                  primaryTypographyProps={{
-                    component: 'div'
-                  }}
-                  secondaryTypographyProps={{
-                    component: 'div'
+                  slotProps={{
+                    primary: {
+                      component: 'div'
+                    },
+                    secondary: {
+                      component: 'div'
+                    }
                   }}
                 />
               </ListItem>
