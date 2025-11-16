@@ -28,10 +28,21 @@ class AccountRepository:
         accounts = self.db.query(Account).filter(
             Account.user_id == current_user.id
         ).all()
+        
+        account_responses = []
         for account in accounts:
             transactions = self.get_transactions_by_account_id(current_user, account.id)
-            account.transactions = transactions
-        return self.convert_to_response(accounts)
+            account_response = AccountResponse(
+                id=account.id,
+                user_id=account.user_id,
+                name=account.name,
+                type=account.type,
+                currency_code=account.currency_code,
+                transactions=transactions
+            )
+            account_responses.append(account_response)
+        
+        return account_responses
     
     def get_account(self, current_user: User, account_id: int):
         account = self.db.query(Account).filter(

@@ -31,8 +31,7 @@ def get_accounts(
     current_user: User = Depends(oauth2.get_current_user)
 ):
     accounts = repo.get_userspecific_accounts(current_user)
-    if accounts == []:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No accounts from this user were found")
+
     return accounts
 
 @router.get('/{account_id}', response_model=AccountResponse)
