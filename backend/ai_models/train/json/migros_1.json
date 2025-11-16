@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "MIGROS",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "Mehrwegtasche",
+                "Total": "2.00"
+            },
+            {
+                "Artikel": "Birchermüesli Classic",
+                "Total": "3.70"
+            },
+            {
+                "Artikel": "Risotto mit Tomaten",
+                "Total": "4.80"
+            },
+            {
+                "Artikel": "Party Nussmischung",
+                "Total": "3.20"
+            },
+            {
+                "Artikel": "Agnesi Tortiglioni",
+                "Total": "1.95"
+            },
+            {
+                "Artikel": "Bio Reddy Nature",
+                "Total": "11.20"
+            }
+        ],
+        "total": "26.85"
+    }
+}

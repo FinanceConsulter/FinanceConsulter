@@ -1,0 +1,77 @@
+{
+    "data": {
+        "merchant": "MIGROS",
+        "date": "23.03.2021",
+        "menu": [
+            {
+                "Artikel": "Kinder Chocco fresh",
+                "Total": "1.90"
+            },
+            {
+                "Artikel": "Brownies",
+                "Total": "6.10"
+            },
+            {
+                "Artikel": "Eier Freiland 53+",
+                "Total": "5.95"
+            },
+            {
+                "Artikel": "Kiri 8p",
+                "Total": "5.20"
+            },
+            {
+                "Artikel": "Birnen Conference",
+                "Total": "0.70"
+            },
+            {
+                "Artikel": "MClass Flammkuchent.",
+                "Total": "5.80"
+            },
+            {
+                "Artikel": "Eisbergsalat",
+                "Total": "2.20"
+            },
+            {
+                "Artikel": "Speckwürfeli",
+                "Total": "3.30"
+            },
+            {
+                "Artikel": "Caprice des Dieux",
+                "Total": "3.70"
+            },
+            {
+                "Artikel": "MBud Mozzarella",
+                "Total": "2.60"
+            },
+            {
+                "Artikel": "Rucola",
+                "Total": "1.10"
+            },
+            {
+                "Artikel": "Valflora Crème Fraîche",
+                "Total": "9.90"
+            },
+            {
+                "Artikel": "Doppelrahm Gruyère",
+                "Total": "4.35"
+            },
+            {
+                "Artikel": "Buche Chavroux Affine",
+                "Total": "3.75"
+            },
+            {
+                "Artikel": "MBud Butter",
+                "Total": "2.80"
+            },
+            {
+                "Artikel": "Frische Backhefe",
+                "Total": "0.25"
+            },
+            {
+                "Artikel": "Cherrytomaten an Zweig",
+                "Total": "2.60"
+            }
+        ],
+        "total": "61.10"
+    }
+}

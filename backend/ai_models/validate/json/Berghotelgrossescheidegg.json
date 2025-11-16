@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "Berghotel Grosse Scheidegg",
+        "date": "30.07.2007",
+        "menu": [
+            {
+                "Artikel": "2xLatte Macchiato",
+                "Total": "9.00"
+            },
+            {
+                "Artikel": "1xGloki",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "1xSchweinschnitzel",
+                "Total": "22.00"
+            },
+            {
+                "Artikel": "Chässpätzli",
+                "Total": "18.50"
+            }
+        ],
+        "total": "54.50"
+    }
+}

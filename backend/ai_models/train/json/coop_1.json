@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "coop",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "Universalerde 15L",
+                "Total": "6.95"
+            },
+            {
+                "Artikel": "Geb.-Kehrichtsack",
+                "Total": "11.00"
+            },
+            {
+                "Artikel": "Geb.-Kehrichtsack",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Sammelsack 35L",
+                "Total": "17.00"
+            }
+        ],
+        "total": "40.95"
+    }
+}

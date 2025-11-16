@@ -1,0 +1,77 @@
+{
+    "data": {
+        "merchant": "MIGROS",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "Migros Bio Griessbrei",
+                "Total": "1.12"
+            },
+            {
+                "Artikel": "Migros Bio Kartoffela.",
+                "Total": "1.12"
+            },
+            {
+                "Artikel": "Migros Bio Kartof Karo",
+                "Total": "1.12"
+            },
+            {
+                "Artikel": "Eier CH 10 x 53+",
+                "Total": "5.30"
+            },
+            {
+                "Artikel": "F Branches Milk 50x27g",
+                "Total": "25.50"
+            },
+            {
+                "Artikel": "MClass Champignon ganz",
+                "Total": "2.20"
+            },
+            {
+                "Artikel": "Molke Mango/Passions",
+                "Total": "1.40"
+            },
+            {
+                "Artikel": "MSC Sardellefilets",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "Bio Apfelessig",
+                "Total": "2.24"
+            },
+            {
+                "Artikel": "S.Pellegrino 6x50cl",
+                "Total": "3.82"
+            },
+            {
+                "Artikel": "Bio Sirup Holunderbl.",
+                "Total": "3.75"
+            },
+            {
+                "Artikel": "Magerspeck gesalzen",
+                "Total": "3.10"
+            },
+            {
+                "Artikel": "Doppelrahm Gruyère",
+                "Total": "4.35"
+            },
+            {
+                "Artikel": "Buche Chavroux Affine",
+                "Total": "3.75"
+            },
+            {
+                "Artikel": "MBud Butter",
+                "Total": "2.80"
+            },
+            {
+                "Artikel": "Frische Backhefe",
+                "Total": "0.25"
+            },
+            {
+                "Artikel": "Cherrytomaten an Zweig",
+                "Total": "2.60"
+            }
+        ],
+        "total": "61.10"
+    }
+}
