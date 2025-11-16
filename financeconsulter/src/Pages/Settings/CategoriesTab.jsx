@@ -312,6 +312,23 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
               const isSubcategory = category.parent_id && category.parent_id !== 0;
               const indentLevel = category.depth || 0;
               
+              // Color gradient for depth levels
+              const getDepthColor = (depth) => {
+                const colors = [
+                  '#1976d2', // Level 0 
+                  '#2e7d32', // Level 1 
+                  '#ed6c02', // Level 2 
+                  '#9c27b0', // Level 3 
+                  '#d32f2f', // Level 4 
+                  '#0288d1', // Level 5 
+                  '#388e3c', // Level 6 
+                  '#f57c00', // Level 7 
+                  '#7b1fa2', // Level 8 
+                  '#c62828', // Level 9 
+                ];
+                return colors[Math.min(depth, colors.length - 1)];
+              };
+              
               return (
                 <ListItem
                   key={category.id}
@@ -321,46 +338,52 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
                     borderRadius: 1,
                     mb: 1,
                     '&:hover': { bgcolor: 'action.hover' },
-                    alignItems: 'flex-start',
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    alignItems: { xs: 'stretch', sm: 'flex-start' },
                     py: 2,
-                    pl: 2 + (indentLevel * 4),
+                    pl: { xs: 2, sm: 2 + (indentLevel * 3) },
                     pr: 2,
-                    position: 'relative'
+                    gap: { xs: 2, sm: 0 },
+                    borderLeft: `4px solid ${getDepthColor(indentLevel)}`,
+                    bgcolor: indentLevel > 0 ? `${getDepthColor(indentLevel)}08` : 'transparent'
                   }}
-                  secondaryAction={
-                    <Stack 
-                      direction="row" 
-                      spacing={1} 
-                      sx={{ 
-                        mt: 0.5,
-                        position: 'absolute',
-                        right: 8,
-                        top: '50%',
-                        transform: 'translateY(-50%)'
-                      }}
-                    >
-                      <IconButton edge="end" onClick={() => handleEditCategory(category)} size="small">
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton edge="end" onClick={() => openDeleteCategoryDialog(category)} size="small">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Stack>
-                  }
                 >
                   <ListItemText
                     primary={
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        {isSubcategory && (
-                          <SubdirectoryArrowRightIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
+                      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+                        {/* Visual depth indicators */}
+                        {indentLevel > 0 && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            {/* Show hierarchy dots/lines */}
+                            {[...Array(indentLevel)].map((_, idx) => (
+                              <Box
+                                key={idx}
+                                sx={{
+                                  width: { xs: 6, sm: 8 },
+                                  height: { xs: 6, sm: 8 },
+                                  borderRadius: '50%',
+                                  bgcolor: getDepthColor(idx),
+                                  opacity: 0.6
+                                }}
+                              />
+                            ))}
+                            <SubdirectoryArrowRightIcon 
+                              sx={{ 
+                                fontSize: { xs: 18, sm: 20 }, 
+                                color: getDepthColor(indentLevel),
+                                ml: 0.5
+                              }} 
+                            />
+                          </Box>
                         )}
                         <Typography 
                           variant="body1" 
-                          fontWeight={600}
+                          fontWeight={indentLevel === 0 ? 700 : 600}
                           sx={{ 
                             whiteSpace: 'normal',
                             wordBreak: 'break-word',
-                            pr: 2
+                            flex: 1,
+                            fontSize: { xs: '0.9rem', sm: indentLevel === 0 ? '1rem' : '0.95rem' }
                           }}
                         >
                           {category.name}
@@ -368,33 +391,62 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
                       </Stack>
                     }
                     secondary={
-                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} sx={{ mt: 0.5 }}>
+                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} sx={{ mt: 0.5 }} flexWrap="wrap">
+                        {/* Depth Level Badge */}
+                        {indentLevel === 0 ? (
+                          <Chip 
+                            label="📁 Main Category" 
+                            size="small" 
+                            sx={{ 
+                              width: 'fit-content', 
+                              fontSize: '0.7rem',
+                              fontWeight: 700,
+                              backgroundColor: getDepthColor(0),
+                              color: 'white',
+                              '&:hover': {
+                                backgroundColor: getDepthColor(0),
+                                opacity: 0.9
+                              }
+                            }}
+                          />
+                        ) : (
+                          <Chip 
+                            label={`📂 Level ${indentLevel} Subcategory`}
+                            size="small" 
+                            sx={{ 
+                              width: 'fit-content', 
+                              fontSize: '0.7rem',
+                              fontWeight: 600,
+                              backgroundColor: getDepthColor(indentLevel),
+                              color: 'white',
+                              '&:hover': {
+                                backgroundColor: getDepthColor(indentLevel),
+                                opacity: 0.9
+                              }
+                            }}
+                          />
+                        )}
                         <Chip 
                           label={`Type: ${category.type || 'No type'}`} 
                           size="small" 
                           color="primary"
                           variant="outlined"
-                          sx={{ width: 'fit-content', fontSize: '0.75rem' }}
+                          sx={{ width: 'fit-content', fontSize: '0.7rem' }}
                         />
-                        {parentName ? (
+                        {parentName && (
                           <Chip 
                             label={`Parent: ${parentName}`} 
                             size="small" 
                             color="secondary"
                             variant="outlined"
-                            sx={{ width: 'fit-content', fontSize: '0.75rem' }}
-                          />
-                        ) : (
-                          <Chip 
-                            label="Main Category" 
-                            size="small" 
                             sx={{ 
                               width: 'fit-content', 
-                              fontSize: '0.75rem',
-                              backgroundColor: '#9c27b0',
-                              color: 'white',
-                              '&:hover': {
-                                backgroundColor: '#7b1fa2'
+                              fontSize: '0.7rem',
+                              maxWidth: { xs: '200px', sm: '300px' },
+                              '& .MuiChip-label': {
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
                               }
                             }}
                           />
@@ -403,16 +455,32 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
                     }
                     sx={{
                       flex: 1,
-                      mr: 10,
-                      pr: 10
+                      m: 0
                     }}
-                    primaryTypographyProps={{
-                      component: 'div'
-                    }}
-                    secondaryTypographyProps={{
-                      component: 'div'
+                    slotProps={{
+                      primary: {
+                        component: 'div'
+                      },
+                      secondary: {
+                        component: 'div'
+                      }
                     }}
                   />
+                  <Stack 
+                    direction="row" 
+                    spacing={1}
+                    sx={{
+                      alignSelf: { xs: 'flex-end', sm: 'flex-start' },
+                      flexShrink: 0
+                    }}
+                  >
+                    <IconButton onClick={() => handleEditCategory(category)} size="small" color="primary">
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton onClick={() => openDeleteCategoryDialog(category)} size="small" color="error">
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Stack>
                 </ListItem>
               );
             })}
