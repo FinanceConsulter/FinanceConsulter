@@ -1,9 +1,11 @@
 from sqlalchemy.orm import Session
 from models.user import User
 from models.account import Account
+from models.transaction import Transaction
 from schemas.account import AccountCreate, AccountUpdate, AccountResponse
 from InternalResponse import InternalResponse
 from fastapi import status
+
 class AccountRepository:
     def __init__(self, db:Session):
         self.db = db
@@ -15,10 +17,20 @@ class AccountRepository:
             newList.append(item.to_response())
         return newList
     
+    @staticmethod
+    def transaction_convert_to_response(list:list[Transaction]):
+        new_list = []
+        for item in list:
+            new_list.append(item.to_response())
+        return new_list
+    
     def get_userspecific_accounts(self, current_user: User):
         accounts = self.db.query(Account).filter(
             Account.user_id == current_user.id
         ).all()
+        for account in accounts:
+            transactions = self.get_transactions_by_account_id(current_user, account.id)
+            account.transactions = transactions
         return self.convert_to_response(accounts)
     
     def get_account(self, current_user: User, account_id: int):
@@ -74,3 +86,10 @@ class AccountRepository:
         if existing_account:
             return InternalResponse(state=status.HTTP_200_OK, detail=f"Found account with id {account_id} and name {existing_account.name} for user {current_user.id}")
         return InternalResponse(state=status.HTTP_409_CONFLICT, detail=f"Found no account with id {account_id} for user {current_user.id}")
+    
+    def get_transactions_by_account_id(self, current_user: User, account_id: int):
+        transactions = self.db.query(Transaction).filter(
+            Transaction.user_id == current_user.id,
+            Transaction.account_id == account_id
+        ).all()
+        return self.transaction_convert_to_response(transactions)

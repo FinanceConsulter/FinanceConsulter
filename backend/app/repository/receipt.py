@@ -14,12 +14,7 @@ from transformers import AutoProcessor, AutoModelForCausalLM
 class RepositoryReceipt:
     def __init__(self, db: Session):
         self.db = db
-        model_id = "ucsahin/Florence-2-large-TableDetection"
-        model = AutoModelForCausalLM.from_pretrained(model_id,
-                                             trust_remote_code=True)
-        processor = AutoProcessor.from_pretrained(model_id,
-                                          trust_remote_code=True)
-
+        
     async def create_receipt(self,picture):
         file_bytes = BytesIO(await picture.read())
         image = Image.open(file_bytes)
@@ -42,25 +37,6 @@ class RepositoryReceipt:
         img_byte_arr.seek(0)
         return Response(img_byte_arr.getvalue(), media_type="image/png")
 
-    def run_example(self, task_prompt, image, max_new_tokens=256):
-        prompt = task_prompt
-        inputs = self.processor(text=prompt, images=image, return_tensors="pt")
-        generated_ids = self.model.generate(
-        input_ids=inputs["input_ids"].cuda(),
-        pixel_values=inputs["pixel_values"].cuda(),
-        max_new_tokens=max_new_tokens,
-        early_stopping=False,
-        do_sample=False,
-        num_beams=3,
-        )
-        generated_text = self.processor.batch_decode(generated_ids, skip_special_tokens=False)[0]
-        parsed_answer = self.processor.post_process_generation(
-            generated_text,
-            task=task_prompt,
-            image_size=(image.width, image.height)
-        )
-        return parsed_answer
-
     def plot_bbox(image, data):
         # Create a figure and axes
         fig, ax = plt.subplots(figsize=(12, 10))
@@ -81,7 +57,3 @@ class RepositoryReceipt:
         # Show the plot
         plt.show()
     
-
-if __name__ == "__main__":
-    print("hello world")
-    image = Image.open("../../../../pics/Testdaten/coop 1.jpeg")

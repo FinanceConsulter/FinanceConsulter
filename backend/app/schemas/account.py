@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional
+from schemas.transaction import TransactionResponse
 
 class AccountCreate(BaseModel):
     name: str
@@ -24,4 +25,4 @@ class AccountResponse(BaseModel):
     name: str
     type: str
     currency_code: str
-    
+    transactions: Optional[list[TransactionResponse]]

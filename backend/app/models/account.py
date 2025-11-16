@@ -27,5 +27,6 @@ class Account(Base):
             user_id=self.user_id, 
             name=self.name, 
             type=self.type,
-            currency_code=self.currency_code
+            currency_code=self.currency_code,
+            transactions = self.transactions
         )
