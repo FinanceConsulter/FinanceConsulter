@@ -2,15 +2,23 @@
 .DS_Store
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+Thumbs.db
 
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 .pytest_cache/
 .mypy_cache/
 .venv/
 env/
 venv/
+ENV/
+.Python
 
 # Node
 node_modules/
@@ -32,3 +40,35 @@ logs/
 # Coverage
 .coverage
 coverage.xml
+
+# AI Model Checkpoints and Training Files
+checkpoint-*/
+*.ckpt
+*.pth
+*.pt
+*.h5
+*.pb
+*.onnx
+*.tflite
+*.pkl
+*.joblib
+
+# Training outputs
+runs/
+outputs/
+wandb/
+mlruns/
+
+# Model weights and large files
+*.bin
+*.safetensors
+model/
+models/
+weights/
+
+# Dataset files (uncomment if needed)
+# data/
+# dataset/
+# datasets/
+# *.csv
+# *.parquet
