@@ -38,15 +38,16 @@ export default function LatestReceiptsList({ receipts }) {
               <ListItemText
                 primary={receipt.merchant || 'Unknown merchant'}
                 secondary={
-                  <Box>
-                    <Typography variant="caption" color="text.secondary">
+                  <>
+                    <Typography component="span" variant="caption" color="text.secondary">
                       {new Date(receipt.purchase_date).toLocaleDateString('de-CH')}
                     </Typography>
-                    <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
+                    <Typography component="span" variant="caption" color="text.secondary" sx={{ ml: 1 }}>
                       {receipt.item_count} items
                     </Typography>
-                  </Box>
+                  </>
                 }
+                secondaryTypographyProps={{ component: 'span' }}
               />
               <Typography variant="body2" fontWeight={600}>
                 CHF {(receipt.total_cents / 100).toFixed(2)}

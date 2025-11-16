@@ -1,4 +1,4 @@
-import { Drawer, List, ListItem, ListItemText, Toolbar, useMediaQuery, useTheme, Divider, ListItemIcon } from '@mui/material';
+import { Drawer, List, ListItem, ListItemButton, ListItemText, Toolbar, useMediaQuery, useTheme, Divider, ListItemIcon } from '@mui/material';
 import { 
   Logout as LogoutIcon,
   Dashboard as DashboardIcon,
@@ -31,50 +31,64 @@ function NavBar({ setCurrentPage, mobileOpen, handleDrawerToggle, onLogout }) {
     <>
       <Toolbar /> {/* Spacer for header */}
       <List>
-        <ListItem button onClick={() => onNavigate('dashboard')}>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => onNavigate('dashboard')}>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItemButton>
         </ListItem>
-        <ListItem button onClick={() => onNavigate('transactions')}>
-          <ListItemIcon>
-            <ReceiptIcon />
-          </ListItemIcon>
-          <ListItemText primary="Transactions" />
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => onNavigate('transactions')}>
+            <ListItemIcon>
+              <ReceiptIcon />
+            </ListItemIcon>
+            <ListItemText primary="Transactions" />
+          </ListItemButton>
         </ListItem>
-        <ListItem button onClick={() => onNavigate('quickEntry')}>
-          <ListItemIcon>
-            <AddCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Quick Entry" />
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => onNavigate('quickEntry')}>
+            <ListItemIcon>
+              <AddCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Quick Entry" />
+          </ListItemButton>
         </ListItem>
-        <ListItem button onClick={() => onNavigate('scanReceipts')}>
-          <ListItemIcon>
-            <CameraAltIcon />
-          </ListItemIcon>
-          <ListItemText primary="Receipts" />
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => onNavigate('scanReceipts')}>
+            <ListItemIcon>
+              <CameraAltIcon />
+            </ListItemIcon>
+            <ListItemText primary="Receipts" />
+          </ListItemButton>
         </ListItem>
-        <ListItem button onClick={() => onNavigate('aiInsights')}>
-          <ListItemIcon>
-            <SmartToyIcon />
-          </ListItemIcon>
-          <ListItemText primary="AI Insights" />
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => onNavigate('aiInsights')}>
+            <ListItemIcon>
+              <SmartToyIcon />
+            </ListItemIcon>
+            <ListItemText primary="AI Insights" />
+          </ListItemButton>
         </ListItem>
-        <ListItem button onClick={() => onNavigate('settings')}>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => onNavigate('settings')}>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
+          </ListItemButton>
         </ListItem>
       </List>
       <Divider />
       <List>
-        <ListItem button onClick={handleLogoutClick}>
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
-          <ListItemText primary="Logout" />
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleLogoutClick}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
         </ListItem>
       </List>
     </>

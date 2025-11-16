@@ -37,15 +37,16 @@ export default function LatestTransactionsList({ transactions }) {
                 <ListItemText
                   primary={txn.description || 'No description'}
                   secondary={
-                    <Box display="flex" gap={1} mt={0.5}>
-                      <Typography variant="caption" color="text.secondary">
+                    <>
+                      <Typography component="span" variant="caption" color="text.secondary">
                         {new Date(txn.date).toLocaleDateString('de-CH')}
                       </Typography>
                       {txn.category && (
-                        <Chip label={txn.category} size="small" variant="outlined" />
+                        <Chip label={txn.category} size="small" variant="outlined" sx={{ ml: 1 }} />
                       )}
-                    </Box>
+                    </>
                   }
+                  secondaryTypographyProps={{ component: 'span' }}
                 />
                 <Typography
                   variant="body2"

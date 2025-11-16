@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Typography, Grid, CircularProgress, Alert } from '@mui/material';
+import { Box, Typography, CircularProgress, Alert, Grid } from '@mui/material';
 import { useDashboardData } from '../hooks/useDashboardData';
 
 // KPI Cards
@@ -51,36 +51,36 @@ export default function Dashboard() {
 
       {/* KPI Cards Row */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <TotalBalanceCard data={data?.summary?.total_balance} />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <MonthSpendCard data={data?.summary?.month_spend} />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <BudgetStatusCard data={data?.summary?.budget_status} />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3}>
           <RecentTransactionsCard data={data?.summary?.recent_count} />
         </Grid>
       </Grid>
 
       {/* Charts Row */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <SpendingBreakdownChart data={data?.spending_breakdown} period={period} />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <CashflowTimelineChart data={data?.cashflow} />
         </Grid>
       </Grid>
 
       {/* Recent Activity Row */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <LatestTransactionsList transactions={data?.recent_transactions || []} />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <LatestReceiptsList receipts={data?.recent_receipts || []} />
         </Grid>
       </Grid>
