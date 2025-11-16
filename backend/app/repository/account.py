@@ -103,7 +103,7 @@ class AccountRepository:
     
     def check_existing_account_id(self, current_user: User, account_id: int):
         existing_account = self.db.query(Account).filter(
-            Account.name == account_id, 
+            Account.id == account_id, 
             Account.user_id == current_user.id).first()
         if existing_account:
             return InternalResponse(state=status.HTTP_200_OK, detail=f"Found account with id {account_id} and name {existing_account.name} for user {current_user.id}")
