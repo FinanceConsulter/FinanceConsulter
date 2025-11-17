@@ -22,6 +22,8 @@ import {
   DialogActions,
   Button,
   Snackbar,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -29,8 +31,11 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import EditTransactionDialog from '../../Components/EditTransactionDialog';
 
 export default function AllTransactionsTab() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [transactions, setTransactions] = useState([]);
   const [accounts, setAccounts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -62,6 +67,17 @@ export default function AllTransactionsTab() {
       const accountsData = await accountsResponse.json();
       setAccounts(accountsData);
 
+      // Fetch categories
+      const categoriesResponse = await fetch('http://127.0.0.1:8000/category/', {
+        headers: getAuthHeaders()
+      });
+      let categoriesData = [];
+      if (categoriesResponse.ok) {
+        const data = await categoriesResponse.json();
+        categoriesData = Array.isArray(data) ? data : [];
+      }
+      setCategories(categoriesData);
+
       // Fetch transactions
       const transactionsResponse = await fetch('http://127.0.0.1:8000/transaction/', {
         headers: getAuthHeaders()
@@ -88,6 +104,10 @@ export default function AllTransactionsTab() {
 
   const getAccountById = (accountId) => {
     return accounts.find(acc => acc.id === accountId);
+  };
+
+  const getCategoryById = (categoryId) => {
+    return categories.find(cat => cat.id === categoryId);
   };
 
   const formatAmount = (amountCents, currencyCode) => {
@@ -247,7 +267,113 @@ export default function AllTransactionsTab() {
                 No transactions found. Create your first transaction!
               </Typography>
             </Box>
+          ) : isMobile ? (
+            // Mobile Card View
+            <Stack spacing={2} sx={{ mt: 2 }}>
+              {transactions.map(transaction => {
+                const account = getAccountById(transaction.account_id);
+                return (
+                  <Card key={transaction.id} variant="outlined">
+                    <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+                      <Stack spacing={1.5}>
+                        {/* Header: Description and Amount */}
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                          <Typography variant="body1" fontWeight={600} sx={{ flex: 1, pr: 2 }}>
+                            {transaction.description}
+                          </Typography>
+                          <Typography
+                            variant="h6"
+                            fontWeight={700}
+                            sx={{
+                              color: transaction.amount_cents >= 0 ? 'success.main' : 'error.main',
+                              whiteSpace: 'nowrap'
+                            }}
+                          >
+                            {formatAmount(transaction.amount_cents, account?.currency_code || 'CHF')}
+                          </Typography>
+                        </Box>
+
+                        {/* Date */}
+                        <Typography variant="body2" color="text.secondary">
+                          {formatDate(transaction.date)}
+                        </Typography>
+
+                        {/* Account */}
+                        {account && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
+                              Account:
+                            </Typography>
+                            <Chip 
+                              label={account.name} 
+                              size="small" 
+                              color="primary" 
+                              variant="outlined"
+                            />
+                          </Box>
+                        )}
+
+                        {/* Category */}
+                        {transaction.category_id && (() => {
+                          const category = getCategoryById(transaction.category_id);
+                          return category ? (
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                              <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
+                                Category:
+                              </Typography>
+                              <Chip label={category.name} size="small" />
+                            </Box>
+                          ) : null;
+                        })()}
+
+                        {/* Tags */}
+                        {transaction.tags && transaction.tags.length > 0 && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
+                              Tags:
+                            </Typography>
+                            <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                              {transaction.tags.map(tag => (
+                                <Chip
+                                  key={tag.id}
+                                  label={tag.name}
+                                  size="small"
+                                  sx={{
+                                    backgroundColor: tag.color,
+                                    color: 'white',
+                                    fontSize: '0.75rem',
+                                  }}
+                                />
+                              ))}
+                            </Box>
+                          </Box>
+                        )}
+
+                        {/* Actions */}
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, pt: 1 }}>
+                          <IconButton 
+                            size="small" 
+                            onClick={() => handleEditTransaction(transaction)}
+                            sx={{ color: 'primary.main' }}
+                          >
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton 
+                            size="small" 
+                            color="error" 
+                            onClick={() => handleDeleteClick(transaction)}
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </Box>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </Stack>
           ) : (
+            // Desktop Table View
             <TableContainer component={Paper} variant="outlined" sx={{ mt: 2 }}>
               <Table>
                 <TableHead>
@@ -281,9 +407,14 @@ export default function AllTransactionsTab() {
                           )}
                         </TableCell>
                         <TableCell>
-                          {transaction.category_id ? (
-                            <Chip label="Category" size="small" />
-                          ) : (
+                          {transaction.category_id ? (() => {
+                            const category = getCategoryById(transaction.category_id);
+                            return category ? (
+                              <Chip label={category.name} size="small" />
+                            ) : (
+                              <Typography variant="caption" color="text.secondary">-</Typography>
+                            );
+                          })() : (
                             <Typography variant="caption" color="text.secondary">-</Typography>
                           )}
                         </TableCell>

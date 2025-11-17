@@ -85,21 +85,20 @@ export default function Dashboard({ onNavigate }) {
         ? Math.round((transactionsWithCategory / transactions.length) * 100)
         : 0;
 
-      // Spending breakdown by category (current month)
+      // Spending breakdown by category (current month - only negative transactions = expenses)
       const categorySpending = {};
+      
       monthTransactions.forEach(t => {
         if (t.category_id) {
           const category = categories.find(c => c.id === t.category_id);
-          const categoryName = category?.name || 'Uncategorized';
-          categorySpending[categoryName] = (categorySpending[categoryName] || 0) + Math.abs((t.amount_cents || 0) / 100);
-        } else {
-          categorySpending['Uncategorized'] = (categorySpending['Uncategorized'] || 0) + Math.abs((t.amount_cents || 0) / 100);
+          const categoryName = category?.name || `Category ${t.category_id}`;
+          categorySpending[categoryName] = (categorySpending[categoryName] || 0) + Math.abs((t.amount_cents || 0));
         }
       });
 
-      const spendingBreakdown = Object.entries(categorySpending).map(([name, value]) => ({
-        name,
-        value: parseFloat(value.toFixed(2))
+      const spendingBreakdown = Object.entries(categorySpending).map(([category, amount]) => ({
+        category,
+        amount: amount
       }));
 
       // Cashflow data (last 6 months)
