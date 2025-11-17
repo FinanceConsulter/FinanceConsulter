@@ -6,18 +6,14 @@ export default function CashflowTimelineChart({ data }) {
     return (
       <Box sx={{ p: 2, textAlign: 'center' }}>
         <Typography variant="h6" gutterBottom sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
-          Cashflow Timeline
+          Cashflow (Last 6 Months)
         </Typography>
         <Typography color="text.secondary">No data available</Typography>
       </Box>
     );
   }
 
-  const chartData = data.map(item => ({
-    month: item.month,
-    Income: item.income / 100,
-    Expenses: item.expense / 100
-  }));
+  const chartData = data;
 
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
