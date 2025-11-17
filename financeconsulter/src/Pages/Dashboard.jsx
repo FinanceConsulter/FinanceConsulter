@@ -216,7 +216,7 @@ export default function Dashboard({ onNavigate }) {
             <Box 
               sx={{ 
                 display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
+                gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
                 gap: { xs: 2, sm: 3 },
                 mb: 3
               }}
@@ -229,7 +229,7 @@ export default function Dashboard({ onNavigate }) {
                     Total Balance
                   </Typography>
                 </Box>
-                <Typography variant="h5" fontWeight={700} color="primary.main">
+                <Typography variant="h5" fontWeight={700} color="primary.main" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
                   CHF {totalBalance.toFixed(2)}
                 </Typography>
               </Box>
@@ -242,7 +242,7 @@ export default function Dashboard({ onNavigate }) {
                     Month Spend
                   </Typography>
                 </Box>
-                <Typography variant="h5" fontWeight={700} color="error.main">
+                <Typography variant="h5" fontWeight={700} color="error.main" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
                   CHF {monthSpend.toFixed(2)}
                 </Typography>
               </Box>
@@ -255,7 +255,7 @@ export default function Dashboard({ onNavigate }) {
                     AI Health Status
                   </Typography>
                 </Box>
-                <Typography variant="h5" fontWeight={700} color="success.main">
+                <Typography variant="h5" fontWeight={700} color="success.main" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
                   {aiHealthStatus}%
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
@@ -271,7 +271,7 @@ export default function Dashboard({ onNavigate }) {
                     Recent Activity
                   </Typography>
                 </Box>
-                <Typography variant="h5" fontWeight={700} color="info.main">
+                <Typography variant="h5" fontWeight={700} color="info.main" sx={{ fontSize: { xs: '1.25rem', sm: '1.5rem' } }}>
                   {recentCount}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
@@ -296,6 +296,9 @@ export default function Dashboard({ onNavigate }) {
                 <SpendingBreakdownChart data={dashboardData?.spending_breakdown} period="month" />
               </Box>
 
+              {/* Divider mobile only */}
+              <Divider sx={{ display: { xs: 'block', lg: 'none' }, my: 3 }} />
+
               {/* Latest Transactions */}
               <Box 
                 sx={{ 
@@ -313,6 +316,9 @@ export default function Dashboard({ onNavigate }) {
                   onViewAll={handleViewAllTransactions}
                 />
               </Box>
+
+              {/* Divider mobile only */}
+              <Divider sx={{ display: { xs: 'block', lg: 'none' }, my: 3 }} />
 
               {/* Cashflow Chart */}
               <Box sx={{ minHeight: { xs: 350, sm: 400, md: 450 } }}>
