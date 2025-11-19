@@ -73,11 +73,29 @@ export default function Login({ onSubmit, onNavigate }) {
                     </Box>
                 </Box>
 
+                {/* Mobile Header */}
+                <Box
+                    sx={{
+                        background: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #4c1d95 100%)',
+                        color: '#fff',
+                        p: 3,
+                        display: { xs: 'block', md: 'none' },
+                        textAlign: 'center'
+                    }}
+                >
+                    <Typography variant="h5" fontWeight={700}>
+                        FinanceConsulter
+                    </Typography>
+                    <Typography variant="body2" sx={{ opacity: 0.85, mt: 1 }}>
+                        Welcome back!
+                    </Typography>
+                </Box>
+
                 <Box
                     component="form"
                     onSubmit={handleSubmit}
                     sx={{
-                        p: { xs: 4, md: 6 },
+                        p: { xs: 3, md: 6 },
                         display: 'flex',
                         alignItems: 'center'
                     }}

@@ -161,27 +161,29 @@ export default function AIInsights() {
       </Card>
 
       {/* Category Filter Badges */}
-      <Stack 
-        direction={{ xs: 'column', sm: 'row' }}
-        spacing={2} 
+      <Box 
+        display="grid" 
+        gridTemplateColumns={{ xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }} 
+        gap={2} 
         mb={3}
       >
         <Card 
           sx={{ 
-            flex: 1, 
             bgcolor: filter === 'all' ? 'action.selected' : 'background.paper',
             cursor: 'pointer',
             '&:hover': { bgcolor: 'action.hover' },
-            minWidth: { xs: '100%', sm: 'auto' }
+            height: '100%',
+            transition: 'transform 0.2s',
+            '&:active': { transform: 'scale(0.98)' }
           }}
           onClick={() => setFilter('all')}
         >
-          <CardContent sx={{ textAlign: 'center', py: 2 }}>
-            <Typography variant="h2" sx={{ mb: 1, fontSize: { xs: '2.5rem', sm: '3.75rem' } }}>📊</Typography>
-            <Typography variant="h5" fontWeight={600}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 }, px: 1, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+            <Typography variant="h2" sx={{ mb: 0.5, fontSize: { xs: '2rem', sm: '3rem' } }}>📊</Typography>
+            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
               {counts.good + counts.warning + counts.alert}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.2, display: 'block' }}>
               All Insights
             </Typography>
           </CardContent>
@@ -189,20 +191,21 @@ export default function AIInsights() {
 
         <Card 
           sx={{ 
-            flex: 1, 
             bgcolor: filter === 'good' ? 'success.light' : 'background.paper',
             cursor: 'pointer',
             '&:hover': { bgcolor: 'success.lighter' },
-            minWidth: { xs: '100%', sm: 'auto' }
+            height: '100%',
+            transition: 'transform 0.2s',
+            '&:active': { transform: 'scale(0.98)' }
           }}
           onClick={() => setFilter('good')}
         >
-          <CardContent sx={{ textAlign: 'center', py: 2 }}>
-            <Typography variant="h2" sx={{ mb: 1, fontSize: { xs: '2.5rem', sm: '3.75rem' } }}>✅</Typography>
-            <Typography variant="h5" fontWeight={600}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 }, px: 1, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+            <Typography variant="h2" sx={{ mb: 0.5, fontSize: { xs: '2rem', sm: '3rem' } }}>✅</Typography>
+            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
               {counts.good}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.2, display: 'block' }}>
               Strengths
             </Typography>
           </CardContent>
@@ -210,20 +213,21 @@ export default function AIInsights() {
         
         <Card 
           sx={{ 
-            flex: 1, 
             bgcolor: filter === 'warning' ? 'warning.light' : 'background.paper',
             cursor: 'pointer',
             '&:hover': { bgcolor: 'warning.lighter' },
-            minWidth: { xs: '100%', sm: 'auto' }
+            height: '100%',
+            transition: 'transform 0.2s',
+            '&:active': { transform: 'scale(0.98)' }
           }}
           onClick={() => setFilter('warning')}
         >
-          <CardContent sx={{ textAlign: 'center', py: 2 }}>
-            <Typography variant="h2" sx={{ mb: 1, fontSize: { xs: '2.5rem', sm: '3.75rem' } }}>⚠️</Typography>
-            <Typography variant="h5" fontWeight={600}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 }, px: 1, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+            <Typography variant="h2" sx={{ mb: 0.5, fontSize: { xs: '2rem', sm: '3rem' } }}>⚠️</Typography>
+            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
               {counts.warning}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.2, display: 'block' }}>
               Watch Areas
             </Typography>
           </CardContent>
@@ -231,25 +235,26 @@ export default function AIInsights() {
         
         <Card 
           sx={{ 
-            flex: 1, 
             bgcolor: filter === 'alert' ? 'error.light' : 'background.paper',
             cursor: 'pointer',
             '&:hover': { bgcolor: 'error.lighter' },
-            minWidth: { xs: '100%', sm: 'auto' }
+            height: '100%',
+            transition: 'transform 0.2s',
+            '&:active': { transform: 'scale(0.98)' }
           }}
           onClick={() => setFilter('alert')}
         >
-          <CardContent sx={{ textAlign: 'center', py: 2 }}>
-            <Typography variant="h2" sx={{ mb: 1, fontSize: { xs: '2.5rem', sm: '3.75rem' } }}>🔴</Typography>
-            <Typography variant="h5" fontWeight={600}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 }, px: 1, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+            <Typography variant="h2" sx={{ mb: 0.5, fontSize: { xs: '2rem', sm: '3rem' } }}>🔴</Typography>
+            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
               {counts.alert}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.2, display: 'block' }}>
               Urgent Alerts
             </Typography>
           </CardContent>
         </Card>
-      </Stack>
+      </Box>
 
       {/* Insights List */}
       <Stack spacing={2}>

@@ -11,6 +11,9 @@ import {
   Snackbar,
   useMediaQuery,
   useTheme,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
@@ -19,6 +22,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import ProfileTab from './Settings/ProfileTab';
 import SecurityTab from './Settings/SecurityTab';
@@ -39,6 +43,7 @@ export default function Settings() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
   const [tabValue, setTabValue] = useState(0);
+  const [expanded, setExpanded] = useState('panel0'); // For mobile accordion
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
@@ -47,6 +52,10 @@ export default function Settings() {
   useEffect(() => {
     fetchUserData();
   }, []);
+
+  const handleAccordionChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   const fetchUserData = async () => {
     try {
@@ -85,24 +94,33 @@ export default function Settings() {
     );
   }
 
+  const settingsSections = [
+    { id: 'panel0', label: 'Profile', icon: <PersonIcon />, component: <ProfileTab user={user} onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
+    { id: 'panel1', label: 'Security', icon: <LockIcon />, component: <SecurityTab user={user} onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
+    { id: 'panel2', label: 'Tags', icon: <LabelIcon />, component: <TagsTab onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
+    { id: 'panel3', label: 'Categories', icon: <CategoryIcon />, component: <CategoriesTab onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
+    { id: 'panel4', label: 'Accounts', icon: <AccountBalanceIcon />, component: <AccountsTab onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
+  ];
+
   return (
     <Box 
       sx={{ 
         width: '100%',
         minHeight: '100vh',
-        overflowX: 'hidden',
         display: 'flex',
         justifyContent: 'center',
-        boxSizing: 'border-box'
+        bgcolor: 'background.default',
+        overflowX: 'hidden'
       }}
     >
       <Box 
         sx={{ 
           width: '100%',
-          maxWidth: { xs: 'calc(95vw - 32px)', sm: 'calc(95vw - 48px)', md: '1200px' },
+          maxWidth: '1200px',
           p: { xs: 2, sm: 3 },
-          pb: { xs: 6, sm: 4 },
-          boxSizing: 'border-box'
+          pb: { xs: 10, sm: 4 },
+          boxSizing: 'border-box',
+          overflowX: 'hidden'
         }}
       >
         <Typography variant="h4" fontWeight={600} gutterBottom sx={{ fontSize: { xs: '1.75rem', sm: '2.125rem' } }}>
@@ -112,158 +130,118 @@ export default function Settings() {
           Manage your account settings and preferences
         </Typography>
 
-        <Card>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs 
-              value={tabValue} 
-              onChange={(e, newValue) => setTabValue(newValue)} 
-              variant="scrollable" 
-              scrollButtons="auto"
-              allowScrollButtonsMobile
-              visibleScrollbar={false}
-              sx={{
-                minHeight: { xs: 64, sm: 64 },
-                '& .MuiTabs-scrollButtons': {
-                  width: { xs: 36, sm: 40 },
-                  '&.Mui-disabled': { opacity: 0.3 }
-                },
-                '& .MuiTabs-scroller': {
-                  overflow: 'hidden !important'
-                },
-                '& .MuiTab-root': {
-                  minHeight: { xs: 64, sm: 64 },
-                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                  fontWeight: { xs: 600, sm: 400 },
-                  minWidth: { xs: 92, sm: 100 },
-                  maxWidth: { xs: 95, sm: 160 },
-                  px: { xs: 0.75, sm: 2 },
-                  py: { xs: 1, sm: 1.5 },
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  gap: { xs: 0.5, sm: 0 },
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'clip',
-                  '& .MuiTab-iconWrapper': {
-                    fontSize: { xs: '1.25rem', sm: '1.25rem' },
-                    marginRight: { xs: 0, sm: 1 },
-                    marginBottom: { xs: 0.5, sm: 0 }
-                  }
-                }
-              }}
-            >
-              <Tab 
-                label="Profile" 
-                icon={<PersonIcon />} 
-                iconPosition={isMobile ? 'top' : 'start'}
-                aria-label="Profile"
-              />
-              <Tab 
-                label="Security" 
-                icon={<LockIcon />} 
-                iconPosition={isMobile ? 'top' : 'start'}
-                aria-label="Security"
-              />
-              <Tab 
-                label="Tags" 
-                icon={<LabelIcon />} 
-                iconPosition={isMobile ? 'top' : 'start'}
-                aria-label="Tags"
-              />
-              <Tab 
-                label="Categories" 
-                icon={<CategoryIcon />} 
-                iconPosition={isMobile ? 'top' : 'start'}
-                aria-label="Categories"
-              />
-              <Tab 
-                label="Accounts" 
-                icon={<AccountBalanceIcon />} 
-                iconPosition={isMobile ? 'top' : 'start'}
-                aria-label="Accounts"
-              />
-            </Tabs>
+        {isMobile ? (
+          // Mobile View: Accordions
+          <Box>
+            {settingsSections.map((section) => (
+              <Accordion 
+                key={section.id}
+                expanded={expanded === section.id} 
+                onChange={handleAccordionChange(section.id)}
+                sx={{ mb: 1, '&:before': { display: 'none' }, borderRadius: '8px !important', overflow: 'hidden' }}
+                elevation={2}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls={`${section.id}-content`}
+                  id={`${section.id}-header`}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, color: 'primary.main' }}>
+                    {section.icon}
+                    <Typography fontWeight={500}>{section.label}</Typography>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails sx={{ p: 2, pt: 0 }}>
+                  {section.component}
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </Box>
+        ) : (
+          // Desktop View: Tabs
+          <Card>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs 
+                value={tabValue} 
+                onChange={(e, newValue) => setTabValue(newValue)} 
+                variant="scrollable" 
+                scrollButtons="auto"
+                allowScrollButtonsMobile
+                sx={{
+                  minHeight: 64,
+                  '& .MuiTab-root': {
+                    minHeight: 64,
+                    fontSize: '0.875rem',
+                    fontWeight: 400,
+                    minWidth: 'auto',
+                    px: 2,
+                    py: 1.5,
+                    flexDirection: 'row',
+                    gap: 1,
+                    '& .MuiTab-iconWrapper': {
+                      fontSize: '1.25rem',
+                      marginRight: '0 !important',
+                      marginBottom: '0 !important'
+                    }
+                  }
+                }}
+              >
+                {settingsSections.map((section, index) => (
+                  <Tab 
+                    key={index}
+                    label={section.label} 
+                    icon={section.icon} 
+                    iconPosition="start"
+                  />
+                ))}
+              </Tabs>
+            </Box>
 
-          <CardContent sx={{ p: { xs: 2, sm: 3 }, pb: { xs: 4, sm: 4 } }}>
-          <TabPanel value={tabValue} index={0}>
-            <ProfileTab 
-              user={user} 
-              onSuccess={setSuccess} 
-              onError={setError} 
-              isMobile={isMobile}
-            />
-          </TabPanel>
+            <CardContent sx={{ p: 3, pb: 4 }}>
+              {settingsSections.map((section, index) => (
+                <TabPanel key={index} value={tabValue} index={index}>
+                  {section.component}
+                </TabPanel>
+              ))}
+            </CardContent>
+          </Card>
+        )}
 
-          <TabPanel value={tabValue} index={1}>
-            <SecurityTab 
-              user={user} 
-              onSuccess={setSuccess} 
-              onError={setError} 
-              isMobile={isMobile}
-            />
-          </TabPanel>
-
-          <TabPanel value={tabValue} index={2}>
-            <TagsTab 
-              onSuccess={setSuccess} 
-              onError={setError} 
-              isMobile={isMobile}
-            />
-          </TabPanel>
-
-          <TabPanel value={tabValue} index={3}>
-            <CategoriesTab 
-              onSuccess={setSuccess} 
-              onError={setError} 
-              isMobile={isMobile}
-            />
-          </TabPanel>
-
-          <TabPanel value={tabValue} index={4}>
-            <AccountsTab 
-              onSuccess={setSuccess} 
-              onError={setError} 
-              isMobile={isMobile}
-            />
-          </TabPanel>
-        </CardContent>
-      </Card>
-
-      {/* Error Snackbar */}
-      <Snackbar 
-        open={!!error} 
-        autoHideDuration={6000} 
-        onClose={() => setError(null)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={() => setError(null)} 
-          severity="error" 
-          variant="filled"
-          icon={<ErrorIcon />}
-          sx={{ width: '100%', maxWidth: '500px' }}
+        {/* Error Snackbar */}
+        <Snackbar 
+          open={!!error} 
+          autoHideDuration={6000} 
+          onClose={() => setError(null)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-          {error}
-        </Alert>
-      </Snackbar>
+          <Alert 
+            onClose={() => setError(null)} 
+            severity="error" 
+            variant="filled"
+            icon={<ErrorIcon />}
+            sx={{ width: '100%', maxWidth: '500px' }}
+          >
+            {error}
+          </Alert>
+        </Snackbar>
 
-      {/* Success Snackbar */}
-      <Snackbar 
-        open={!!success} 
-        autoHideDuration={3000} 
-        onClose={() => setSuccess(null)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={() => setSuccess(null)} 
-          severity="success" 
-          variant="filled"
-          icon={<CheckCircleIcon />}
-          sx={{ width: '100%', maxWidth: '500px' }}
+        {/* Success Snackbar */}
+        <Snackbar 
+          open={!!success} 
+          autoHideDuration={3000} 
+          onClose={() => setSuccess(null)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-          {success}
-        </Alert>
-      </Snackbar>
+          <Alert 
+            onClose={() => setSuccess(null)} 
+            severity="success" 
+            variant="filled"
+            icon={<CheckCircleIcon />}
+            sx={{ width: '100%', maxWidth: '500px' }}
+          >
+            {success}
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
   );

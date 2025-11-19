@@ -34,20 +34,21 @@ export default function Transactions() {
     <Box 
       sx={{ 
         width: '100%',
-        maxWidth: '100vw',
-        overflowX: 'hidden',
+        minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
-        boxSizing: 'border-box'
+        bgcolor: 'background.default',
+        overflowX: 'hidden'
       }}
     >
       <Box 
         sx={{ 
           width: '100%',
-          maxWidth: { xs: 'calc(100vw - 32px)', sm: 'calc(100vw - 48px)', md: '1200px' },
+          maxWidth: '1200px',
           p: { xs: 2, sm: 3 },
-          pb: { xs: 6, sm: 4 },
-          boxSizing: 'border-box'
+          pb: { xs: 10, sm: 4 },
+          boxSizing: 'border-box',
+          overflowX: 'hidden'
         }}
       >
         {/* Header */}
@@ -68,7 +69,7 @@ export default function Transactions() {
               allowScrollButtonsMobile
               visibleScrollbar={false}
               sx={{
-                minHeight: { xs: 64, sm: 64 },
+                minHeight: { xs: 56, sm: 64 },
                 '& .MuiTabs-scrollButtons': {
                   width: { xs: 36, sm: 40 },
                   '&.Mui-disabled': { opacity: 0.3 }
@@ -77,18 +78,18 @@ export default function Transactions() {
                   overflow: 'hidden !important'
                 },
                 '& .MuiTab-root': {
-                  minHeight: { xs: 64, sm: 64 },
-                  fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                  fontWeight: { xs: 600, sm: 400 },
-                  minWidth: { xs: 100, sm: 100 },
-                  maxWidth: { xs: 140, sm: 180 },
+                  minHeight: { xs: 56, sm: 64 },
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                  fontWeight: { xs: 500, sm: 400 },
+                  minWidth: { xs: 80, sm: 100 },
+                  maxWidth: { xs: 120, sm: 180 },
                   px: { xs: 1, sm: 2 },
                   py: { xs: 1, sm: 1.5 },
                   flexDirection: { xs: 'column', sm: 'row' },
                   gap: { xs: 0.5, sm: 0 },
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'clip',
+                  whiteSpace: 'normal',
+                  textAlign: 'center',
+                  lineHeight: 1.2,
                   '& .MuiTab-iconWrapper': {
                     fontSize: { xs: '1.25rem', sm: '1.25rem' },
                     marginRight: { xs: 0, sm: 1 },

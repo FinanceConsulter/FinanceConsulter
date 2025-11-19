@@ -414,23 +414,24 @@ export default function QuickEntry() {
         )}
 
         {/* Action Buttons */}
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+        <Stack direction="row" spacing={2}>
           <Button 
-            fullWidth={isMobile}
+            fullWidth
             size="large" 
             variant="contained" 
             onClick={handleSubmit} 
             disabled={!amount || !description || !selectedAccount || loading}
-            sx={{ flex: 1 }}
+            sx={{ flex: 2 }}
           >
-            {loading ? <CircularProgress size={24} /> : 'Save Transaction'}
+            {loading ? <CircularProgress size={24} /> : 'Save'}
           </Button>
           <Button 
-            fullWidth={isMobile}
+            fullWidth
             size="large" 
             variant="outlined" 
             onClick={handleReset}
             disabled={loading}
+            sx={{ flex: 1 }}
           >
             Reset
           </Button>

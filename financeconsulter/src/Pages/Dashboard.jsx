@@ -184,20 +184,21 @@ export default function Dashboard({ onNavigate }) {
     <Box 
       sx={{ 
         width: '100%',
-        maxWidth: '100vw',
-        overflowX: 'hidden',
+        minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
-        boxSizing: 'border-box'
+        bgcolor: 'background.default',
+        overflowX: 'hidden'
       }}
     >
       <Box 
         sx={{ 
           width: '100%',
-          maxWidth: { xs: 'calc(100vw - 32px)', sm: 'calc(100vw - 48px)', md: '1200px' },
+          maxWidth: '1200px',
           p: { xs: 2, sm: 3 },
-          pb: { xs: 6, sm: 4 },
-          boxSizing: 'border-box'
+          pb: { xs: 10, sm: 4 }, // Extra padding at bottom for mobile nav if needed
+          boxSizing: 'border-box',
+          overflowX: 'hidden'
         }}
       >
         {/* Header */}
