@@ -72,3 +72,19 @@ weights/
 # datasets/
 # *.csv
 # *.parquet
+
+# Images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+*.webp
+*.ico
+*.tiff
+*.bmp
+pics/
+**/images/
+
+# Environment files
+.env
