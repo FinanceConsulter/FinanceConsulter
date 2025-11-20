@@ -182,8 +182,9 @@ function App() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          width: { xs: '100%', md: `calc(100% - 240px)` }
+          p: { xs: 1, md: 3 },
+          width: { xs: '100%', md: `calc(100% - 240px)` },
+          overflowX: 'hidden'
         }}
       >
         <Toolbar /> {/* header */}
