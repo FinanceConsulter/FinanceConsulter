@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "Longboards",
+        "date": "01/11/2019",
+        "menu": [
+            {
+                "Artikel": "Green Salad Ranch",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Wagyu Cheeseburger Medium Well Garlic Fries ADD RAW ONIONS& BACON PLZ",
+                "Total": "19.00"
+            },
+            {
+                "Artikel": "Drink of the Day Tea",
+                "Total": "9.75"
+            },
+            {
+                "Artikel": "Ohana Discount Breakfast",
+                "Total": "-3.30"
+            }
+        ],
+        "total": "41.31"
+    }
+}

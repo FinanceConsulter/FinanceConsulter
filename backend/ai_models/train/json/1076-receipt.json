@@ -1,0 +1,12 @@
+{
+    "data": {
+        "merchant": "Paradise Restaurant",
+        "date": "2018-07-21",
+        "menu": [
+            {
+                "Artikel": "Order",
+                "Preis": "20.00"
+            }
+        ]
+    }
+}

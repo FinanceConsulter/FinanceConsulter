@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "GRAND LUX CAFE",
+        "date": "04/25/15",
+        "menu": [
+            {
+                "Artikel": "Coffee",
+                "Total": "2.95"
+            },
+            {
+                "Artikel": "Chicken Parmesan",
+                "Total": "17.95"
+            },
+            {
+                "Artikel": "Prime Top Sirloin",
+                "Total": "25.95"
+            },
+            {
+                "Artikel": "The Bacon-Cheese Burger",
+                "Total": "13.95"
+            },
+            {
+                "Artikel": "Coffee",
+                "Total": "2.95"
+            }
+        ],
+        "total": "69.25"
+    }
+}

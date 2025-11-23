@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "New Asia Buffet",
+        "date": "ov-15-06-N",
+        "menu": [
+            {
+                "Artikel": "2 Weeken Dinner",
+                "Total": "27.96"
+            },
+            {
+                "Artikel": "2 Coke",
+                "Total": "3.16"
+            }
+        ],
+        "total": "33.92"
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "data": {
+        "merchant": "IN-N-OUT BURGER ESCONDIDO",
+        "date": "2013-08-10",
+        "menu": [
+            {
+                "Artikel": "DblDbl",
+                "Preis": "3.30"
+            },
+            {
+                "Artikel": "3X3",
+                "Preis": "4.35"
+            },
+            {
+                "Artikel": "FF",
+                "Preis": "1.60"
+            },
+            {
+                "Artikel": "FF Animal",
+                "Preis": "3.50"
+            },
+            {
+                "Artikel": "Lg Coke",
+                "Preis": "1.70"
+            },
+            {
+                "Artikel": "Med Coke",
+                "Preis": "1.50"
+            },
+            {
+                "Artikel": "C Shk",
+                "Preis": "2.05"
+            }
+        ]
+    }
+}

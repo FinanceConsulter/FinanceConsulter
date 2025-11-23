@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "IN-N-OUT BURGER SANTA CLARA",
+        "date": "2012-04-27",
+        "menu": [
+            {
+                "Artikel": "HAMB W GR X L X T M Inst pro",
+                "Total": "2.00"
+            }
+        ],
+        "total": "2.17"
+    }
+}

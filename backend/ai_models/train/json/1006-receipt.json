@@ -1,0 +1,41 @@
+{
+    "data": {
+        "merchant": "SASKA'S",
+        "date": "08/15/2017",
+        "menu": [
+            {
+                "Artikel": "Draft Blackhouse",
+                "Total": "7.00"
+            },
+            {
+                "Artikel": "\"Cowboy\" 16oz Ribeye",
+                "Total": "45.00"
+            },
+            {
+                "Artikel": "Make It Blue",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Add Lobster",
+                "Total": "21.00"
+            },
+            {
+                "Artikel": "CK Manhattan (2 @5.00)",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "Whistle Pig Rye 10yr (2 @20.00)",
+                "Total": "40.00"
+            },
+            {
+                "Artikel": "\"Duke\" 16oz Top Sirloin",
+                "Total": "34.00"
+            },
+            {
+                "Artikel": "Make It Blue",
+                "Total": "5.00"
+            }
+        ],
+        "total": "179.94"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "data": {
+        "merchant": "Yogurtland",
+        "date": "2018-09-07",
+        "menu": [
+            {
+                "Artikel": "Yogurt",
+                "Preis": "17.80"
+            }
+        ]
+    }
+}

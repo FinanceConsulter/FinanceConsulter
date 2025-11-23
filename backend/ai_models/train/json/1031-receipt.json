@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "Laurel Tavern Hermosa Beach",
+        "date": "01/12/19",
+        "menu": [
+            {
+                "Artikel": "1 BTL BEER",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "1 BRUSSELS SPROUTS",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "1 CANTONESE TENDERS",
+                "Total": "11.00"
+            },
+            {
+                "Artikel": "1 GRILLED CHEESE",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "1 $ ADD GARLIC FRIES",
+                "Total": "4.50"
+            }
+        ],
+        "total": "44.35"
+    }
+}

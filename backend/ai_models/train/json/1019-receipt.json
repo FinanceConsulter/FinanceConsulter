@@ -1,0 +1,41 @@
+{
+    "data": {
+        "merchant": "Grotto Pizzeria & Tavern",
+        "date": "5/12/2017",
+        "menu": [
+            {
+                "Artikel": "1 Ultra",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "1 Bells Draft",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "1 Cheese Bread",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "1 APPS OUT FIRST",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "1 Caprese",
+                "Total": "7.00"
+            },
+            {
+                "Artikel": "1 SALAD OUT FIRST",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "1 Reg Carnivore (s) Pepper Rings (s)",
+                "Total": "12.50"
+            },
+            {
+                "Artikel": "1 Reg Margherita (s)",
+                "Total": "10.00"
+            }
+        ],
+        "total": "45.58"
+    }
+}

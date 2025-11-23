@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "McDonald's Restaurant #3100",
+        "date": "02/07/2013",
+        "menu": [
+            {
+                "Artikel": "1 Dbl Qtr Cheese Special Request",
+                "Total": "5.99"
+            },
+            {
+                "Artikel": "ADD Leaf Lettuce",
+                "Total": "0.25"
+            },
+            {
+                "Artikel": "ADD Mac Sauce",
+                "Total": "0.40"
+            }
+        ],
+        "total": "7.27"
+    }
+}

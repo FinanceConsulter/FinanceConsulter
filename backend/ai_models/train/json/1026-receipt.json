@@ -1,0 +1,53 @@
+{
+    "data": {
+        "merchant": "CHRIS'S HAMBURGERS",
+        "date": "07/22/2018",
+        "menu": [
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "21.49"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "0.50"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "0.50"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "0.50"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "0.50"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "7.89"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "3.09"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "5.49"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "5.49"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "0.99"
+            },
+            {
+                "Artikel": "TAXABLE T1",
+                "Total": "0.99"
+            }
+        ],
+        "total": "51.82"
+    }
+}

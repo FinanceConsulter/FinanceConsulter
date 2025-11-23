@@ -1,0 +1,49 @@
+{
+    "data": {
+        "merchant": "RINCON MEXICANO",
+        "date": "09-May-2017",
+        "menu": [
+            {
+                "Artikel": "2 Arroz",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "2 Taco De Pescado",
+                "Total": "7.00"
+            },
+            {
+                "Artikel": "2 Taco Tuesday Pollo",
+                "Total": "2.00"
+            },
+            {
+                "Artikel": "1 Taco D Carne Asada",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "1 Taco D Chorizo",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "1 Taco Tuesday Pastor",
+                "Total": "1.00"
+            },
+            {
+                "Artikel": "1 Horchata",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "1 Taco Tuesday Pollo",
+                "Total": "1.00"
+            },
+            {
+                "Artikel": "1 Taco D Cochinita",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "1 Taco D Carnitas",
+                "Total": "2.99"
+            }
+        ],
+        "total": "30.98"
+    }
+}

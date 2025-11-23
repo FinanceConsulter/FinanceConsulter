@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "ALBETOS MEXICAN FOOD",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "3 ASADA TACO",
+                "Total": "8.10"
+            },
+            {
+                "Artikel": "ATM CHARGE",
+                "Total": "0.75"
+            }
+        ],
+        "total": "9.58"
+    }
+}

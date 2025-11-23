@@ -1,0 +1,24 @@
+{
+    "data": {
+        "merchant": "MOOYAH Burgers Fries & Shakes #199",
+        "date": "2014-03-22",
+        "menu": [
+            {
+                "Artikel": "1 Little MOO Shake",
+                "Preis": "2.99"
+            },
+            {
+                "Artikel": "1 MOOYAH Burger",
+                "Preis": "4.99"
+            },
+            {
+                "Artikel": "1 MOOYAH American Cheese",
+                "Preis": "0.70"
+            },
+            {
+                "Artikel": "1 Regular Fries",
+                "Preis": "3.29"
+            }
+        ]
+    }
+}

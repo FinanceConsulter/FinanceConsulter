@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "Dona Mercedes Restaurant",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "1 CHicharon",
+                "Total": "2.25"
+            },
+            {
+                "Artikel": "3 Pupusa Queso",
+                "Total": "6.75"
+            },
+            {
+                "Artikel": "1 Platanos Orden",
+                "Total": "7.75"
+            },
+            {
+                "Artikel": "1 Diet coke",
+                "Total": "1.50"
+            },
+            {
+                "Artikel": "2 Quesadilla salvadorena",
+                "Total": "4.00"
+            }
+        ],
+        "total": "24.47"
+    }
+}

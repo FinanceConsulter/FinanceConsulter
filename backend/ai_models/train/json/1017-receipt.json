@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "UMIX",
+        "date": "4/24/2016",
+        "menu": [
+            {
+                "Artikel": "100027 PARIS",
+                "Total": "5.25"
+            },
+            {
+                "Artikel": "100026 LE CLASSIQUE",
+                "Total": "4.95"
+            }
+        ],
+        "total": "11.04"
+    }
+}

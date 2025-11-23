@@ -1,0 +1,24 @@
+{
+    "data": {
+        "merchant": "Pita Pita - Lombard",
+        "date": "2017-05-04",
+        "menu": [
+            {
+                "Artikel": "20 Mixed Meat Lunch",
+                "Preis": "180.00"
+            },
+            {
+                "Artikel": "1 Reg 12pc Falafel",
+                "Preis": "6.50"
+            },
+            {
+                "Artikel": "1 Reg 12pc Falafel",
+                "Preis": "6.50"
+            },
+            {
+                "Artikel": "1 Miscelanceous",
+                "Preis": "20.00"
+            }
+        ]
+    }
+}

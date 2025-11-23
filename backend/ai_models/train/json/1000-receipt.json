@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "HAMMOCKS TRADING COMPANY",
+        "date": "3/10/2017",
+        "menu": [
+            {
+                "Artikel": "Coke",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Shrimp Entree",
+                "Total": "21.00"
+            },
+            {
+                "Artikel": "BBQ & Blue Chz chips",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Discount:BBQ & Blue Chz",
+                "Total": "-6.00"
+            },
+            {
+                "Artikel": "Sprite",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Lobster Roll",
+                "Total": "21.00"
+            }
+        ],
+        "total": "50.29"
+    }
+}

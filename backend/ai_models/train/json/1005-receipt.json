@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "GOLDEN BOWL TERIYAKI",
+        "date": "05-18-2019",
+        "menu": [
+            {
+                "Artikel": "1 #1 CHKN PLATE",
+                "Total": "9.39"
+            },
+            {
+                "Artikel": "1 + AVOCADO",
+                "Total": "1.95"
+            },
+            {
+                "Artikel": "1 MD. DRINK",
+                "Total": "2.29"
+            }
+        ],
+        "total": "15.03"
+    }
+}

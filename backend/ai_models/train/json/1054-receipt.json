@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "BIG JO'S",
+        "date": "Jan 25, 2018",
+        "menu": [
+            {
+                "Artikel": "HB Regular Price",
+                "Total": "4.00"
+            },
+            {
+                "Artikel": "French Fries x 2 ($2.50 each)",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Turkey Burger Combo",
+                "Total": "8.85"
+            },
+            {
+                "Artikel": "HB Combo, Grilled Onion ($0.75)",
+                "Total": "8.35"
+            },
+            {
+                "Artikel": "CB x 2 ($7.85 each) Combo",
+                "Total": "15.70"
+            },
+            {
+                "Artikel": "CB Regular Price, Grilled Onion ($0.75)",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Chill Fries",
+                "Total": "4.35"
+            }
+        ],
+        "total": "56.50"
+    }
+}

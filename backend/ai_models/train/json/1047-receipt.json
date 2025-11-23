@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "730 Tavern Kitchen & Patio",
+        "date": "09/23/2017",
+        "menu": [
+            {
+                "Artikel": "Manhattan (3 @16.00)",
+                "Total": "48.00"
+            },
+            {
+                "Artikel": "(3)Makers Mark",
+                "Total": "28.50"
+            },
+            {
+                "Artikel": "Grey Goose (3 @9.50)",
+                "Total": "28.50"
+            },
+            {
+                "Artikel": "Rocks (3 @1.00)",
+                "Total": "3.00"
+            }
+        ],
+        "total": "85.07"
+    }
+}

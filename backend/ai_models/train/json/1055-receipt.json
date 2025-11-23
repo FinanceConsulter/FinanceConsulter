@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "WINGS & THINGS",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "1 #7 2PC R&B MEAL ICED TEA SUB CORNBREAD",
+                "Total": "5.99"
+            },
+            {
+                "Artikel": "1 #3 3WING MEAL SIERRA",
+                "Total": "6.99"
+            },
+            {
+                "Artikel": "1 #3 3WING MEAL ICED TEA",
+                "Total": "6.99"
+            },
+            {
+                "Artikel": "1 #3 3WING MEAL ICED TEA",
+                "Total": "6.99"
+            },
+            {
+                "Artikel": "1 COLL GRN - SMALL",
+                "Total": "1.19"
+            }
+        ],
+        "total": "30.58"
+    }
+}

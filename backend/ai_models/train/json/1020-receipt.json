@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Deccan Spice",
+        "date": "7/26/2019",
+        "menu": [
+            {
+                "Artikel": "1 Dal Fry",
+                "Total": "10.99"
+            },
+            {
+                "Artikel": "1 Paneer Butter Masala",
+                "Total": "12.99"
+            },
+            {
+                "Artikel": "2 rice",
+                "Total": "3.98"
+            },
+            {
+                "Artikel": "1 Deccan Special Biryani",
+                "Total": "14.99"
+            },
+            {
+                "Artikel": "1 rice",
+                "Total": "1.99"
+            },
+            {
+                "Artikel": "Online Offer",
+                "Total": "-8.99"
+            }
+        ],
+        "total": "47.02"
+    }
+}

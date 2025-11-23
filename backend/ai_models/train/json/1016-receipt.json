@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "Chef Wang",
+        "date": "02/02/19",
+        "menu": [
+            {
+                "Artikel": "Scallion Pancake",
+                "Total": "5.25"
+            },
+            {
+                "Artikel": "Little Juicy Pork Buns",
+                "Total": "9.95"
+            },
+            {
+                "Artikel": "Beef w Bak Choy (L)",
+                "Total": "8.75"
+            },
+            {
+                "Artikel": "Hunan Beef (L)",
+                "Total": "8.75"
+            }
+        ],
+        "total": "35.52"
+    }
+}

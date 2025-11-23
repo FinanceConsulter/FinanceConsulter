@@ -1,0 +1,24 @@
+{
+    "data": {
+        "merchant": "1660 India Street",
+        "date": "2017-12-17",
+        "menu": [
+            {
+                "Artikel": "Karma Cab Sauv",
+                "Preis": "12.00"
+            },
+            {
+                "Artikel": "Douglass Green SB",
+                "Preis": "11.00"
+            },
+            {
+                "Artikel": "Green Curry Scallops",
+                "Preis": "27.95"
+            },
+            {
+                "Artikel": "Piri Piri Chicken",
+                "Preis": "23.75"
+            }
+        ]
+    }
+}

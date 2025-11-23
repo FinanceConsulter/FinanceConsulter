@@ -1,0 +1,16 @@
+{
+    "data": {
+        "merchant": "River Village Family Restaurant",
+        "date": "2019-08-12",
+        "menu": [
+            {
+                "Artikel": "Apple French Toast",
+                "Preis": "7.99"
+            },
+            {
+                "Artikel": "Coffee",
+                "Preis": "2.29"
+            }
+        ]
+    }
+}

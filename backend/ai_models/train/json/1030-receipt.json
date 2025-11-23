@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "VILLA D'ESTE RESTAURANT",
+        "date": "12/8/2017",
+        "menu": [
+            {
+                "Artikel": "1 Coffee",
+                "Total": "3.50"
+            },
+            {
+                "Artikel": "1 Glass House Wine",
+                "Total": "9.95"
+            },
+            {
+                "Artikel": "1 Jumbo Coctail Shrimp",
+                "Total": "12.95"
+            },
+            {
+                "Artikel": "1 Escargot Bourguignonne",
+                "Total": "10.95"
+            },
+            {
+                "Artikel": "1 Veal Zingaria",
+                "Total": "23.95"
+            },
+            {
+                "Artikel": "1 Duckling ala Arancio",
+                "Total": "25.95"
+            }
+        ],
+        "total": "94.78"
+    }
+}

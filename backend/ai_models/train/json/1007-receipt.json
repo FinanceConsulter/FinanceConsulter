@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Akira",
+        "date": "2018-11-18",
+        "menu": [
+            {
+                "Artikel": "1 Hi Chk Steak(K) Med Noodle",
+                "Total": "22.95"
+            },
+            {
+                "Artikel": "1 Sushi Deluxe",
+                "Total": "20.75"
+            },
+            {
+                "Artikel": "1 Glenmont Roll",
+                "Total": "15.95"
+            },
+            {
+                "Artikel": "1 Philly R",
+                "Total": "6.50"
+            },
+            {
+                "Artikel": "2 Sp Tuna R",
+                "Total": "13.00"
+            },
+            {
+                "Artikel": "1 Salmon R",
+                "Total": "5.50"
+            }
+        ],
+        "total": "93.58"
+    }
+}
