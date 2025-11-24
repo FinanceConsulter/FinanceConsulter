@@ -7,6 +7,7 @@
                 "Artikel": "Order",
                 "Preis": "20.00"
             }
-        ]
+        ],
+        "total": "20.00"
     }
 }
