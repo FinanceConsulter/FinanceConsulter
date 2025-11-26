@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "Bar Louie Huntsville",
+        "date": "2015-07-03",
+        "menu": [
+            {
+                "Artikel": "Whiskey",
+                "Total": "6.25"
+            }
+        ],
+        "total": "7.56"
+    }
+}

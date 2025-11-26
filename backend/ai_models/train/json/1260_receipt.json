@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "coop Bremgarten",
+        "date": "2025-07-16",
+        "menu": [
+            {
+                "Artikel": "Toast 900g",
+                "Total": "2.15"
+            },
+            {
+                "Artikel": "Pouletbrust geräuch",
+                "Total": "9.80"
+            },
+            {
+                "Artikel": "Pizza Rindsprosch",
+                "Total": "11.90"
+            },
+            {
+                "Artikel": "Poulet Nuggets pani",
+                "Total": "15.95"
+            },
+            {
+                "Artikel": "Rummi Xtremi 70cl",
+                "Total": "22.95"
+            }
+        ],
+        "total": "62.75"
+    }
+}

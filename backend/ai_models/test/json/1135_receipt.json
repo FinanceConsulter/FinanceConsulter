@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "E. BALDI",
+        "date": "2018-01-30",
+        "menu": [
+            {
+                "Artikel": "ICED TEA",
+                "Total": "4.50"
+            },
+            {
+                "Artikel": "ROMBO CARCIOFI FUNGH",
+                "Total": "48.00"
+            },
+            {
+                "Artikel": "SPARKLING WATER LARG",
+                "Total": "8.50"
+            },
+            {
+                "Artikel": "BRANZINO GRIGLIATO",
+                "Total": "40.00"
+            },
+            {
+                "Artikel": "CARPACCIO RED SNAPPE",
+                "Total": "33.00"
+            }
+        ],
+        "total": "146.73"
+    }
+}

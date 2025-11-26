@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Indian Restaurant (To Go)",
+        "date": "2018-12-31",
+        "menu": [
+            {
+                "Artikel": "TIKKA MASALA CHICKEN (MURGH)",
+                "Total": "20.00"
+            },
+            {
+                "Artikel": "PALAK (SPINACH) PANEER (CHEESE)",
+                "Total": "18.00"
+            },
+            {
+                "Artikel": "VEGAN BENGAN BHARTA*",
+                "Total": "17.00"
+            }
+        ],
+        "total": "58.30"
+    }
+}

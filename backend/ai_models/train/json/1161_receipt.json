@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Dominican Restaurant",
+        "date": "2018-11-10",
+        "menu": [
+            {
+                "Artikel": "Bistec Palomilla Enc W/Moro Gandules Hab Rojas, Red Bean",
+                "Total": "15.95"
+            },
+            {
+                "Artikel": "Spaghetti Con Pollo W/Moro Gandules Hab Rojas, Red Bean",
+                "Total": "14.95"
+            },
+            {
+                "Artikel": "Copa de Vino White Glass Pinot Gr",
+                "Total": "5.50"
+            },
+            {
+                "Artikel": "Lemonada Dine in",
+                "Total": "3.50"
+            },
+            {
+                "Artikel": "Jugo de Chinola Dine in 16oz",
+                "Total": "4.00"
+            },
+            {
+                "Artikel": "Gratuity",
+                "Total": "6.59"
+            }
+        ],
+        "total": "53.23"
+    }
+}

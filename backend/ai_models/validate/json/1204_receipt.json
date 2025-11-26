@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "coop Kriens Pilatusmarkt",
+        "date": "2025-11-22",
+        "menu": [
+            {
+                "Artikel": "Hygiene plus 101",
+                "Total": "10.85"
+            },
+            {
+                "Artikel": "Hygiene plus 201",
+                "Total": "19.95"
+            }
+        ],
+        "total": "30.80"
+    }
+}

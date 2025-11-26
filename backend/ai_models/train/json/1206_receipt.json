@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "BURGER KING PARMA EST",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "EXTRA HOT",
+                "Total": "0.50"
+            },
+            {
+                "Artikel": "LARGE ONION RINGS",
+                "Total": "3.40"
+            },
+            {
+                "Artikel": "THE PARMIGIANO REGGIANO B",
+                "Total": "9.10"
+            },
+            {
+                "Artikel": "CHILI CHEESE BITES x6",
+                "Total": "3.60"
+            },
+            {
+                "Artikel": "KING FUSION LION",
+                "Total": "3.20"
+            },
+            {
+                "Artikel": "CAPPUCCINO",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "CHEESY NACHOS",
+                "Total": "4.90"
+            },
+            {
+                "Artikel": "BACON KING FRIES CHEDDAR",
+                "Total": "4.10"
+            },
+            {
+                "Artikel": "CRISPY CHICKEN",
+                "Total": "4.90"
+            }
+        ],
+        "total": "33.70"
+    }
+}

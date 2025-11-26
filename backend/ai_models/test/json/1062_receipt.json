@@ -1,0 +1,53 @@
+{
+    "data": {
+        "merchant": "MARIANACCI'S RESTAURANT",
+        "date": "2017-02-18",
+        "menu": [
+            {
+                "Artikel": "PREM WHITE",
+                "Preis": "10.75"
+            },
+            {
+                "Artikel": "PREM RED",
+                "Preis": "10.75"
+            },
+            {
+                "Artikel": "DIET SDA",
+                "Preis": "3.75"
+            },
+            {
+                "Artikel": "7 UP",
+                "Preis": "3.25"
+            },
+            {
+                "Artikel": "VONG RIPIENE",
+                "Preis": "9.75"
+            },
+            {
+                "Artikel": "Chicken Parm",
+                "Preis": "21.75"
+            },
+            {
+                "Artikel": "SCAMPI MILAN",
+                "Preis": "25.75"
+            },
+            {
+                "Artikel": "LING VONG",
+                "Preis": "22.75"
+            },
+            {
+                "Artikel": "1/2 PASTA SP",
+                "Preis": "16.75"
+            },
+            {
+                "Artikel": "DIET SDA",
+                "Preis": "3.75"
+            },
+            {
+                "Artikel": "7 UP",
+                "Preis": "3.25"
+            }
+        ],
+        "total": "142.01"
+    }
+}

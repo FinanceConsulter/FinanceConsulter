@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "El Valle Mexican Restaurant",
+        "date": "2017-12-02",
+        "menu": [
+            {
+                "Artikel": "GUACAMOLE DIP",
+                "Total": "3.99"
+            },
+            {
+                "Artikel": "DIET COKE",
+                "Total": "2.15"
+            },
+            {
+                "Artikel": "LUNCH FAJITAS",
+                "Total": "7.75"
+            },
+            {
+                "Artikel": "TORTILLAS (3)",
+                "Total": "1.25"
+            },
+            {
+                "Artikel": "SOUR CREAM",
+                "Total": "1.25"
+            }
+        ],
+        "total": "17.75"
+    }
+}

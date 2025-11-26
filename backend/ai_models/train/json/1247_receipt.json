@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "coop pronto Shop Basel Butterstrasse",
+        "date": "2025-11-17",
+        "menu": [
+            {
+                "Artikel": "Coop Pronto Shop Fizzy 50cl Mandar.",
+                "Total": "2.00"
+            },
+            {
+                "Artikel": "Coop HigH Prot. Gr. Wü.",
+                "Total": "3.50"
+            }
+        ],
+        "total": "5.40"
+    }
+}

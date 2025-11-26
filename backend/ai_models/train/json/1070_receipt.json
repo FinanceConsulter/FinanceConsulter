@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "Mr. M's Hot Wings & Things Inc",
+        "date": "2019-06-28",
+        "menu": [
+            {
+                "Artikel": "1 Ribeye Steak Lunch 10",
+                "Preis": "10.00"
+            }
+        ],
+        "total": "10.95"
+    }
+}

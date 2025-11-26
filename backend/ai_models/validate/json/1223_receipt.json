@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "DENNER Willisau",
+        "date": "2025-10-21",
+        "menu": [
+            {
+                "Artikel": "Havana Club Anos 70cl",
+                "Total": "23.95"
+            },
+            {
+                "Artikel": "Havana Club Espec 37.5% 70cl (Aktuell Price)",
+                "Total": "99.80"
+            }
+        ],
+        "total": "123.75"
+    }
+}

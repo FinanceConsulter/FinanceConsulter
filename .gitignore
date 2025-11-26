@@ -74,17 +74,17 @@ weights/
 # *.parquet
 
 # Images
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.svg
-*.webp
+#*.jpg
+#*.jpeg
+#*.png
+#*.gif
+#*.svg
+#*.webp
 *.ico
 *.tiff
 *.bmp
-pics/
-**/images/
+#pics/
+#**/images/
 
 # Environment files
 .env

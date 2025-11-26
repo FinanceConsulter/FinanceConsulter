@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "El Charro Cafe Ventana",
+        "date": "2018-06-24",
+        "menu": [
+            {
+                "Artikel": "Coors Light",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Ice Tea",
+                "Total": "3.25"
+            },
+            {
+                "Artikel": "Shrimp Fajita",
+                "Total": "18.95"
+            },
+            {
+                "Artikel": "Stuffed Chicken",
+                "Total": "17.95"
+            }
+        ],
+        "total": "47.90"
+    }
+}

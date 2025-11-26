@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Cafe Hollenstein",
+        "date": "2025-11-22",
+        "menu": [
+            {
+                "Artikel": "Espresso",
+                "Total": "4.80"
+            },
+            {
+                "Artikel": "3dl Ovo/Schoggi",
+                "Total": "5.30"
+            },
+            {
+                "Artikel": "Fl.Eptinger mit",
+                "Total": "5.50"
+            }
+        ],
+        "total": "15.60"
+    }
+}

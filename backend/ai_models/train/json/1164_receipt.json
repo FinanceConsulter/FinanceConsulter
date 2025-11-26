@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "The Golden Pear Cafe",
+        "date": "2015-08-06",
+        "menu": [
+            {
+                "Artikel": "Subtotal (before tip)",
+                "Total": "22.70"
+            }
+        ],
+        "total": "22.70"
+    }
+}

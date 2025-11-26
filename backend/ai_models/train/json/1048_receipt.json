@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "DAILY GRILL",
+        "date": "2018-11-01",
+        "menu": [
+            {
+                "Artikel": "Coke",
+                "Total": "3.65"
+            },
+            {
+                "Artikel": "Short Rib",
+                "Total": "27.95"
+            },
+            {
+                "Artikel": "Diet Coke",
+                "Total": "3.65"
+            },
+            {
+                "Artikel": "Crispy Naked Wings",
+                "Total": "11.95"
+            },
+            {
+                "Artikel": "Rib Eye Steak",
+                "Total": "35.75"
+            }
+        ],
+        "total": "91.45"
+    }
+}

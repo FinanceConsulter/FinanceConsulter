@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "JALISCO",
+        "date": "2019-05-19",
+        "menu": [
+            {
+                "Artikel": "Water",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Caldo de Camaron",
+                "Total": "8.99"
+            }
+        ],
+        "total": "10.00"
+    }
+}

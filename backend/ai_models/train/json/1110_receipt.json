@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Chelokababi",
+        "date": "2018-08-18",
+        "menu": [
+            {
+                "Artikel": "Koobideh x 7",
+                "Total": "115.50"
+            },
+            {
+                "Artikel": "Nan-O-Sabzi",
+                "Total": "8.95"
+            },
+            {
+                "Artikel": "18% Gratuity",
+                "Total": "22.40"
+            }
+        ],
+        "total": "160.07"
+    }
+}

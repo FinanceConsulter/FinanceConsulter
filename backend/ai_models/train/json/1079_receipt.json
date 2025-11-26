@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "FALMOUTH RAW BAR",
+        "date": "2018-07-02",
+        "menu": [
+            {
+                "Artikel": "6 Oysters",
+                "Preis": "19.00"
+            },
+            {
+                "Artikel": "Fish and Chips",
+                "Preis": "22.00"
+            },
+            {
+                "Artikel": "MONSTAH roll",
+                "Preis": "114.00"
+            },
+            {
+                "Artikel": "Chicken Wings",
+                "Preis": "12.00"
+            },
+            {
+                "Artikel": "*Patron",
+                "Preis": "28.50"
+            },
+            {
+                "Artikel": "*Sparkling Wine",
+                "Preis": "22.00"
+            },
+            {
+                "Artikel": "*Open Liquor",
+                "Preis": "6.00"
+            }
+        ],
+        "total": "235.19"
+    }
+}

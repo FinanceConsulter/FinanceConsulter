@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Taco Maria",
+        "date": "2018-01-23",
+        "menu": [
+            {
+                "Artikel": "Chicken",
+                "Preis": "15.00"
+            },
+            {
+                "Artikel": "Pescado",
+                "Preis": "18.00"
+            },
+            {
+                "Artikel": "Arrachera solo",
+                "Preis": "9.50"
+            }
+        ],
+        "total": "45.79"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "The Place 2 Be",
+        "date": "2018-02-17",
+        "menu": [
+            {
+                "Artikel": "American Coffee",
+                "Total": "1.75"
+            },
+            {
+                "Artikel": "Nutella Coconut Pancakes",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "American Coffee",
+                "Total": "1.75"
+            },
+            {
+                "Artikel": "Cheddar Grits",
+                "Total": "10.00"
+            }
+        ],
+        "total": "22.87"
+    }
+}

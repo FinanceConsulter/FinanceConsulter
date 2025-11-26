@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "TOMMY HILFIGER TH OUTLET ALPENRHEIN",
+        "date": "2025-02-01",
+        "menu": [
+            {
+                "Artikel": "Art/EAN 8720638058724",
+                "Total": "63.60"
+            },
+            {
+                "Artikel": "EDZ DC STRIPE RP POLO",
+                "Total": "29.90"
+            },
+            {
+                "Artikel": "TH 5th Step-OFF Discount",
+                "Total": "-29.90"
+            }
+        ],
+        "total": "63.60"
+    }
+}

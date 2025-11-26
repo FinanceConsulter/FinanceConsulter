@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "OM INDIAN FOOD",
+        "date": "2016-04-15",
+        "menu": [
+            {
+                "Artikel": "Vegetable Biryani",
+                "Total": "12.95"
+            },
+            {
+                "Artikel": "Malai Kofta",
+                "Total": "12.95"
+            },
+            {
+                "Artikel": "Onion Naan",
+                "Total": "3.95"
+            }
+        ],
+        "total": "16.24"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "coop pronto Shop Basel Butterstrasse",
+        "date": "2025-11-17",
+        "menu": [
+            {
+                "Artikel": "Artikel N. Creme 50cl",
+                "Total": "1.50"
+            },
+            {
+                "Artikel": "Nüss Stängle Pronto 100",
+                "Total": "2.20"
+            }
+        ],
+        "total": "3.70"
+    }
+}

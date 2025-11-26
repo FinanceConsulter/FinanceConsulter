@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Chili's Grill & Bar",
+        "date": "2018-09-15",
+        "menu": [
+            {
+                "Artikel": "TRIPLE DIPPER",
+                "Preis": "12.19"
+            },
+            {
+                "Artikel": "CHICKEN WAFFLES4",
+                "Preis": "11.89"
+            }
+        ],
+        "total": "26.37"
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "Arthurs",
+        "date": "2017-10-01",
+        "menu": [
+            {
+                "Artikel": "Arthur's Burger #ChsBleu",
+                "Total": "13.95"
+            },
+            {
+                "Artikel": "\"Our\" Burger **Avocado",
+                "Total": "15.95"
+            },
+            {
+                "Artikel": "Loaded Nachos",
+                "Total": "12.95"
+            },
+            {
+                "Artikel": "Pint Boston Lager",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Pint Yeungling",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Kona Longboard",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Quesadilla",
+                "Total": "13.95"
+            }
+        ],
+        "total": "84.78"
+    }
+}

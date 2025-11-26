@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "BRASAS RESTAURANT",
+        "date": "2019-03-02",
+        "menu": [
+            {
+                "Artikel": "Chicken Torta",
+                "Preis": "6.50"
+            },
+            {
+                "Artikel": "Horchata",
+                "Preis": "0.00"
+            },
+            {
+                "Artikel": "MD",
+                "Preis": "2.00"
+            },
+            {
+                "Artikel": "Custom Item",
+                "Preis": "0.50"
+            }
+        ],
+        "total": "9.97"
+    }
+}

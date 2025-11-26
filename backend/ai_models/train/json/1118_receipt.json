@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Wendy's Restaurant",
+        "date": "2017-03-18",
+        "menu": [
+            {
+                "Artikel": "Veggie Sandwich",
+                "Total": "0.99"
+            },
+            {
+                "Artikel": "Small Fries",
+                "Total": "1.89"
+            },
+            {
+                "Artikel": "Plain Potato",
+                "Total": "1.79"
+            }
+        ],
+        "total": "4.99"
+    }
+}

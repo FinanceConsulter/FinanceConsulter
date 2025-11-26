@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "SAGE FRENCH CAFE & WINE BAR",
+        "date": "2015-06-02",
+        "menu": [
+            {
+                "Artikel": "2 SAUV BLANC JB",
+                "Total": "18.00"
+            },
+            {
+                "Artikel": "1 VEGGIE SANDWICH",
+                "Total": "11.00"
+            },
+            {
+                "Artikel": "1 QUICHE LORAINE",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "GRATUITY 18",
+                "Total": "7.38"
+            }
+        ],
+        "total": "39.18"
+    }
+}

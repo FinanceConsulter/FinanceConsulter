@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "migrolino",
+        "date": "2025-07-25",
+        "menu": [
+            {
+                "Artikel": "Item 1 (Nq)",
+                "Total": "56.42"
+            },
+            {
+                "Artikel": "Item 2 (XTP)",
+                "Total": "6.72"
+            },
+            {
+                "Artikel": "Cuminos-Bon Discount",
+                "Total": "-2.85"
+            }
+        ],
+        "total": "89.68"
+    }
+}

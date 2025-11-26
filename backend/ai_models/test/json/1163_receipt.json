@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "BEN'S BAYSIDE",
+        "date": "2017-03-05",
+        "menu": [
+            {
+                "Artikel": "DOUBLE DIP, tky, bowl barley, past",
+                "Total": "27.98"
+            },
+            {
+                "Artikel": "KNISH",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "ROUND",
+                "Total": "3.99"
+            },
+            {
+                "Artikel": "KASHE SIDE",
+                "Total": "3.99"
+            },
+            {
+                "Artikel": "COFFEE",
+                "Total": "1.99"
+            },
+            {
+                "Artikel": "WATER",
+                "Total": "0.00"
+            }
+        ],
+        "total": "41.32"
+    }
+}

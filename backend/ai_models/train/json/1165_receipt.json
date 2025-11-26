@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "EL CHICO MEXICAN RESTAURANT JBR",
+        "date": "2016-11-12",
+        "menu": [
+            {
+                "Artikel": "Ts Guac",
+                "Total": "48.00"
+            },
+            {
+                "Artikel": "Grande Chicken Buritto",
+                "Total": "64.00"
+            },
+            {
+                "Artikel": "Delivery Charge",
+                "Total": "5.00"
+            }
+        ],
+        "total": "117.00"
+    }
+}

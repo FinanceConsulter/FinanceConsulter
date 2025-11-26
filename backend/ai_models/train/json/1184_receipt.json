@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "Dining Room T5",
+        "date": "2013-03-22",
+        "menu": [
+            {
+                "Artikel": "BEEFEATER-MARTINI",
+                "Total": "11.50"
+            },
+            {
+                "Artikel": "ROSEMARY CAIPIRINHA",
+                "Total": "13.00"
+            },
+            {
+                "Artikel": "CRABCAKES",
+                "Total": "17.00"
+            },
+            {
+                "Artikel": "BLACK PEPPER BACON",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Millenium 2#",
+                "Total": "52.00"
+            },
+            {
+                "Artikel": "NY SIRLOIN",
+                "Total": "46.00"
+            },
+            {
+                "Artikel": "BRUSSEL SPROUTS",
+                "Total": "13.00"
+            },
+            {
+                "Artikel": "ESPRESSO",
+                "Total": "4.50"
+            },
+            {
+                "Artikel": "LAUREN'S HAZELNUT TORTE",
+                "Total": "9.00"
+            }
+        ],
+        "total": "193.35"
+    }
+}

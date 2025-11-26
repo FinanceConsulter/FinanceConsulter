@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "HIRO JAPANESE RESTAURANT",
+        "date": "2018-02-13",
+        "menu": [
+            {
+                "Artikel": "Ton Katsu",
+                "Total": "8.95"
+            },
+            {
+                "Artikel": "Makimono",
+                "Total": "6.95"
+            }
+        ],
+        "total": "17.18"
+    }
+}

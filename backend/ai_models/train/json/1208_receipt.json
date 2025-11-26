@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "NIKE Factory Store Landquart",
+        "date": "2025-02-01",
+        "menu": [
+            {
+                "Artikel": "UNK EVERYDAY CSH CRW 3PR",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "UNK EVERYDAY CSH CRW 3PR",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "NIKE EBERNON LOW",
+                "Total": "65.00"
+            }
+        ],
+        "total": "85.00"
+    }
+}

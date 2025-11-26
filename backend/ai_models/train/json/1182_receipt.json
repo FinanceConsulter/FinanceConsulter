@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Finnegan's Way",
+        "date": "2017-08-21",
+        "menu": [
+            {
+                "Artikel": "SOBE MOJITO'S BACARDI LIGHT (x4)",
+                "Total": "40.00"
+            },
+            {
+                "Artikel": "Voluntary 18% Tip",
+                "Total": "7.20"
+            }
+        ],
+        "total": "50.80"
+    }
+}

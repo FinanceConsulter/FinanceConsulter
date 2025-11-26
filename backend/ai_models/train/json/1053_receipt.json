@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Primo Family Restaurant",
+        "date": "2019-05-03",
+        "menu": [
+            {
+                "Artikel": "3 Prem Glass @7.50",
+                "Total": "22.50"
+            },
+            {
+                "Artikel": "1 MED Veggie @27.00",
+                "Total": "27.00"
+            }
+        ],
+        "total": "52.47"
+    }
+}

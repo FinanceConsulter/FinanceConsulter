@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "WINGS & THINGS",
+        "date": "2017-03-19",
+        "menu": [
+            {
+                "Artikel": "MAC&CHZ - SMALL",
+                "Preis": "1.19"
+            },
+            {
+                "Artikel": "COLL GRN - SMALL",
+                "Preis": "1.19"
+            },
+            {
+                "Artikel": "1 CORN BREAD",
+                "Preis": "0.62"
+            },
+            {
+                "Artikel": "5 WINGS",
+                "Preis": "5.75"
+            }
+        ],
+        "total": "9.50"
+    }
+}

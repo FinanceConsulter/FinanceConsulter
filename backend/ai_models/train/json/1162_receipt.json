@@ -1,0 +1,61 @@
+{
+    "data": {
+        "merchant": "Juniper & Ivy",
+        "date": "2016-10-06",
+        "menu": [
+            {
+                "Artikel": "BUCATINI",
+                "Total": "17.00"
+            },
+            {
+                "Artikel": "RAVIOLO",
+                "Total": "18.00"
+            },
+            {
+                "Artikel": "BT TURNBULL NAPA",
+                "Total": "90.00"
+            },
+            {
+                "Artikel": "HALIBUT",
+                "Total": "38.00"
+            },
+            {
+                "Artikel": "YODEL",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "MILK & HONEY",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "COFFEE SM",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "GL ROUND POND SB",
+                "Total": "13.00"
+            },
+            {
+                "Artikel": "OCTOPUS",
+                "Total": "16.00"
+            },
+            {
+                "Artikel": "BEEF TARTARE",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "FINLANDIA (WELL) $MARTINI",
+                "Total": "11.00"
+            },
+            {
+                "Artikel": "HALIBUT",
+                "Total": "38.00"
+            },
+            {
+                "Artikel": "SNAPPER",
+                "Total": "28.00"
+            }
+        ],
+        "total": "333.72"
+    }
+}

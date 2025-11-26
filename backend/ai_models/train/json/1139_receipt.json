@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "SS PARADISE Andhra Style Familly Restaurant",
+        "date": "2017-07-06",
+        "menu": [
+            {
+                "Artikel": "TANDOORI CHICKEN",
+                "Total": "179.00"
+            },
+            {
+                "Artikel": "MUTTON RAGON JOSH",
+                "Total": "209.00"
+            },
+            {
+                "Artikel": "FISH BIRIYANI",
+                "Total": "229.00"
+            }
+        ],
+        "total": "617.00"
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "FourthStreetMill",
+        "date": "2018-09-29",
+        "menu": [
+            {
+                "Artikel": "Lamb Burger",
+                "Total": "13.00"
+            },
+            {
+                "Artikel": "Kids Grilled Cheese",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Kids Fries",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "Sweet Potato Fries",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Kids Cheeseburger",
+                "Total": "7.00"
+            },
+            {
+                "Artikel": "Beef Burger",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "Sides - Bacon (2) Slices",
+                "Total": "3.50"
+            }
+        ],
+        "total": "54.20"
+    }
+}

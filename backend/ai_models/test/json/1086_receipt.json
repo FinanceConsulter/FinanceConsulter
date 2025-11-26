@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "Calogero's",
+        "date": "2018-04-20",
+        "menu": [
+            {
+                "Artikel": "Shrimp Scampi",
+                "Preis": "27.00"
+            },
+            {
+                "Artikel": "2hicken Milanese",
+                "Preis": "46.00"
+            },
+            {
+                "Artikel": "Veal Milanese",
+                "Preis": "27.00"
+            },
+            {
+                "Artikel": "Grey Goose",
+                "Preis": "30.00"
+            },
+            {
+                "Artikel": "Pineapple Juice",
+                "Preis": "3.00"
+            },
+            {
+                "Artikel": "Belvedere",
+                "Preis": "12.00"
+            },
+            {
+                "Artikel": "Becks Non Alcoholic",
+                "Preis": "6.00"
+            },
+            {
+                "Artikel": "Corona",
+                "Preis": "6.00"
+            },
+            {
+                "Artikel": "Comp Item",
+                "Preis": "(12.00)"
+            }
+        ],
+        "total": "157.51"
+    }
+}

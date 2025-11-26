@@ -1,0 +1,41 @@
+{
+    "data": {
+        "merchant": "YAUATCHA",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "Tender Branch Hibiscus",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Seafood Puff",
+                "Total": "10.80"
+            },
+            {
+                "Artikel": "Sesame Prawn Toast",
+                "Total": "11.80"
+            },
+            {
+                "Artikel": "Beancurd Prawn Cheung Fun",
+                "Total": "10.80"
+            },
+            {
+                "Artikel": "XO Scallop Dumpling",
+                "Total": "8.80"
+            },
+            {
+                "Artikel": "Poached Beijing Dumpling",
+                "Total": "5.80"
+            },
+            {
+                "Artikel": "Spinach Dumpling",
+                "Total": "6.80"
+            },
+            {
+                "Artikel": "Tea Smoked Pork Ribs",
+                "Total": "22.00"
+            }
+        ],
+        "total": "88.62"
+    }
+}

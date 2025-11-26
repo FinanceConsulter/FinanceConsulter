@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Rihanna's Caribbean Restaurant",
+        "date": "2018-08-12",
+        "menu": [
+            {
+                "Artikel": "Curry Chicken",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "Beef Pattie",
+                "Total": "2.25"
+            }
+        ],
+        "total": "13.26"
+    }
+}

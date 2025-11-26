@@ -1,0 +1,61 @@
+{
+    "data": {
+        "merchant": "McDonald's",
+        "date": "2018-03-10",
+        "menu": [
+            {
+                "Artikel": "10 McNuggets EVM",
+                "Total": "10.29"
+            },
+            {
+                "Artikel": "Barbecue Sauce",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Barbecue Sauce",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "L Coke",
+                "Total": "0.40"
+            },
+            {
+                "Artikel": "M French Fries",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "HM GrChs S-Fry Yog",
+                "Total": "3.99"
+            },
+            {
+                "Artikel": "Snoopy",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "HM Apple Juice",
+                "Total": "2.89"
+            },
+            {
+                "Artikel": "L Cookies",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "5 Choc Chip Cookie",
+                "Total": "1.19"
+            },
+            {
+                "Artikel": "Baked Apple Pie",
+                "Total": "1.19"
+            },
+            {
+                "Artikel": "L French Fries",
+                "Total": "3.29"
+            },
+            {
+                "Artikel": "L Iced Tea",
+                "Total": "2.99"
+            }
+        ],
+        "total": "26.15"
+    }
+}

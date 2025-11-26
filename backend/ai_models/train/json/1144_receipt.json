@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "CHLOE81",
+        "date": "2018-08-03",
+        "menu": [
+            {
+                "Artikel": "HOUSE VODKA",
+                "Total": "24.00"
+            },
+            {
+                "Artikel": "HOUSE TEQUILA",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Gratuity",
+                "Total": "7.20"
+            }
+        ],
+        "total": "46.40"
+    }
+}

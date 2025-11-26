@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Collector's Choice Restaurant",
+        "date": "2019-04-10",
+        "menu": [
+            {
+                "Artikel": "Twisted Rueben",
+                "Total": "11.69"
+            },
+            {
+                "Artikel": "Service Fee (-6%)",
+                "Total": "-0.70"
+            }
+        ],
+        "total": "13.53"
+    }
+}

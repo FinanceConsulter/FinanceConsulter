@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "LEVI'S OUTLET LANDQUART",
+        "date": "2025-02-13",
+        "menu": [
+            {
+                "Artikel": "HIGH WAISTED MOM SHORT SUNRAY BEST",
+                "Total": "89.90"
+            },
+            {
+                "Artikel": "505 REGULAR STRAIGHT CATCH MY DRIFT",
+                "Total": "89.90"
+            }
+        ],
+        "total": "179.80"
+    }
+}

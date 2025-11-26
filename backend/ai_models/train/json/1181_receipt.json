@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "DEL FRISCO'S #8620",
+        "date": "2016-04-07",
+        "menu": [
+            {
+                "Artikel": "Strip 16oz (x4)",
+                "Total": "212.00"
+            },
+            {
+                "Artikel": "Ribeye Bone In",
+                "Total": "69.50"
+            },
+            {
+                "Artikel": "Cauliflower",
+                "Total": "16.50"
+            },
+            {
+                "Artikel": "Baked Potato",
+                "Total": "10.50"
+            },
+            {
+                "Artikel": "Asparagus",
+                "Total": "15.50"
+            },
+            {
+                "Artikel": "Onion Rings",
+                "Total": "14.50"
+            },
+            {
+                "Artikel": "Sauteed Spinach",
+                "Total": "16.00"
+            },
+            {
+                "Artikel": "VOSS Sparkling (x3)",
+                "Total": "25.50"
+            },
+            {
+                "Artikel": "Coke Btl (x6)",
+                "Total": "24.00"
+            }
+        ],
+        "total": "439.86"
+    }
+}

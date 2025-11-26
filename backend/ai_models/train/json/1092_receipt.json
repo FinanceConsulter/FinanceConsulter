@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "Kaiseki Japanese Cuisine",
+        "date": "2018-07-28",
+        "menu": [
+            {
+                "Artikel": "Sushi Dinner w. Miso Soup",
+                "Total": "18.95"
+            },
+            {
+                "Artikel": "Lady Gaga",
+                "Total": "13.95"
+            },
+            {
+                "Artikel": "Ginger Ale",
+                "Total": "2.00"
+            },
+            {
+                "Artikel": "Fried Cheese Cake",
+                "Total": "4.95"
+            }
+        ],
+        "total": "43.30"
+    }
+}

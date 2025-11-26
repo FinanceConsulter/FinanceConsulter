@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "MIKUNI JAPANESE",
+        "date": "2017-07-16",
+        "menu": [
+            {
+                "Artikel": "MOJITO Pitcher Original w/ 2 Glass",
+                "Total": "18.00"
+            },
+            {
+                "Artikel": "Brussel Sprouts",
+                "Total": "6.50"
+            },
+            {
+                "Artikel": "Pepperfin",
+                "Total": "14.50"
+            },
+            {
+                "Artikel": "Spicy Drm 1 Red",
+                "Total": "14.50"
+            },
+            {
+                "Artikel": "Aerojet",
+                "Total": "14.95"
+            },
+            {
+                "Artikel": "Tommy",
+                "Total": "17.95"
+            },
+            {
+                "Artikel": "Cnu Toro",
+                "Total": "19.00"
+            },
+            {
+                "Artikel": "Daikon Hamachi",
+                "Total": "14.50"
+            },
+            {
+                "Artikel": "Garlic Salmon",
+                "Total": "14.00"
+            }
+        ],
+        "total": "144.28"
+    }
+}

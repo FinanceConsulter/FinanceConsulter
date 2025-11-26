@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "New China",
+        "date": "2016-03-12",
+        "menu": [
+            {
+                "Artikel": "Beef w. Broccoli w. Chicken Fried Rice",
+                "Total": "10.25"
+            },
+            {
+                "Artikel": "Sweet / Sour Chicken",
+                "Total": "7.95"
+            },
+            {
+                "Artikel": "Chicken Chow Mein",
+                "Total": "6.75"
+            }
+        ],
+        "total": "26.96"
+    }
+}

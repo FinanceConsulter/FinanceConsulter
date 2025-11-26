@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Golden Beach Bar",
+        "date": "2025-09-04",
+        "menu": [
+            {
+                "Artikel": "Guinness Media",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Spritz",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Moskov miul",
+                "Total": "8.00"
+            }
+        ],
+        "total": "21.00"
+    }
+}

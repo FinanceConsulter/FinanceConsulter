@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "MIGUELS MEXICAN",
+        "date": "2012-12-26",
+        "menu": [
+            {
+                "Artikel": "WATER",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "CRAB SUIZA",
+                "Total": "13.25"
+            },
+            {
+                "Artikel": "SHRIMP VERACRUZ",
+                "Total": "14.95"
+            },
+            {
+                "Artikel": "ENCHILADA",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "FAJITA BF",
+                "Total": "13.95"
+            },
+            {
+                "Artikel": "TAKE OUT Fee",
+                "Total": "0.25"
+            },
+            {
+                "Artikel": "HH MIGUELS MARGARIT",
+                "Total": "13.52"
+            }
+        ],
+        "total": "65.14"
+    }
+}

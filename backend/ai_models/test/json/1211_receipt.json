@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "Bijouterie Saner",
+        "date": "2025-05-07",
+        "menu": [
+            {
+                "Artikel": "Purchase Amount",
+                "Total": "390.00"
+            }
+        ],
+        "total": "390.00"
+    }
+}

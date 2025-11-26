@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "CARL'S JR",
+        "date": "2017-09-27",
+        "menu": [
+            {
+                "Artikel": "Box #1",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "All Star Meal #1",
+                "Total": "1.00"
+            },
+            {
+                "Artikel": "Dbl Chbgr",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Hot Dog",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Baked Cookie",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Lg Fries",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "Lg Bev Bar",
+                "Total": "3.00"
+            }
+        ],
+        "total": "7.61"
+    }
+}

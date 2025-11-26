@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Crisfield Seafood Restaurant",
+        "date": "2017-12-29",
+        "menu": [
+            {
+                "Artikel": "Crisfield Special Platter COOK MEDIUM",
+                "Total": "27.00"
+            },
+            {
+                "Artikel": "Pint Bisque",
+                "Total": "11.50"
+            }
+        ],
+        "total": "42.74"
+    }
+}

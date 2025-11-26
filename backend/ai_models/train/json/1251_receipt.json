@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "coop Olten Sälihof",
+        "date": "2025-10-25",
+        "menu": [
+            {
+                "Artikel": "Hanfmilch Classic",
+                "Total": "3.95"
+            },
+            {
+                "Artikel": "Superfood Shake",
+                "Total": "3.95"
+            },
+            {
+                "Artikel": "Mate & Ginger 33RL",
+                "Total": "1.95"
+            }
+        ],
+        "total": "9.85"
+    }
+}

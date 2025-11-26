@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Maui Teriyaki",
+        "date": "2017-10-25",
+        "menu": [
+            {
+                "Artikel": "Salmon Plate",
+                "Total": "11.49"
+            },
+            {
+                "Artikel": "Extra Shrimp",
+                "Total": "1.45"
+            }
+        ],
+        "total": "14.17"
+    }
+}

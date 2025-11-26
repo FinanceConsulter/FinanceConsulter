@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "Villaggio Grille",
+        "date": "2019-06-08",
+        "menu": [
+            {
+                "Artikel": "P-VILLAGIO BREEZE",
+                "Total": "0.01"
+            },
+            {
+                "Artikel": "ADD SALAD",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "LUNCH SEAFOOD PASTA",
+                "Total": "14.00"
+            },
+            {
+                "Artikel": "KID PEPERONI PIZZA",
+                "Total": "7.00"
+            },
+            {
+                "Artikel": "KID ALFREDO",
+                "Total": "7.00"
+            }
+        ],
+        "total": "34.12"
+    }
+}

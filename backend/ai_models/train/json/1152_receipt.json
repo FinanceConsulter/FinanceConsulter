@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "KALOOKI'S",
+        "date": "2015-03-14",
+        "menu": [
+            {
+                "Artikel": "Chicken Fingers",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Spicy Shrimp",
+                "Total": "20.00"
+            },
+            {
+                "Artikel": "Steamed Fish Lg",
+                "Total": "25.00"
+            },
+            {
+                "Artikel": "Bottled Water",
+                "Total": "4.00"
+            },
+            {
+                "Artikel": "Service Charge 10%",
+                "Total": "5.70"
+            }
+        ],
+        "total": "62.70"
+    }
+}

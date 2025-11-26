@@ -1,0 +1,41 @@
+{
+    "data": {
+        "merchant": "coop Bremgarten",
+        "date": "2025-11-19",
+        "menu": [
+            {
+                "Artikel": "Coop High Prot. Br.",
+                "Total": "3.90"
+            },
+            {
+                "Artikel": "DEP High Protein Gr.",
+                "Total": "3.90"
+            },
+            {
+                "Artikel": "Disaronno 70CL",
+                "Total": "26.50"
+            },
+            {
+                "Artikel": "Spicy Noodle",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Saucy Noodles",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Saucy Noodles",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Saucy Noodles",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Rabatt Maggi",
+                "Total": "-2.25"
+            }
+        ],
+        "total": "39.55"
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "data": {
+        "merchant": "Firefly American Bistro",
+        "date": "2018-12-28",
+        "menu": [
+            {
+                "Artikel": "Malbec Trivento",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Blood Orange Marg",
+                "Total": "9.00"
+            },
+            {
+                "Artikel": "Cup Italian Wedding Soup",
+                "Total": "2.95"
+            },
+            {
+                "Artikel": "Spaghetti Marinara",
+                "Total": "17.95"
+            },
+            {
+                "Artikel": "Fettuccine Alfredo",
+                "Total": "23.95"
+            },
+            {
+                "Artikel": "Small Wedge Salad (Dinner)",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "Creme Brulee",
+                "Total": "4.00"
+            },
+            {
+                "Artikel": "Baileys",
+                "Total": "7.00"
+            }
+        ],
+        "total": "83.64"
+    }
+}

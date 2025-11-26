@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "KICKIN KAJUN KAPOLEI",
+        "date": "2019-09-18",
+        "menu": [
+            {
+                "Artikel": "Margarita",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Add Tequila",
+                "Total": "4.00"
+            },
+            {
+                "Artikel": "Strawberry Daiquiri",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Add Vodca",
+                "Total": "4.00"
+            },
+            {
+                "Artikel": "Snow Combo",
+                "Total": "54.00"
+            },
+            {
+                "Artikel": "Kickin Sauce",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Mild",
+                "Total": "0.00"
+            }
+        ],
+        "total": "77.49"
+    }
+}

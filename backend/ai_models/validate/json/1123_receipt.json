@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "El Gato Negro",
+        "date": "2019-08-23",
+        "menu": [
+            {
+                "Artikel": "Fajita Vegetable",
+                "Total": "7.75"
+            },
+            {
+                "Artikel": "Taco Shrimp Fresh Catch 3",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Water",
+                "Total": "0.00"
+            }
+        ],
+        "total": "21.76"
+    }
+}

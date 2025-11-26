@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "BK SOUL FOOD & CATERING",
+        "date": "2019-06-23",
+        "menu": [
+            {
+                "Artikel": "WINGS (5) MAC & CHEESE YAMS",
+                "Total": "12.50"
+            },
+            {
+                "Artikel": "SIDE (SM) x3 YAMS MAC & CHEESE COLLARD GREENS",
+                "Total": "12.00"
+            }
+        ],
+        "total": "26.67"
+    }
+}

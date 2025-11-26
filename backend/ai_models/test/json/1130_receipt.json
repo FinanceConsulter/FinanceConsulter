@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "BOA",
+        "date": "2017-12-20",
+        "menu": [
+            {
+                "Artikel": "CRAB CAKE",
+                "Total": "15.00"
+            },
+            {
+                "Artikel": "SKIRT STK LUNCH",
+                "Total": "28.00"
+            }
+        ],
+        "total": "47.09"
+    }
+}

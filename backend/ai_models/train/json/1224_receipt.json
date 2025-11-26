@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Lidl",
+        "date": "2025-09-23",
+        "menu": [
+            {
+                "Artikel": "Focus Water-Active 0.5l",
+                "Total": "2.09"
+            },
+            {
+                "Artikel": "Vitamin BttI. Reload 500ml",
+                "Total": "2.15"
+            },
+            {
+                "Artikel": "Evian Mineralwasser 50cl",
+                "Total": "1.15"
+            }
+        ],
+        "total": "5.45"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "VIA EMILIA 9",
+        "date": "2017-04-27",
+        "menu": [
+            {
+                "Artikel": "Tagliatella al Ragu'",
+                "Total": "14.90"
+            },
+            {
+                "Artikel": "Cappellacci Di Zucca",
+                "Total": "18.90"
+            },
+            {
+                "Artikel": "Stufato Al Latte Di Ravenna",
+                "Total": "22.90"
+            }
+        ],
+        "total": "61.80"
+    }
+}

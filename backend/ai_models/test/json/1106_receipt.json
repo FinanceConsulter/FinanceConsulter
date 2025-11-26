@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Lan Sheng",
+        "date": "2017-06-13",
+        "menu": [
+            {
+                "Artikel": "Spicy Chicken w. Spicy Garlic Soy V.",
+                "Total": "7.95"
+            },
+            {
+                "Artikel": "Hf- Peking Duck",
+                "Total": "18.95"
+            },
+            {
+                "Artikel": "Stir Beef Fillet w. Tofu",
+                "Total": "15.95"
+            },
+            {
+                "Artikel": "Pork w. Spicy Capsicum",
+                "Total": "12.95"
+            },
+            {
+                "Artikel": "White Rice (S)",
+                "Total": "1.50"
+            },
+            {
+                "Artikel": "Pork w. Spicy Tofu & Cayenne Chili",
+                "Total": "12.95"
+            }
+        ],
+        "total": "75.15"
+    }
+}

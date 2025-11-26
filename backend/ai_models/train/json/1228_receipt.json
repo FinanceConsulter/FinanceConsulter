@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "SAPORI E DINTORNI CONAD",
+        "date": "2025-08-31",
+        "menu": [
+            {
+                "Artikel": "CONEGLIANO VALDOBB.",
+                "Total": "11.05"
+            },
+            {
+                "Artikel": "PROS. TOSCANO DOP T. A",
+                "Total": "5.79"
+            },
+            {
+                "Artikel": "P. 0,88",
+                "Total": "0.88"
+            },
+            {
+                "Artikel": "F-CORNETTI ALLE ALBIC",
+                "Total": "2.72"
+            },
+            {
+                "Artikel": "G. 0,250",
+                "Total": "1.48"
+            },
+            {
+                "Artikel": "\"BABBO\" PANE DI T.",
+                "Total": "3.09"
+            },
+            {
+                "Artikel": "SUCCO ARANCIA BIONDA",
+                "Total": "3.09"
+            },
+            {
+                "Artikel": "CONFE. LIMONE/GEL",
+                "Total": "3.89"
+            },
+            {
+                "Artikel": "T. DI FOGLI DI CAPRA NE",
+                "Total": "3.89"
+            }
+        ],
+        "total": "31.61"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "Denny's Restaurant #8129",
+        "date": "2015-08-30",
+        "menu": [
+            {
+                "Artikel": "No Beverage",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "No Beverage",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Milk Shake Shake Choc",
+                "Total": "3.99"
+            },
+            {
+                "Artikel": "Gratuity",
+                "Total": "1.00"
+            }
+        ],
+        "total": "5.29"
+    }
+}

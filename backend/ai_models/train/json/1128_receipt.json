@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "KALAVERAS - BELLFLOWER",
+        "date": "2019-08-30",
+        "menu": [
+            {
+                "Artikel": "Classic Michelada",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Classic Michelada",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Don Julio Anejo",
+                "Total": "15.00"
+            },
+            {
+                "Artikel": "Classic Michelada",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Balam Madurado",
+                "Total": "12.00"
+            }
+        ],
+        "total": "68.99"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "Moonstar Restaurant",
+        "date": "2018-10-29",
+        "menu": [
+            {
+                "Artikel": "WEEKDAY DINNER",
+                "Total": "29.88"
+            }
+        ],
+        "total": "37.37"
+    }
+}

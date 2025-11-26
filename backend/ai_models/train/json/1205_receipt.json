@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "NIKE Factory Store Landquart",
+        "date": "2025-02-01",
+        "menu": [
+            {
+                "Artikel": "W MS NIKE AF1 SCULPT (discounted price)",
+                "Total": "58.85"
+            },
+            {
+                "Artikel": "BAG, REV. 0,35",
+                "Total": "0.35"
+            }
+        ],
+        "total": "58.85"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "MIGUELS MEXICAN",
+        "date": "2017-07-05",
+        "menu": [
+            {
+                "Artikel": "WATER",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "ENCH VERDE",
+                "Total": "12.50"
+            },
+            {
+                "Artikel": "ENCH MANUEL",
+                "Total": "12.80"
+            }
+        ],
+        "total": "27.08"
+    }
+}

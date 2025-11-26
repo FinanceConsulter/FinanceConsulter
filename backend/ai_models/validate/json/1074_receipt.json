@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Lin Buffet",
+        "date": "2019-02-24",
+        "menu": [
+            {
+                "Artikel": "Weekend Buffet",
+                "Preis": "27.18"
+            },
+            {
+                "Artikel": "Drink",
+                "Preis": "3.98"
+            }
+        ],
+        "total": "33.73"
+    }
+}

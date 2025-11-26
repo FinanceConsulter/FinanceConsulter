@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "COLUMBUS RESTAURANT",
+        "date": "2018-01-27",
+        "menu": [
+            {
+                "Artikel": "2 FBD BLUE MARGARI",
+                "Total": "110.00"
+            },
+            {
+                "Artikel": "1 CHEESE BURGER",
+                "Total": "14.50"
+            },
+            {
+                "Artikel": "1 CHICKEN MARSALA",
+                "Total": "18.50"
+            }
+        ],
+        "total": "184.47"
+    }
+}

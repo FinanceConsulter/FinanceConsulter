@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "SURATI FARSAN MART",
+        "date": "2019-08-08",
+        "menu": [
+            {
+                "Artikel": "1 Chole Samosa *** TO GO ***",
+                "Preis": "5.99"
+            }
+        ],
+        "total": "6.56"
+    }
+}

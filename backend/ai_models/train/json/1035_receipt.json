@@ -1,0 +1,41 @@
+{
+    "data": {
+        "merchant": "Argonaut Diner2000",
+        "date": "2017-08-13",
+        "menu": [
+            {
+                "Artikel": "Coffee",
+                "Preis": "1.45"
+            },
+            {
+                "Artikel": "Tea",
+                "Preis": "1.45"
+            },
+            {
+                "Artikel": "Waffle",
+                "Preis": "5.50"
+            },
+            {
+                "Artikel": "Old Fashion French Toast",
+                "Preis": "4.50"
+            },
+            {
+                "Artikel": "Side Home Fries",
+                "Preis": "2.95"
+            },
+            {
+                "Artikel": "Banana",
+                "Preis": "2.95"
+            },
+            {
+                "Artikel": "Whipped Cream",
+                "Preis": "2.50"
+            },
+            {
+                "Artikel": "W/ 2 EGGS",
+                "Preis": "2.95"
+            }
+        ],
+        "total": "26.38"
+    }
+}

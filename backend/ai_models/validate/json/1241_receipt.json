@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "coop Olten Sälihof",
+        "date": "2025-11-19",
+        "menu": [
+            {
+                "Artikel": "DEP High Protein 5d",
+                "Total": "1.95"
+            },
+            {
+                "Artikel": "Buono E. Promo.M?2",
+                "Total": "3.25"
+            }
+        ],
+        "total": "5.20"
+    }
+}

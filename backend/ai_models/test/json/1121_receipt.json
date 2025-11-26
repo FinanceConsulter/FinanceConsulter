@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Heart of Portugal Restaurant",
+        "date": "2017-09-10",
+        "menu": [
+            {
+                "Artikel": "Traditional Pork & Clams",
+                "Total": "20.95"
+            },
+            {
+                "Artikel": "Osso Buco Sp",
+                "Total": "28.95"
+            },
+            {
+                "Artikel": "House Wines Half Pitcher",
+                "Total": "16.00"
+            }
+        ],
+        "total": "71.58"
+    }
+}

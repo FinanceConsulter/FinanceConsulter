@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "coop Aarau Bahnhof",
+        "date": "2024-11-08",
+        "menu": [
+            {
+                "Artikel": "Unspecified Item 1",
+                "Total": "1.70"
+            }
+        ],
+        "total": "1.70"
+    }
+}

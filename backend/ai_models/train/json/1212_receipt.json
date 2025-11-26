@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "RISTORANTE MOLETTO",
+        "date": "2025-09-01",
+        "menu": [
+            {
+                "Artikel": "Servizio (x2)",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Gran piatto It.",
+                "Total": "13.00"
+            },
+            {
+                "Artikel": "Grigliata mista",
+                "Total": "20.00"
+            },
+            {
+                "Artikel": "Tagliata di manzo",
+                "Total": "19.00"
+            },
+            {
+                "Artikel": "Patate fritte (x2)",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "Cicl. spicchi",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Acqua naturale",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Aperol Spritz",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Gin Tonic",
+                "Total": "8.00"
+            }
+        ],
+        "total": "87.00"
+    }
+}

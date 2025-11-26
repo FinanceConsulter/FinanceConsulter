@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "coop Olten Bahnhof",
+        "date": "2025-11-21",
+        "menu": [
+            {
+                "Artikel": "Dreieck Lachs ASC",
+                "Total": "5.50"
+            }
+        ],
+        "total": "5.50"
+    }
+}

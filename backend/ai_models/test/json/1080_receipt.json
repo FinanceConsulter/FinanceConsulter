@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "Newark Buffet",
+        "date": "2019-06-29",
+        "menu": [
+            {
+                "Artikel": "WEEKEND DINNER BUFFET",
+                "Preis": "39.98"
+            },
+            {
+                "Artikel": "WEEKEND DINNER KIDS (3-5Y)",
+                "Preis": "7.99"
+            },
+            {
+                "Artikel": "WEEKEND DINNER KIDS (6-10Y)",
+                "Preis": "10.00"
+            },
+            {
+                "Artikel": "SODA DRINK",
+                "Preis": "7.96"
+            },
+            {
+                "Artikel": "WEEKEND SENIOR DINNER",
+                "Preis": "18.09"
+            }
+        ],
+        "total": "82.22"
+    }
+}

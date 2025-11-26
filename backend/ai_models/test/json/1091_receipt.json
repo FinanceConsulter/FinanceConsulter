@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "CITY TASTE",
+        "date": "2018-05-11",
+        "menu": [
+            {
+                "Artikel": "Philadelphia Roll",
+                "Total": "4.85"
+            },
+            {
+                "Artikel": "13. Shrimp Tempura Roll [Roll]",
+                "Total": "4.25"
+            },
+            {
+                "Artikel": "Rich / Famous Roll",
+                "Total": "4.85"
+            },
+            {
+                "Artikel": "16. Spicy Salmon Roll [Roll]",
+                "Total": "4.25"
+            },
+            {
+                "Artikel": "Veg / Tofu Pad Thai Spicy",
+                "Total": "8.95"
+            }
+        ],
+        "total": "28.78"
+    }
+}

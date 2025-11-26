@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "ADIDAS FO Landquart",
+        "date": "2025-02-01",
+        "menu": [
+            {
+                "Artikel": "HOOPS 3.0 SUMMER",
+                "Total": "52.00"
+            },
+            {
+                "Artikel": "CURTBLOCK",
+                "Total": "49.00"
+            },
+            {
+                "Artikel": "Paper Bag",
+                "Total": "0.30"
+            }
+        ],
+        "total": "101.30"
+    }
+}

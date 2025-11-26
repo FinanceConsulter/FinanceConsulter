@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "SmokeBoxBBQ",
+        "date": "2014-05-22",
+        "menu": [
+            {
+                "Artikel": "FXN DIET BIRCH",
+                "Preis": "1.50"
+            },
+            {
+                "Artikel": "FULL BOX",
+                "Preis": "12.00"
+            }
+        ],
+        "total": "14.36"
+    }
+}

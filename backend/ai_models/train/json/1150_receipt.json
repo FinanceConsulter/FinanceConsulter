@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "ESQUIRE GRILLE HMS HOST",
+        "date": "2016-04-04",
+        "menu": [
+            {
+                "Artikel": "DB WOODFRD RES 2 NEAT",
+                "Total": "17.99"
+            },
+            {
+                "Artikel": "CAB PEJU SAUV S",
+                "Total": "11.00"
+            },
+            {
+                "Artikel": "SAND GRLD CHIX SC CHOP SLD",
+                "Total": "14.50"
+            },
+            {
+                "Artikel": "SLD SHRIMP LOUIE",
+                "Total": "24.00"
+            },
+            {
+                "Artikel": "SD BRUSSEL SPRTS",
+                "Total": "7.00"
+            }
+        ],
+        "total": "80.45"
+    }
+}

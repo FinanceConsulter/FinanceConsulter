@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "JT's Diner",
+        "date": "2016-02-12",
+        "menu": [
+            {
+                "Artikel": "Coffee",
+                "Total": "5.90"
+            },
+            {
+                "Artikel": "Two Eggs Any Style",
+                "Total": "6.95"
+            },
+            {
+                "Artikel": "Whole-Wheat Pancakes",
+                "Total": "8.95"
+            },
+            {
+                "Artikel": "Hawaiian Sausage",
+                "Total": "4.50"
+            }
+        ],
+        "total": "28.40"
+    }
+}

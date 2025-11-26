@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "NEW DELHI INDIAN RESTAURANT",
+        "date": "2016-11-24",
+        "menu": [
+            {
+                "Artikel": "House Wine White Glass",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "VEGETABLE SHORBA",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "GARLIC NAAN",
+                "Total": "2.00"
+            },
+            {
+                "Artikel": "KARI PAKORA",
+                "Total": "4.50"
+            },
+            {
+                "Artikel": "ANGKOR BEER WITH MEAL",
+                "Total": "0.50"
+            },
+            {
+                "Artikel": "ANGKOR BEER WITH MEAL",
+                "Total": "0.50"
+            }
+        ],
+        "total": "13.00"
+    }
+}

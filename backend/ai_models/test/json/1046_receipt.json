@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Araxi Burger Aventura",
+        "date": "2019-03-17",
+        "menu": [
+            {
+                "Artikel": "2 Vanilla Bean",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Classic Burger 4oz",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Route 66 Burger 8oz",
+                "Total": "14.00"
+            }
+        ],
+        "total": "38.86"
+    }
+}

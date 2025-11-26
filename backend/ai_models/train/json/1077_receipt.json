@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "NAANCHING",
+        "date": "2019-03-24",
+        "menu": [
+            {
+                "Artikel": "Chicken Lollipop",
+                "Preis": "9.00"
+            },
+            {
+                "Artikel": "Thai Fried Rice",
+                "Preis": "12.00"
+            },
+            {
+                "Artikel": "Chicken Tikka Masala",
+                "Preis": "16.00"
+            },
+            {
+                "Artikel": "Naan",
+                "Preis": "3.00"
+            },
+            {
+                "Artikel": "Vegetable Biryani",
+                "Preis": "12.00"
+            },
+            {
+                "Artikel": "Mango Lassi",
+                "Preis": "4.00"
+            }
+        ],
+        "total": "69.79"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "SUKHOTHAI SUSHI + ASIAN FUSION",
+        "date": "2019-04-19",
+        "menu": [
+            {
+                "Artikel": "Chicken Fried Rice And Egg Lunch",
+                "Total": "7.99"
+            },
+            {
+                "Artikel": "California Tropic And Miso Lunch",
+                "Total": "7.99"
+            },
+            {
+                "Artikel": "Add Two Tostones",
+                "Total": "1.00"
+            },
+            {
+                "Artikel": "Sprite",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Perrier Sparkling Water",
+                "Total": "3.50"
+            }
+        ],
+        "total": "28.04"
+    }
+}

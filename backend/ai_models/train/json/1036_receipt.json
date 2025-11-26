@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "PAPPADEAUX SEAFOOD KITCHEN",
+        "date": "2017-11-18",
+        "menu": [
+            {
+                "Artikel": "Lump Crab & Spinach Dip",
+                "Preis": "15.95"
+            },
+            {
+                "Artikel": "Cajun Combo",
+                "Preis": "18.95"
+            },
+            {
+                "Artikel": "Lunch Shrimp & Andouille",
+                "Preis": "13.95"
+            }
+        ],
+        "total": "52.76"
+    }
+}

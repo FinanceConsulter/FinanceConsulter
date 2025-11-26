@@ -1,0 +1,53 @@
+{
+    "data": {
+        "merchant": "coop Bremgarten",
+        "date": "2025-07-25",
+        "menu": [
+            {
+                "Artikel": "Gurken/Netz",
+                "Total": "3.95"
+            },
+            {
+                "Artikel": "Vipe Apero",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Oliven, salsa mild",
+                "Total": "3.95"
+            },
+            {
+                "Artikel": "Bio Rucola 125g",
+                "Total": "2.70"
+            },
+            {
+                "Artikel": "DOP IGP Grüne Traube",
+                "Total": "3.50"
+            },
+            {
+                "Artikel": "Pistazien Mix",
+                "Total": "3.80"
+            },
+            {
+                "Artikel": "Tee",
+                "Total": "3.80"
+            },
+            {
+                "Artikel": "Bio Radiesli/Bund",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Oliven mit Stein",
+                "Total": "3.60"
+            },
+            {
+                "Artikel": "Poulet in Oberkeul",
+                "Total": "6.30"
+            },
+            {
+                "Artikel": "Grüner Paprika 240g",
+                "Total": "4.95"
+            }
+        ],
+        "total": "19.15"
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "data": {
+        "merchant": "Gordon Ramsay Steak Paris Las Vegas",
+        "date": "2014-10-21",
+        "menu": [
+            {
+                "Artikel": "Pimm's Cup",
+                "Total": "14.00"
+            },
+            {
+                "Artikel": "The Drifter",
+                "Total": "28.00"
+            },
+            {
+                "Artikel": "Kobe Beef Slider",
+                "Total": "18.00"
+            },
+            {
+                "Artikel": "New York",
+                "Total": "63.00"
+            },
+            {
+                "Artikel": "Amer Kobe Filet",
+                "Total": "79.00"
+            },
+            {
+                "Artikel": "Lobster Tail",
+                "Total": "38.00"
+            },
+            {
+                "Artikel": "Potato Puree",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Grlld Asparagus",
+                "Total": "13.00"
+            },
+            {
+                "Artikel": "Peppercorn",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Pepsi",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Choc Pot De Crem",
+                "Total": "13.00"
+            }
+        ],
+        "total": "313.49"
+    }
+}

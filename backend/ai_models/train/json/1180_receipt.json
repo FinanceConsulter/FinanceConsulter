@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "One Eyed Lizzy's",
+        "date": "2014-08-30",
+        "menu": [
+            {
+                "Artikel": "CHIPS y SALSA",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "Red Bull",
+                "Total": "3.50"
+            },
+            {
+                "Artikel": "Soft Drink",
+                "Total": "2.79"
+            }
+        ],
+        "total": "12.03"
+    }
+}

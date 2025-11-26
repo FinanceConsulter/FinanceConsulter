@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "El Gran Mar de Plata",
+        "date": "2017-04-20",
+        "menu": [
+            {
+                "Artikel": "1 Miller Lite",
+                "Total": "5.00"
+            }
+        ],
+        "total": "5.35"
+    }
+}

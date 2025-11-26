@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "CHATPATA RESTAURANT INC",
+        "date": "2019-03-19",
+        "menu": [
+            {
+                "Artikel": "Chicken Korma",
+                "Total": "11.95"
+            },
+            {
+                "Artikel": "Naan (Plain Naan)",
+                "Total": "1.95"
+            },
+            {
+                "Artikel": "Kheer",
+                "Total": "3.95"
+            }
+        ],
+        "total": "19.10"
+    }
+}

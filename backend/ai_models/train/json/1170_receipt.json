@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Buca di Beppo",
+        "date": "2016-07-15",
+        "menu": [
+            {
+                "Artikel": "Iced Tea",
+                "Total": "3.29"
+            },
+            {
+                "Artikel": "Sm Garlic Bread",
+                "Total": "9.99"
+            },
+            {
+                "Artikel": "9oz Buca Chianti",
+                "Total": "28.00"
+            },
+            {
+                "Artikel": "Gl Buca Chianti",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "Sm Chop Antipasto Salad",
+                "Total": "18.99"
+            },
+            {
+                "Artikel": "Lg Supremo Pizza",
+                "Total": "29.99"
+            }
+        ],
+        "total": "109.28"
+    }
+}

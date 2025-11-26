@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "BAR RISTORANTE SAN MONTANO",
+        "date": "2018-08-28",
+        "menu": [
+            {
+                "Artikel": "Vassoio e Stoviglie (x2)",
+                "Total": "1.00"
+            },
+            {
+                "Artikel": "Macedonia (x2)",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "Insalata Negombo",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "Bufala",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Pomodorini",
+                "Total": "4.00"
+            },
+            {
+                "Artikel": "Nat 1/2 lt",
+                "Total": "1.00"
+            }
+        ],
+        "total": "34.00"
+    }
+}

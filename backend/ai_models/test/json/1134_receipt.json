@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "KFC",
+        "date": "2016-07-08",
+        "menu": [
+            {
+                "Artikel": "Family Fill Up",
+                "Total": "20.00"
+            }
+        ],
+        "total": "21.73"
+    }
+}

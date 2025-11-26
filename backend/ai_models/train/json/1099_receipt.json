@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "Mezcal Mexican Restaurant & Bar",
+        "date": "2017-12-29",
+        "menu": [
+            {
+                "Artikel": "Coffee",
+                "Total": "3.25"
+            },
+            {
+                "Artikel": "Enmoladas with Meat",
+                "Total": "14.95"
+            },
+            {
+                "Artikel": "Chicken Tenders",
+                "Total": "5.95"
+            },
+            {
+                "Artikel": "Flautas Chicken",
+                "Total": "9.95"
+            },
+            {
+                "Artikel": "Coloradito",
+                "Total": "15.95"
+            }
+        ],
+        "total": "64.52"
+    }
+}

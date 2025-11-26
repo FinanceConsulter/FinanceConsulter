@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Bar Rua",
+        "date": "2018-08-17",
+        "menu": [
+            {
+                "Artikel": "2 GLS CARRIG LAGER",
+                "Total": "6.60"
+            },
+            {
+                "Artikel": "WINGS SMALL",
+                "Total": "9.00"
+            },
+            {
+                "Artikel": "FRESH COD",
+                "Total": "18.00"
+            },
+            {
+                "Artikel": "SHELLFISH POT",
+                "Total": "22.50"
+            },
+            {
+                "Artikel": "FISH CAKES",
+                "Total": "7.50"
+            },
+            {
+                "Artikel": "PORTION BREAD LARGE",
+                "Total": "1.50"
+            }
+        ],
+        "total": "65.10"
+    }
+}

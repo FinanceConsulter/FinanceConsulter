@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "Loaded Cafe",
+        "date": "2023-02-19",
+        "menu": [
+            {
+                "Artikel": "2 Enchi Omelete SHREDDED BEEF",
+                "Total": "25.98"
+            },
+            {
+                "Artikel": "1 Open Food SHREDDED BEEG",
+                "Total": "3.19"
+            },
+            {
+                "Artikel": "1 Open Food",
+                "Total": "3.19"
+            },
+            {
+                "Artikel": "1 Hashbrowns Side",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "1 Hashbrowns Side",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "1 Coffee Hot",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "1 Diet Coke",
+                "Total": "2.99"
+            }
+        ],
+        "total": "48.53"
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "Ristorante/Bar (Tavoli 4)",
+        "date": "2025-09-03",
+        "menu": [
+            {
+                "Artikel": "Servizio (x2)",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Bufalina",
+                "Total": "9.00"
+            },
+            {
+                "Artikel": "Aperol Spritz",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Moskow Mule",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Diavola",
+                "Total": "9.00"
+            },
+            {
+                "Artikel": "Gin Tonic",
+                "Total": "8.00"
+            },
+            {
+                "Artikel": "Panna cotta caramel",
+                "Total": "5.00"
+            }
+        ],
+        "total": "52.00"
+    }
+}

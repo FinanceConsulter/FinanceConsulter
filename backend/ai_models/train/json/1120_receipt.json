@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "RED & HOT II",
+        "date": "2018-10-20",
+        "menu": [
+            {
+                "Artikel": "Vegetable Roll Egg Roll",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "L.35.Sesame chicken W/R F/R",
+                "Total": "13.90"
+            },
+            {
+                "Artikel": "(L) Veg Spare Ribs .BBS W/R",
+                "Total": "7.65"
+            }
+        ],
+        "total": "23.46"
+    }
+}

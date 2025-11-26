@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Marie Callender's Restaurant",
+        "date": "2014-11-30",
+        "menu": [
+            {
+                "Artikel": "CORNBREAD SVC",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "TRIO- POT PIE",
+                "Total": "19.98"
+            },
+            {
+                "Artikel": "C- PIE SLICE",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "NO BEVERAGE",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "SOFT DRINK",
+                "Total": "2.79"
+            },
+            {
+                "Artikel": "BDAY CLUB Discount",
+                "Total": "-5.00"
+            }
+        ],
+        "total": "19.19"
+    }
+}

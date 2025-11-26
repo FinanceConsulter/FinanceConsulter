@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "MITASU JAPANESE RESTAURANT SDN BHD",
+        "date": "2018-06-29",
+        "menu": [
+            {
+                "Artikel": "Adult Buffet (x11)",
+                "Total": "709.50"
+            },
+            {
+                "Artikel": "Service Charge (10%)",
+                "Total": "70.95"
+            }
+        ],
+        "total": "780.45"
+    }
+}

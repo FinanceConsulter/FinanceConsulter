@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Blue Bear Tavern",
+        "date": "2012-01-13",
+        "menu": [
+            {
+                "Artikel": "Crimini",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "Salami",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "Olives",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "Lrg Clams\\mussels",
+                "Total": "14.00"
+            },
+            {
+                "Artikel": "Reg Ketel One",
+                "Total": "52.00"
+            },
+            {
+                "Artikel": "House Cab",
+                "Total": "6.00"
+            }
+        ],
+        "total": "83.44"
+    }
+}

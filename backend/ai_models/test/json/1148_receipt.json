@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Sonic America's Drive-In",
+        "date": "2018-06-22",
+        "menu": [
+            {
+                "Artikel": "Combo",
+                "Total": "6.79"
+            },
+            {
+                "Artikel": "Prem Dog Combo",
+                "Total": "5.09"
+            }
+        ],
+        "total": "13.07"
+    }
+}

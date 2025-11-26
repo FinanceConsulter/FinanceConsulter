@@ -1,0 +1,61 @@
+{
+    "data": {
+        "merchant": "coop Bremgarten",
+        "date": "2025-06-21",
+        "menu": [
+            {
+                "Artikel": "Bio Zitronen 750g/Netz",
+                "Total": "2.95"
+            },
+            {
+                "Artikel": "Die Susi 200g 6x25g",
+                "Total": "4.70"
+            },
+            {
+                "Artikel": "Honigmelone",
+                "Total": "3.50"
+            },
+            {
+                "Artikel": "Aprikosen 400g",
+                "Total": "0.95"
+            },
+            {
+                "Artikel": "NAM's Peanut Porridge",
+                "Total": "7.30"
+            },
+            {
+                "Artikel": "Mini Toast Salz",
+                "Total": "7.30"
+            },
+            {
+                "Artikel": "Bio Radiesli Bund 250g",
+                "Total": "0.95"
+            },
+            {
+                "Artikel": "Tortilla Chips 270g",
+                "Total": "6.95"
+            },
+            {
+                "Artikel": "Zweifel Chips Papr 500g",
+                "Total": "4.75"
+            },
+            {
+                "Artikel": "Branzino Filet 14.3g/16.5g",
+                "Total": "4.40"
+            },
+            {
+                "Artikel": "Rioja-Gran-Res-2015",
+                "Total": "40.00"
+            },
+            {
+                "Artikel": "Tequila Blanco 70cl",
+                "Total": "46.90"
+            },
+            {
+                "Artikel": "Marshmallow 800g 50cl",
+                "Total": "14.00"
+            }
+        ],
+        "total": "157.40"
+    }
+}

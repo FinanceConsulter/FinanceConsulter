@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "LANDFALL RESTAURANT",
+        "date": "2017-06-10",
+        "menu": [
+            {
+                "Artikel": "CUP CHOWDER",
+                "Preis": "6.00"
+            }
+        ],
+        "total": "7.55"
+    }
+}

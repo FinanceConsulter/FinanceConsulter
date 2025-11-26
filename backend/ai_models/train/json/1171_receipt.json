@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "POP TATES KORUM MALL",
+        "date": "2012-12-09",
+        "menu": [
+            {
+                "Artikel": "FRENCH FRIES",
+                "Total": "190.00"
+            },
+            {
+                "Artikel": "OPEN FOOD",
+                "Total": "60.00"
+            },
+            {
+                "Artikel": "MANESH SAUS",
+                "Total": "60.00"
+            },
+            {
+                "Artikel": "PANEER TIKKA",
+                "Total": "248.00"
+            }
+        ],
+        "total": "523.00"
+    }
+}

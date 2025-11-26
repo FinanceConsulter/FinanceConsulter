@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "coop Bremgarten",
+        "date": "2025-10-07",
+        "menu": [
+            {
+                "Artikel": "Hummus 200g",
+                "Total": "1.95"
+            },
+            {
+                "Artikel": "Softdrink Orangen",
+                "Total": "9.50"
+            },
+            {
+                "Artikel": "ASC Lachs Norrake Ar",
+                "Total": "13.60"
+            }
+        ],
+        "total": "25.05"
+    }
+}

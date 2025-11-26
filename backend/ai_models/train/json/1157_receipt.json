@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "COLLEGE OF SOUTHERN NEVADA RUSSELL'S RESTAURANT",
+        "date": "2014-10-08",
+        "menu": [
+            {
+                "Artikel": "LATTE",
+                "Total": "1.75"
+            },
+            {
+                "Artikel": "SALMON",
+                "Total": "7.95"
+            }
+        ],
+        "total": "9.70"
+    }
+}

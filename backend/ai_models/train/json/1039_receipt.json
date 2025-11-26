@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "CARL'S JR 1100375",
+        "date": "2016-12-19",
+        "menu": [
+            {
+                "Artikel": "Santa Fe Ckn",
+                "Preis": "11.38"
+            },
+            {
+                "Artikel": "E Green Chile",
+                "Preis": "0.70"
+            }
+        ],
+        "total": "13.05"
+    }
+}

@@ -1,0 +1,69 @@
+{
+    "data": {
+        "merchant": "Rio Getränkemarkt AG",
+        "date": "2025-05-31",
+        "menu": [
+            {
+                "Artikel": "Artikel/Mango / Piwe",
+                "Total": "1.60"
+            },
+            {
+                "Artikel": "FS Original EW 10FZ-grase 33dl",
+                "Total": "8.25"
+            },
+            {
+                "Artikel": "Kistler Kombibottle Ginger Lemon",
+                "Total": "8.25"
+            },
+            {
+                "Artikel": "Pirmin Kistler Holunderblt Rose",
+                "Total": "8.25"
+            },
+            {
+                "Artikel": "Schwarzes In all Tonic Pet 6-Pack",
+                "Total": "11.70"
+            },
+            {
+                "Artikel": "Blauer Luft Pfefferminzlikör 18%",
+                "Total": "13.90"
+            },
+            {
+                "Artikel": "Blauer Luft Pfefferminzlikör 18%",
+                "Total": "13.90"
+            },
+            {
+                "Artikel": "Aprikos Spruesse MW Harass",
+                "Total": "7.60"
+            },
+            {
+                "Artikel": "Cristallina 0.30 x4 1.20",
+                "Total": "14.40"
+            },
+            {
+                "Artikel": "Nestea BlackTea Lemon Pet 6-Pack",
+                "Total": "9.30"
+            },
+            {
+                "Artikel": "Eichhof Lager \"Aktion\" Dose",
+                "Total": "30.00"
+            },
+            {
+                "Artikel": "Eichholzer Weisse TAP 7 Original",
+                "Total": "39.00"
+            },
+            {
+                "Artikel": "Nestea BlackTea Lemon Pet 6-Pack",
+                "Total": "9.30"
+            },
+            {
+                "Artikel": "Tagesrasen/all MW Harass",
+                "Total": "52.00"
+            },
+            {
+                "Artikel": "Schmuus Anina Salida EW 34x33cl",
+                "Total": "28.80"
+            }
+        ],
+        "total": "271.10"
+    }
+}

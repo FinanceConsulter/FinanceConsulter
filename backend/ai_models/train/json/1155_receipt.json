@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Marco Pierre White Steakhouse & Grlll",
+        "date": "2019-02-16",
+        "menu": [
+            {
+                "Artikel": "8oz Fil Bearn",
+                "Total": "35.95"
+            },
+            {
+                "Artikel": "8oz Fil Au Po",
+                "Total": "35.95"
+            },
+            {
+                "Artikel": "Onion Ring",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "Haricots Vert",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "Choc Truf Cake",
+                "Total": "8.95"
+            },
+            {
+                "Artikel": "Lunita",
+                "Total": "39.00"
+            }
+        ],
+        "total": "129.75"
+    }
+}

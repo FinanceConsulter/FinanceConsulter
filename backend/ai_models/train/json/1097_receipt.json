@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "EL POLLO LOCO",
+        "date": "2017-06-28",
+        "menu": [
+            {
+                "Artikel": "Burrito Cmb Chk Ranchero Bur",
+                "Total": "8.28"
+            },
+            {
+                "Artikel": "2 Bur-BRC @ 1.89",
+                "Total": "3.78"
+            }
+        ],
+        "total": "13.12"
+    }
+}

@@ -1,0 +1,81 @@
+{
+    "data": {
+        "merchant": "ALIGRO Schlieren",
+        "date": "2024-11-29",
+        "menu": [
+            {
+                "Artikel": "Vodka Break Gerueche 41 80",
+                "Total": "12.10"
+            },
+            {
+                "Artikel": "El Tony Mate Ingwer Dose 12 cl",
+                "Total": "13.50"
+            },
+            {
+                "Artikel": "El Tony Mate Ingwer Dose 33 cl",
+                "Total": "35.60"
+            },
+            {
+                "Artikel": "El Tony Mate Minze Dose 33 cl (x2)",
+                "Total": "71.20"
+            },
+            {
+                "Artikel": "El Tony Mate MW 33 cl",
+                "Total": "35.60"
+            },
+            {
+                "Artikel": "Monster Ultra 50 cl",
+                "Total": "19.50"
+            },
+            {
+                "Artikel": "Red Bull Syrik Edition SugarFree 25 cl",
+                "Total": "1.60"
+            },
+            {
+                "Artikel": "San Benedetto Lemonte 1.5l",
+                "Total": "8.90"
+            },
+            {
+                "Artikel": "Party Becher PST Rot - Rolle 50x",
+                "Total": "17.60"
+            },
+            {
+                "Artikel": "50 Kartonschalen aus PS 2er-geteilt 2x 50s",
+                "Total": "1.70"
+            },
+            {
+                "Artikel": "Kartonteller 13x20cm 250s",
+                "Total": "3.10"
+            },
+            {
+                "Artikel": "Quad.-Kup.-Teller Hart-kunstst 24 cm 6st",
+                "Total": "16.00"
+            },
+            {
+                "Artikel": "Redrock 10er Teller Palmblatt 18x18 cm 4x",
+                "Total": "17.00"
+            },
+            {
+                "Artikel": "3PK",
+                "Total": "8.50"
+            },
+            {
+                "Artikel": "Servietten York Weisse 1/4 33 cm 150s",
+                "Total": "3.10"
+            },
+            {
+                "Artikel": "Unknown Item",
+                "Total": "11.60"
+            },
+            {
+                "Artikel": "Cervelat Braid (Meat)",
+                "Total": "39.50"
+            },
+            {
+                "Artikel": "Bratwurst (Meat)",
+                "Total": "57.00"
+            }
+        ],
+        "total": "400.60"
+    }
+}

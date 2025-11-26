@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "coop Zürich Bärengasse",
+        "date": "2025-11-21",
+        "menu": [
+            {
+                "Artikel": "Geschn. Lachs 50g",
+                "Total": "4.90"
+            },
+            {
+                "Artikel": "Ultra Breathe 90St",
+                "Total": "2.25"
+            }
+        ],
+        "total": "7.15"
+    }
+}

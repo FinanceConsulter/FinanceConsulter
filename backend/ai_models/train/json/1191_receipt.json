@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "MOD Pizza",
+        "date": "2019-05-19",
+        "menu": [
+            {
+                "Artikel": "Draft Beer",
+                "Total": "9.94"
+            },
+            {
+                "Artikel": "Fountain Drink (16oz)",
+                "Total": "2.17"
+            },
+            {
+                "Artikel": "MOD Pizza",
+                "Total": "8.67"
+            },
+            {
+                "Artikel": "Mini MOD",
+                "Total": "6.67"
+            },
+            {
+                "Artikel": "Tip",
+                "Total": "3.59"
+            }
+        ],
+        "total": "29.98"
+    }
+}

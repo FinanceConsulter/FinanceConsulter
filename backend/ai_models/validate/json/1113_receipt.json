@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Golden Panda Buffet",
+        "date": "2018-06-02",
+        "menu": [
+            {
+                "Artikel": "Adult Dinner",
+                "Total": "23.98"
+            },
+            {
+                "Artikel": "Soda",
+                "Total": "3.38"
+            }
+        ],
+        "total": "29.96"
+    }
+}

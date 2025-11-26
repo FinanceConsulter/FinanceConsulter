@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "MOONSTAR RESTAURANT",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "5 FRI-SUN DINNER",
+                "Total": "149.40"
+            },
+            {
+                "Artikel": "50%OFF BIRTHDAY Discount",
+                "Total": "-14.94"
+            }
+        ],
+        "total": "146.57"
+    }
+}

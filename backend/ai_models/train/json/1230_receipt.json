@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "HOTEL KRONE",
+        "date": "2025-06-30",
+        "menu": [
+            {
+                "Artikel": "Mineral mit (1.5dl)",
+                "Total": "5.15"
+            },
+            {
+                "Artikel": "Menu A",
+                "Total": "19.80"
+            }
+        ],
+        "total": "24.95"
+    }
+}

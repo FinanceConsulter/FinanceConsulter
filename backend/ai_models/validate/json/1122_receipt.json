@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "El Meson Mexican Restaurant",
+        "date": "",
+        "menu": [
+            {
+                "Artikel": "SOPA DE TORTILA BOWL",
+                "Total": "5.50"
+            },
+            {
+                "Artikel": "TACO SALAD CHKN",
+                "Total": "9.50"
+            },
+            {
+                "Artikel": "HOUSE MARGARITA JUMBO",
+                "Total": "12.50"
+            },
+            {
+                "Artikel": "Dr Pepper",
+                "Total": "2.65"
+            },
+            {
+                "Artikel": "SIDE CHEESE",
+                "Total": "1.55"
+            },
+            {
+                "Artikel": "HOUSE MARGARITA JUMBO",
+                "Total": "12.50"
+            }
+        ],
+        "total": "47.70"
+    }
+}

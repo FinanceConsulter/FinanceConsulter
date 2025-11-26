@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "ipanema Brazilian Steak House",
+        "date": "2018-04-13",
+        "menu": [
+            {
+                "Artikel": "DINNER RODIZIO",
+                "Total": "41.95"
+            },
+            {
+                "Artikel": "Gratuity",
+                "Total": "10.49"
+            }
+        ],
+        "total": "55.38"
+    }
+}

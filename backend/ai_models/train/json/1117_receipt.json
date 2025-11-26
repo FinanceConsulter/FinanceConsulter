@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "KOBE JAPANESE STEAK",
+        "date": "2019-02-22",
+        "menu": [
+            {
+                "Artikel": "Amount",
+                "Total": "158.07"
+            },
+            {
+                "Artikel": "Tip",
+                "Total": "15.00"
+            }
+        ],
+        "total": "173.07"
+    }
+}

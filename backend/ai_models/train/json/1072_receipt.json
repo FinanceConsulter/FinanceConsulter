@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "OHANA HAWAIIAN BBQ",
+        "date": "2013-06-01",
+        "menu": [
+            {
+                "Artikel": "1/2 AND 1/2 COMBO",
+                "Preis": "8.45"
+            },
+            {
+                "Artikel": "1/2 AND 1/2 COMBO",
+                "Preis": "7.95"
+            },
+            {
+                "Artikel": "FOUNTAIN MEDIUM",
+                "Preis": "3.50"
+            }
+        ],
+        "total": "22.00"
+    }
+}

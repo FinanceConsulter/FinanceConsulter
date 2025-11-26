@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "MIGROS Basel",
+        "date": "2025-11-01",
+        "menu": [
+            {
+                "Artikel": "Henkelmarke Hnspr.",
+                "Total": "1.70"
+            }
+        ],
+        "total": "1.70"
+    }
+}

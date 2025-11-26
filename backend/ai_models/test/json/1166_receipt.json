@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "PAPPADEAUX SEAFOOD KITCHEN",
+        "date": "2017-01-07",
+        "menu": [
+            {
+                "Artikel": "Side Craw Etouffee 4oz",
+                "Total": "10.98"
+            },
+            {
+                "Artikel": "Pan Seared Tilapia",
+                "Total": "21.99"
+            },
+            {
+                "Artikel": "Tea",
+                "Total": "5.98"
+            }
+        ],
+        "total": "42.16"
+    }
+}

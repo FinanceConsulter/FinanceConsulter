@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "The Shawarma Factory",
+        "date": "2019-04-10",
+        "menu": [
+            {
+                "Artikel": "Flame Broiled Chicken 1/2 Chicken, Hummus, House Salad",
+                "Total": "11.99"
+            }
+        ],
+        "total": "13.13"
+    }
+}

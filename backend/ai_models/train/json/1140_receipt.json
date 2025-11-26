@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "SHAKE SHACK",
+        "date": "2015-03-03",
+        "menu": [
+            {
+                "Artikel": "ShackBurger",
+                "Total": "5.19"
+            },
+            {
+                "Artikel": "Smoke Shack",
+                "Total": "6.59"
+            },
+            {
+                "Artikel": "cheese fries",
+                "Total": "3.95"
+            },
+            {
+                "Artikel": "REG Soda",
+                "Total": "5.50"
+            },
+            {
+                "Artikel": "REG Rootbeer",
+                "Total": "2.25"
+            },
+            {
+                "Artikel": "REG Iced Tea",
+                "Total": "0.00"
+            }
+        ],
+        "total": "25.47"
+    }
+}

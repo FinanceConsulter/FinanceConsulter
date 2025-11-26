@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Don Juan Mexican Restaurant",
+        "date": "2013-11-06",
+        "menu": [
+            {
+                "Artikel": "2 Red Sangria Glass",
+                "Total": "14.00"
+            },
+            {
+                "Artikel": "#4-COMBO FAJITAS",
+                "Total": "22.95"
+            },
+            {
+                "Artikel": "#34-BURRITO SUPREME W/ Beef",
+                "Total": "14.95"
+            }
+        ],
+        "total": "56.38"
+    }
+}

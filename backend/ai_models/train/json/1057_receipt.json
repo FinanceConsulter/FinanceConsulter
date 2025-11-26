@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "CAFE PARISIEN LARCHMONT LLC",
+        "date": "2019-01-24",
+        "menu": [
+            {
+                "Artikel": "CROISSANT AUX RAISINS",
+                "Preis": "4.00"
+            },
+            {
+                "Artikel": "Cappucino",
+                "Preis": "4.75"
+            }
+        ],
+        "total": "9.58"
+    }
+}

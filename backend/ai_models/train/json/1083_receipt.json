@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "King Taco # 30",
+        "date": "2017-03-17",
+        "menu": [
+            {
+                "Artikel": "SOPE ASADA",
+                "Preis": "3.10"
+            },
+            {
+                "Artikel": "TACO ASADA",
+                "Preis": "1.59"
+            },
+            {
+                "Artikel": "TACO PASTOR",
+                "Preis": "1.59"
+            },
+            {
+                "Artikel": "QUESADILLA ASADA",
+                "Preis": "4.89"
+            },
+            {
+                "Artikel": "ORDEN CHIPS",
+                "Preis": "1.50"
+            }
+        ],
+        "total": "13.78"
+    }
+}

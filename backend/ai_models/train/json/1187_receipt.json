@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Spiral Diner & Bakery",
+        "date": "2019-06-16",
+        "menu": [
+            {
+                "Artikel": "Real Smooth",
+                "Total": "7.99"
+            },
+            {
+                "Artikel": "Short Stack",
+                "Total": "8.59"
+            },
+            {
+                "Artikel": "Coffee",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "Breakfast Quesadilla",
+                "Total": "13.99"
+            },
+            {
+                "Artikel": "Grilled Spinach",
+                "Total": "1.99"
+            },
+            {
+                "Artikel": "Southern Comfort",
+                "Total": "10.99"
+            }
+        ],
+        "total": "50.38"
+    }
+}

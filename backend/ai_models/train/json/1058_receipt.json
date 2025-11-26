@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "Caldera BREWERY & RESTAURANT",
+        "date": "2017-12-28",
+        "menu": [
+            {
+                "Artikel": "Glass Imp Stout",
+                "Preis": "5.00"
+            },
+            {
+                "Artikel": "Ashland Amber",
+                "Preis": "4.75"
+            },
+            {
+                "Artikel": "Butter Noodles",
+                "Preis": "7.00"
+            },
+            {
+                "Artikel": "Oatmeal Stout",
+                "Preis": "4.75"
+            },
+            {
+                "Artikel": "Mahi Mahi TACO",
+                "Preis": "15.00"
+            }
+        ],
+        "total": "37.60"
+    }
+}

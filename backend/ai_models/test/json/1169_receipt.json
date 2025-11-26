@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Delmonico's Italian Steakhouse",
+        "date": "2015-08-22",
+        "menu": [
+            {
+                "Artikel": "No Bev",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Mozzarella Fritta",
+                "Total": "7.99"
+            },
+            {
+                "Artikel": "Delmonico Steak",
+                "Total": "24.99"
+            },
+            {
+                "Artikel": "Asparagus",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "Baked Potato",
+                "Total": "3.99"
+            },
+            {
+                "Artikel": "Decaf Coffee - Unlimited",
+                "Total": "2.99"
+            }
+        ],
+        "total": "46.39"
+    }
+}

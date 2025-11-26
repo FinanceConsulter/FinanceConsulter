@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Panda Express",
+        "date": "2013-03-16",
+        "menu": [
+            {
+                "Artikel": "PARTY PK 18-22",
+                "Preis": "139.00"
+            },
+            {
+                "Artikel": "PEPPERCORN SHRIMP",
+                "Preis": "12.00"
+            }
+        ],
+        "total": "164.89"
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "data": {
+        "merchant": "RISTORANTE BELLAGIO",
+        "date": "2019-07-14",
+        "menu": [
+            {
+                "Artikel": "COPERTO",
+                "Preis": "12.00"
+            },
+            {
+                "Artikel": "ACQUA NAT",
+                "Preis": "8.00"
+            },
+            {
+                "Artikel": "SALMERINO PIASTRA",
+                "Preis": "18.00"
+            },
+            {
+                "Artikel": "TRENETTE AL PESTO",
+                "Preis": "13.00"
+            },
+            {
+                "Artikel": "SPAGHETTI POM. BASILICO",
+                "Preis": "10.00"
+            },
+            {
+                "Artikel": "FETTUCCINE RAGU'",
+                "Preis": "15.00"
+            },
+            {
+                "Artikel": "PATATINE FRITTE",
+                "Preis": "6.00"
+            }
+        ],
+        "total": "82.00"
+    }
+}

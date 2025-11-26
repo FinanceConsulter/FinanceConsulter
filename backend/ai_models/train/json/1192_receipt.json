@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "STANFORD'S",
+        "date": "2017-09-30",
+        "menu": [
+            {
+                "Artikel": "CHIC TEND AP",
+                "Total": "9.95"
+            },
+            {
+                "Artikel": "RIBS 1/2 ST",
+                "Total": "18.95"
+            },
+            {
+                "Artikel": "BRG DELUXE",
+                "Total": "14.95"
+            },
+            {
+                "Artikel": "K TIMING",
+                "Total": "9.95"
+            }
+        ],
+        "total": "37.29"
+    }
+}

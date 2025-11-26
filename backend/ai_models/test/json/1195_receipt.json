@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Amici Conyers",
+        "date": "2018-06-10",
+        "menu": [
+            {
+                "Artikel": "Coke (Seat 1)",
+                "Total": "2.29"
+            },
+            {
+                "Artikel": "Margherita Calzone",
+                "Total": "11.99"
+            },
+            {
+                "Artikel": "Side Caesar",
+                "Total": "4.99"
+            },
+            {
+                "Artikel": "Coke (Seat 2)",
+                "Total": "2.29"
+            },
+            {
+                "Artikel": "Dbl Stack Cheeseburger",
+                "Total": "8.99"
+            },
+            {
+                "Artikel": "Bacon",
+                "Total": "0.99"
+            }
+        ],
+        "total": "33.75"
+    }
+}

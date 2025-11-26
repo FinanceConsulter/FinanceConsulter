@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "Via Mar Restaurant",
+        "date": "2018-09-06",
+        "menu": [
+            {
+                "Artikel": "6 TAP BEER 10-HH",
+                "Total": "9.54"
+            },
+            {
+                "Artikel": "2 Manzanita Sol",
+                "Total": "5.50"
+            },
+            {
+                "Artikel": "Tamarindo",
+                "Total": "2.75"
+            },
+            {
+                "Artikel": "Sprite",
+                "Total": "2.75"
+            },
+            {
+                "Artikel": "Thur. 2 Cock Shrimp",
+                "Total": "11.95"
+            },
+            {
+                "Artikel": "2 Whole Fish Tilapia Whl Fried",
+                "Total": "21.90"
+            },
+            {
+                "Artikel": "2 tcs Gobernador plan ,fries",
+                "Total": "7.75"
+            },
+            {
+                "Artikel": "French Fries",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "Taco DE Asada plain, papas",
+                "Total": "2.25"
+            }
+        ],
+        "total": "73.24"
+    }
+}

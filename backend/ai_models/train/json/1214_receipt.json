@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "SAMPEI BY ARBA",
+        "date": "2025-09-06",
+        "menu": [
+            {
+                "Artikel": "PINA COLADA (x2)",
+                "Total": "9.00"
+            },
+            {
+                "Artikel": "ICHNUSA NON FILTRATA (x2)",
+                "Total": "12.00"
+            }
+        ],
+        "total": "21.00"
+    }
+}

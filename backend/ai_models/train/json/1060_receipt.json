@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "1660 India Street",
+        "date": "2017-12-17",
+        "menu": [
+            {
+                "Artikel": "GL Karma Cab Sauv",
+                "Preis": "12.00"
+            },
+            {
+                "Artikel": "GL Douglass Green SB",
+                "Preis": "11.00"
+            },
+            {
+                "Artikel": "PKLI Green Curry Scallops",
+                "Preis": "27.95"
+            },
+            {
+                "Artikel": "PLKI Piri Piri Chicken",
+                "Preis": "23.75"
+            }
+        ],
+        "total": "83.50"
+    }
+}

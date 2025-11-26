@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "Subway",
+        "date": "2019-05-01",
+        "menu": [
+            {
+                "Artikel": "#SMS $11.99 Any 2 FtLong",
+                "Preis": "11.99"
+            }
+        ],
+        "total": "13.22"
+    }
+}

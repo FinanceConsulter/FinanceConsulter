@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "Lalo's Mexican at Navy Pier",
+        "date": "2017-08-24",
+        "menu": [
+            {
+                "Artikel": "Bottled Water",
+                "Total": "2.45"
+            },
+            {
+                "Artikel": "Add Pollo Taco",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "Add Carnitas Taco",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "Sour Cream",
+                "Total": "1.25"
+            },
+            {
+                "Artikel": "Chihuahua Cheese",
+                "Total": "1.25"
+            }
+        ],
+        "total": "16.56"
+    }
+}

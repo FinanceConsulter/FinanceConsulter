@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Trinity Restaurant",
+        "date": "2017-02-18",
+        "menu": [
+            {
+                "Artikel": "Quesadilla",
+                "Preis": "11.00"
+            },
+            {
+                "Artikel": "Pot Roast",
+                "Preis": "18.00"
+            },
+            {
+                "Artikel": "Fish An Chips",
+                "Preis": "16.00"
+            },
+            {
+                "Artikel": "Side Salad",
+                "Preis": "4.00"
+            },
+            {
+                "Artikel": "Dft Shock top",
+                "Preis": "5.50"
+            },
+            {
+                "Artikel": "Dft Guiness",
+                "Preis": "15.00"
+            }
+        ],
+        "total": "75.50"
+    }
+}

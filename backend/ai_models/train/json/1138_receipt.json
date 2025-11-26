@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "CASA CHAN RESTAURANT",
+        "date": "2014-12-21",
+        "menu": [
+            {
+                "Artikel": "#12 Wonton or Egg Drop or Mixed Dinner Wonton Soup",
+                "Total": "3.75"
+            },
+            {
+                "Artikel": "#01 Egg Roll",
+                "Total": "3.00"
+            },
+            {
+                "Artikel": "#23 Juice Chinesse Chop Suey Honduran Style Dinner",
+                "Total": "8.99"
+            },
+            {
+                "Artikel": "Tropical",
+                "Total": "5.00"
+            },
+            {
+                "Artikel": "Tamal De Pollo",
+                "Total": "3.50"
+            }
+        ],
+        "total": "25.94"
+    }
+}

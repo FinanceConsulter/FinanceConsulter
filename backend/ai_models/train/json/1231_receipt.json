@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "SOCAR migrolino",
+        "date": "2024-11-06",
+        "menu": [
+            {
+                "Artikel": "Braune Birel",
+                "Total": "3.95"
+            },
+            {
+                "Artikel": "Red Bull Winter 25cl",
+                "Total": "2.10"
+            },
+            {
+                "Artikel": "Kühl L. T. Pfirsich",
+                "Total": "0.95"
+            },
+            {
+                "Artikel": "Snickers Protein 47g",
+                "Total": "0.95"
+            }
+        ],
+        "total": "7.95"
+    }
+}

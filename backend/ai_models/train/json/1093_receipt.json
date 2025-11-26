@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "POPEYE'S",
+        "date": "2018-06-24",
+        "menu": [
+            {
+                "Artikel": "#5 5 WING COMBO",
+                "Total": "9.99"
+            },
+            {
+                "Artikel": "#6 3 TENDER ML",
+                "Total": "8.69"
+            },
+            {
+                "Artikel": "#6 3 TENDER ML",
+                "Total": "8.69"
+            },
+            {
+                "Artikel": "#11/ POP SHRMP/COMBO",
+                "Total": "8.49"
+            }
+        ],
+        "total": "38.23"
+    }
+}

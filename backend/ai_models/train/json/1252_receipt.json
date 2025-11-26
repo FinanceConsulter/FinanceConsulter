@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "T.K. Maxx Hamburg Wandsbek",
+        "date": "2025-09-27",
+        "menu": [
+            {
+                "Artikel": "Item 1",
+                "Total": "16.99"
+            },
+            {
+                "Artikel": "Item 2",
+                "Total": "16.99"
+            }
+        ],
+        "total": "16.99"
+    }
+}

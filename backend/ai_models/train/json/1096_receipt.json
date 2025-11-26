@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "223 N. Citrus Ave",
+        "date": "2018-09-25",
+        "menu": [
+            {
+                "Artikel": "Bohemia Tall",
+                "Total": "16.00"
+            },
+            {
+                "Artikel": "Albondigas",
+                "Total": "9.95"
+            },
+            {
+                "Artikel": "Mole",
+                "Total": "16.95"
+            }
+        ],
+        "total": "46.98"
+    }
+}

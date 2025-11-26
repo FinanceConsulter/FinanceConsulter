@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "CHRIS'S HAMBURGERS",
+        "date": "2017-11-24",
+        "menu": [
+            {
+                "Artikel": "MISC",
+                "Total": "0.01"
+            },
+            {
+                "Artikel": "B CHZ B SPC",
+                "Total": "8.80"
+            },
+            {
+                "Artikel": "F FRIES LRG CRISPY CRISPY",
+                "Total": "3.66"
+            },
+            {
+                "Artikel": "F FRIES LRG CRISPY",
+                "Total": "3.66"
+            },
+            {
+                "Artikel": "PREM MED DRINK horchata",
+                "Total": "2.15"
+            },
+            {
+                "Artikel": "CHZ BURGER SPEC",
+                "Total": "7.57"
+            }
+        ],
+        "total": "28.31"
+    }
+}

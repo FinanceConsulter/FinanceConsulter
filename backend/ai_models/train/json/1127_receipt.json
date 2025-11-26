@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "PIZZA HUT",
+        "date": "2018-10-25",
+        "menu": [
+            {
+                "Artikel": "Hand toss Cheese Pepperoni",
+                "Total": "12.49"
+            },
+            {
+                "Artikel": "Bone OUT GaricParm",
+                "Total": "7.69"
+            },
+            {
+                "Artikel": "Pitcher DosEquis",
+                "Total": "13.50"
+            },
+            {
+                "Artikel": "COUPON (F6)",
+                "Total": "-10.18"
+            }
+        ],
+        "total": "26.76"
+    }
+}

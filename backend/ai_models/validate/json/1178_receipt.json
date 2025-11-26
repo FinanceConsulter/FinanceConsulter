@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "Gourdough's Public House",
+        "date": "2017-01-21",
+        "menu": [
+            {
+                "Artikel": "FREEBIRD",
+                "Total": "5.50"
+            },
+            {
+                "Artikel": "ICE CREAM",
+                "Total": "2.00"
+            },
+            {
+                "Artikel": "LONESTAR",
+                "Total": "3.50"
+            }
+        ],
+        "total": "11.91"
+    }
+}

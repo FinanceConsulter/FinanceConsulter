@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "coop Kriens Pilatusmarkt",
+        "date": "2022-11-17",
+        "menu": [
+            {
+                "Artikel": "Kind Züri Chr. 11/14",
+                "Total": "19.95"
+            },
+            {
+                "Artikel": "Trend Züri Chr.",
+                "Total": "19.95"
+            }
+        ],
+        "total": "39.90"
+    }
+}

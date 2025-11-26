@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "COMMANDER'S PALACE",
+        "date": "2019-03-12",
+        "menu": [
+            {
+                "Artikel": "25/ CP, up",
+                "Total": "0.25"
+            },
+            {
+                "Artikel": "25/COSMO, up",
+                "Total": "0.25"
+            },
+            {
+                "Artikel": "SOUP DJ",
+                "Total": "22.00"
+            },
+            {
+                "Artikel": "TURTLE",
+                "Total": "18.00"
+            },
+            {
+                "Artikel": "CATFISH",
+                "Total": "0.25"
+            },
+            {
+                "Artikel": "TOSTADA",
+                "Total": "9.50"
+            },
+            {
+                "Artikel": "25/GIN, up",
+                "Total": "0.25"
+            },
+            {
+                "Artikel": "25/ RAY, up",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "SOUFFLE/ALA",
+                "Total": "5.50"
+            }
+        ],
+        "total": "55.95"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Go Mongo BBQ",
+        "date": "2018-01-28",
+        "menu": [
+            {
+                "Artikel": "BBQ Dinner",
+                "Total": "47.15"
+            },
+            {
+                "Artikel": "beverage",
+                "Total": "4.91"
+            }
+        ],
+        "total": "52.06"
+    }
+}

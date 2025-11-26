@@ -1,0 +1,77 @@
+{
+    "data": {
+        "merchant": "FIVE GUYS",
+        "date": "2017-05-25",
+        "menu": [
+            {
+                "Artikel": "Little Hamburger",
+                "Total": "5.19"
+            },
+            {
+                "Artikel": "Lettuce",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Pickles",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Tomatoes",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Grilled Onions",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Grilled Mushrooms",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Mustard",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Ketchup",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Jalapeno Peppers",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Large Fry (@5.79)",
+                "Total": "11.58"
+            },
+            {
+                "Artikel": "Large Soda",
+                "Total": "2.99"
+            },
+            {
+                "Artikel": "Cheeseburger",
+                "Total": "7.89"
+            },
+            {
+                "Artikel": "Mayo",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Lettuce",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Pickles",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "BBQ Sauce",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Regular Soda",
+                "Total": "2.70"
+            }
+        ],
+        "total": "32.66"
+    }
+}

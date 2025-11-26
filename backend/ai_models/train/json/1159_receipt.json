@@ -1,0 +1,13 @@
+{
+    "data": {
+        "merchant": "Taco Time - Kenmore",
+        "date": "2018-04-24",
+        "menu": [
+            {
+                "Artikel": "SFT TACO BF",
+                "Total": "5.99"
+            }
+        ],
+        "total": "6.59"
+    }
+}

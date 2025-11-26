@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "Nick's Tuscan Grill",
+        "date": "2018-03-18",
+        "menu": [
+            {
+                "Artikel": "Open Food",
+                "Total": "22.00"
+            },
+            {
+                "Artikel": "Ossobuco",
+                "Total": "28.00"
+            },
+            {
+                "Artikel": "Diet Coke",
+                "Total": "2.50"
+            },
+            {
+                "Artikel": "G 14 Hands Cab",
+                "Total": "10.00"
+            }
+        ],
+        "total": "67.89"
+    }
+}

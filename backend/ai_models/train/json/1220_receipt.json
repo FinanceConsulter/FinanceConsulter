@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "Relli's Steak-House Kloten",
+        "date": "2025-09-17",
+        "menu": [
+            {
+                "Artikel": "San Pellegrino, Agu",
+                "Total": "6.00"
+            },
+            {
+                "Artikel": "Kalbs-CD Patron",
+                "Total": "41.80"
+            }
+        ],
+        "total": "47.80"
+    }
+}

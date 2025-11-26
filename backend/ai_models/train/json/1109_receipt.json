@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "BreadFish Cafe",
+        "date": "2017-06-14",
+        "menu": [
+            {
+                "Artikel": "Popcom Chicken",
+                "Total": "4.39"
+            },
+            {
+                "Artikel": "Eraisec Beef flee/Noodle",
+                "Total": "6.75"
+            },
+            {
+                "Artikel": "Cold Noodle With Chicken",
+                "Total": "6.25"
+            },
+            {
+                "Artikel": "Beef Noodles",
+                "Total": "7.95"
+            }
+        ],
+        "total": "27.62"
+    }
+}

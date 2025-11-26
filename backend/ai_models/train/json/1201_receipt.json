@@ -1,0 +1,173 @@
+{
+    "data": {
+        "merchant": "Zeughauskeller Restaurant",
+        "date": "2025-11-21",
+        "menu": [
+            {
+                "Artikel": "Saisonssuppe (x5)",
+                "Total": "45.00"
+            },
+            {
+                "Artikel": "Gemischter Salat (x2)",
+                "Total": "19.00"
+            },
+            {
+                "Artikel": "Wurstsalat mit Ei",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Fleischkaesesalat",
+                "Total": "12.00"
+            },
+            {
+                "Artikel": "Nüsslisalat mit Ei (x5)",
+                "Total": "50.00"
+            },
+            {
+                "Artikel": "Haxe (Schwein)",
+                "Total": "33.00"
+            },
+            {
+                "Artikel": "Rindfleischhoeckli",
+                "Total": "39.50"
+            },
+            {
+                "Artikel": "Rindfleischhoeckli",
+                "Total": "39.50"
+            },
+            {
+                "Artikel": "Pommes Frites",
+                "Total": "4.50"
+            },
+            {
+                "Artikel": "Zürcher",
+                "Total": "36.50"
+            },
+            {
+                "Artikel": "Zürcher",
+                "Total": "36.50"
+            },
+            {
+                "Artikel": "Zubereitungszuschlag",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "Rösti",
+                "Total": "0.00"
+            },
+            {
+                "Artikel": "KB - Kalb",
+                "Total": "38.00"
+            },
+            {
+                "Artikel": "CB - Kalb (x4)",
+                "Total": "152.00"
+            },
+            {
+                "Artikel": "Pommes Frites",
+                "Total": "10.00"
+            },
+            {
+                "Artikel": "Ragschn. Wildhaus Sauc.",
+                "Total": "23.00"
+            },
+            {
+                "Artikel": "Rösti",
+                "Total": "3.50"
+            },
+            {
+                "Artikel": "Leberkäse",
+                "Total": "21.50"
+            },
+            {
+                "Artikel": "Portion Rotkohlmus",
+                "Total": "4.00"
+            },
+            {
+                "Artikel": "Wildschwein-Entrecôte",
+                "Total": "31.00"
+            },
+            {
+                "Artikel": "Caramel Köpfli (x2)",
+                "Total": "15.00"
+            },
+            {
+                "Artikel": "Sachertorte",
+                "Total": "11.80"
+            },
+            {
+                "Artikel": "Mousse au Chocolate (x3)",
+                "Total": "28.50"
+            },
+            {
+                "Artikel": "Vermicelles",
+                "Total": "9.50"
+            },
+            {
+                "Artikel": "Eiskaffee",
+                "Total": "9.50"
+            },
+            {
+                "Artikel": "Coupe Colonel",
+                "Total": "10.50"
+            },
+            {
+                "Artikel": "Fl.Valser mit (x2)",
+                "Total": "19.00"
+            },
+            {
+                "Artikel": "Gr.Valser ok",
+                "Total": "9.50"
+            },
+            {
+                "Artikel": "4 dl Lifetee",
+                "Total": "5.20"
+            },
+            {
+                "Artikel": "4 dl ZHK Hausblär (x3)",
+                "Total": "15.60"
+            },
+            {
+                "Artikel": "Maes 16.0z (x2)",
+                "Total": "19.00"
+            },
+            {
+                "Artikel": "Ginger Ale",
+                "Total": "7.50"
+            },
+            {
+                "Artikel": "Schneider Weisse (x7)",
+                "Total": "59.50"
+            },
+            {
+                "Artikel": "Rivella Blau",
+                "Total": "4.50"
+            },
+            {
+                "Artikel": "Schneider Weisse AF",
+                "Total": "8.50"
+            },
+            {
+                "Artikel": "Bier Flausch (x5)",
+                "Total": "79.00"
+            },
+            {
+                "Artikel": "Himbeer",
+                "Total": "19.00"
+            },
+            {
+                "Artikel": "Weisswein gespr. (x2)",
+                "Total": "15.00"
+            },
+            {
+                "Artikel": "Fl.Wodka Bombay",
+                "Total": "38.00"
+            },
+            {
+                "Artikel": "Jägermeister 2cl (x2)",
+                "Total": "12.00"
+            }
+        ],
+        "total": "1006.30"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "data": {
+        "merchant": "IKEA FOOD",
+        "date": "2016-04-05",
+        "menu": [
+            {
+                "Artikel": "Meatballs 10",
+                "Total": "3.80"
+            },
+            {
+                "Artikel": "Fish & Chips Adult",
+                "Total": "4.95"
+            },
+            {
+                "Artikel": "Petit Pain - White",
+                "Total": "0.50"
+            },
+            {
+                "Artikel": "Wine rose",
+                "Total": "2.80"
+            },
+            {
+                "Artikel": "Wine red",
+                "Total": "2.80"
+            }
+        ],
+        "total": "14.85"
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "data": {
+        "merchant": "DENNER Bremgarten AG",
+        "date": "2025-06-21",
+        "menu": [
+            {
+                "Artikel": "Zweifel Chips XXL Natur 380G",
+                "Total": "14.40"
+            },
+            {
+                "Artikel": "Zweifel Chips Poulet 2x175g",
+                "Total": "5.80"
+            },
+            {
+                "Artikel": "red bull energy drink 24x25cl",
+                "Total": "24.95"
+            },
+            {
+                "Artikel": "Zweifel Chips Papr",
+                "Total": "5.20"
+            },
+            {
+                "Artikel": "Feldschloesschen Brau 24x50cl",
+                "Total": "28.60"
+            },
+            {
+                "Artikel": "Heinz Tomato Ketchup 1.35KG",
+                "Total": "11.30"
+            },
+            {
+                "Artikel": "1664 BI.w. Dose 24x50cl",
+                "Total": "24.95"
+            },
+            {
+                "Artikel": "Carlsberg Bier Flas 24x33cl",
+                "Total": "17.95"
+            },
+            {
+                "Artikel": "Coca-Cola Apple Origin 6x1.5L",
+                "Total": "25.80"
+            }
+        ],
+        "total": "158.00"
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Trattoria Saporito",
+        "date": "2018-07-01",
+        "menu": [
+            {
+                "Artikel": "STUFFED ARTICHOKE* CCC222",
+                "Preis": "18.00"
+            },
+            {
+                "Artikel": "BK FETT AL PORCINI *",
+                "Preis": "36.00"
+            },
+            {
+                "Artikel": "COSTOLETTE/ALLA/PAP*",
+                "Preis": "42.00"
+            },
+            {
+                "Artikel": "BROCCOLI RABE W/ GA*",
+                "Preis": "10.50"
+            },
+            {
+                "Artikel": "ESPRESSO*",
+                "Preis": "3.75"
+            },
+            {
+                "Artikel": "DBLD ESPRESSO*",
+                "Preis": "7.50"
+            }
+        ],
+        "total": "125.99"
+    }
+}

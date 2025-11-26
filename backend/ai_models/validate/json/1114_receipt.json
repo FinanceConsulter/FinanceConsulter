@@ -1,0 +1,21 @@
+{
+    "data": {
+        "merchant": "la Source",
+        "date": "2015-08-02",
+        "menu": [
+            {
+                "Artikel": "PERRIER",
+                "Total": "5.80"
+            },
+            {
+                "Artikel": "COCA-COLA",
+                "Total": "5.80"
+            },
+            {
+                "Artikel": "JUS ORANGE",
+                "Total": "5.40"
+            }
+        ],
+        "total": "17.00"
+    }
+}

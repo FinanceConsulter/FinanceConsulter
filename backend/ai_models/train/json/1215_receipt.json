@@ -1,0 +1,17 @@
+{
+    "data": {
+        "merchant": "coop Olten Salihof",
+        "date": "2024-12-17",
+        "menu": [
+            {
+                "Artikel": "TOTES MEER SALZ",
+                "Total": "9.50"
+            },
+            {
+                "Artikel": "Microblck Sky 12ST",
+                "Total": "9.50"
+            }
+        ],
+        "total": "19.00"
+    }
+}

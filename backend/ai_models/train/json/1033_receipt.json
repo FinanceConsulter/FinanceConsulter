@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "8030 Renaissance Parkway",
+        "date": "2019-05-18",
+        "menu": [
+            {
+                "Artikel": "Taco Salad",
+                "Preis": "15.49"
+            },
+            {
+                "Artikel": "Ground Beef",
+                "Preis": ""
+            },
+            {
+                "Artikel": "Add Chicken Fajita",
+                "Preis": "8.99"
+            },
+            {
+                "Artikel": "Pechuga de Pollo",
+                "Preis": "18.99"
+            }
+        ],
+        "total": "46.47"
+    }
+}

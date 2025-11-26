@@ -1,0 +1,25 @@
+{
+    "data": {
+        "merchant": "Anjappar Chettinad Artesia",
+        "date": "2019-01-01",
+        "menu": [
+            {
+                "Artikel": "Ghee Dosa",
+                "Preis": "7.95"
+            },
+            {
+                "Artikel": "Anjappar Mutton Meals",
+                "Preis": "14.95"
+            },
+            {
+                "Artikel": "Kaldosa",
+                "Preis": "6.95"
+            },
+            {
+                "Artikel": "Plain Dosa",
+                "Preis": "6.95"
+            }
+        ],
+        "total": "40.30"
+    }
+}

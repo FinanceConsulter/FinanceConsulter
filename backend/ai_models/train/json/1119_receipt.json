@@ -1,0 +1,33 @@
+{
+    "data": {
+        "merchant": "Panda Express #2614",
+        "date": "2017-12-22",
+        "menu": [
+            {
+                "Artikel": "1 Plate (CHOW MEIN-1/2, CHOW MEIN-1/2, BROCCOLI BEEF, BEIJING BEEF)",
+                "Total": "9.10"
+            },
+            {
+                "Artikel": "1 Plate (CHOW MEIN-1/2, CHOW MEIN-1/2, CKN. EGG ROLL, KUNG PAO CKN)",
+                "Total": "9.10"
+            },
+            {
+                "Artikel": "1 XTRA ENTREE GRILL TERIYAKI CKN",
+                "Total": "1.50"
+            },
+            {
+                "Artikel": "1 XTRA ENTREE GRILL TERIYAKI CKN",
+                "Total": "1.50"
+            },
+            {
+                "Artikel": "1 PEPSI 20 OZ",
+                "Total": "2.00"
+            },
+            {
+                "Artikel": "1 PEPSI 20 OZ",
+                "Total": "2.00"
+            }
+        ],
+        "total": "27.44"
+    }
+}
