@@ -8,4 +8,4 @@ from .receipt import Receipt
 from .tag import Tag
 
 # Exportiere alle Models
-__all__ = ['User', 'Account', 'Category', 'Transaction', 'Merchant', 'Receipt', 'Tag']
+__all__ = ['User', 'Account', 'Category', 'Transaction', 'Merchant', 'Receipt', 'Tag', 'ai_insights']
