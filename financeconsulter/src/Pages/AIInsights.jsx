@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Card,
@@ -17,7 +17,9 @@ import {
   ListItemText,
   Avatar,
   Divider,
-  Alert
+  Alert,
+  CircularProgress,
+  Container
 } from '@mui/material';
 import {
   ExpandMore as ExpandMoreIcon,
@@ -25,36 +27,77 @@ import {
   ShowChart as ShowChartIcon,
   Check as CheckIcon,
   NotificationsOff as NotificationsOffIcon,
-  Refresh as RefreshIcon,
-  TrendingUp as TrendingUpIcon
+  TrendingUp as TrendingUpIcon,
+  AutoAwesome as AutoAwesomeIcon 
 } from '@mui/icons-material';
-import { MOCK_AI_INSIGHTS } from '../data/mockAIInsights';
 
 export default function AIInsights() {
-  const [insights, setInsights] = useState(MOCK_AI_INSIGHTS.insights);
+  const [insightsData, setInsightsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // 'all', 'good', 'warning', 'alert'
 
-  const healthScore = MOCK_AI_INSIGHTS.health_score;
-  const lastAnalyzed = MOCK_AI_INSIGHTS.last_analyzed;
+  useEffect(() => {
+    fetchInsights();
+  }, []);
 
-  // Count by severity
-  const counts = {
-    good: insights.filter(i => i.severity === 'good' && !i.is_resolved).length,
-    warning: insights.filter(i => i.severity === 'warning' && !i.is_resolved).length,
-    alert: insights.filter(i => i.severity === 'alert' && !i.is_resolved).length
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('authToken');
+    return {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
   };
 
-  // Filter insights
-  const filteredInsights = filter === 'all' 
-    ? insights 
-    : insights.filter(i => i.severity === filter);
-
-  const handleResolve = (insightId) => {
-    setInsights(prev => prev.map(i => 
-      i.id === insightId ? { ...i, is_resolved: true } : i
-    ));
+  const fetchInsights = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('http://127.0.0.1:8000/ai-insights/', {
+        headers: getAuthHeaders()
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        // Check if data is empty (no insights yet)
+        if (data && data.health_score !== undefined) {
+            setInsightsData(data);
+        } else {
+            setInsightsData(null); 
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load insights", err);
+      setError("Could not load insights.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const handleGenerate = async () => {
+    try {
+      setGenerating(true);
+      setError(null);
+      const response = await fetch('http://127.0.0.1:8000/ai-insights/generate', {
+        method: 'POST',
+        headers: getAuthHeaders()
+      });
+
+      if (!response.ok) {
+        throw new Error('Generation failed');
+      }
+
+      const data = await response.json();
+      setInsightsData(data);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to generate new insights. Please try again.");
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  // Helper Functions
   const getSeverityColor = (severity) => {
     switch (severity) {
       case 'good': return 'success';
@@ -86,6 +129,63 @@ export default function AIInsights() {
     return 'Needs Attention';
   };
 
+  if (loading) {
+    return (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+            <CircularProgress />
+        </Box>
+    );
+  }
+
+  // View: No Data / Welcome Screen
+  if (!insightsData && !generating) {
+      return (
+        <Container maxWidth="md">
+            <Box textAlign="center" py={8}>
+                <Typography variant="h3" gutterBottom>🤖 AI Financial Analyst</Typography>
+                <Typography variant="h6" color="text.secondary" paragraph>
+                    Generate personalized insights based on your recent transactions, categories, and spending habits.
+                </Typography>
+                <Button 
+                    variant="contained" 
+                    size="large" 
+                    startIcon={<AutoAwesomeIcon />}
+                    onClick={handleGenerate}
+                    sx={{ mt: 2, py: 1.5, px: 4, borderRadius: 8 }}
+                >
+                    Generate Analysis
+                </Button>
+            </Box>
+        </Container>
+      );
+  }
+
+  // View: Generating
+  if (generating) {
+      return (
+        <Container maxWidth="md">
+            <Box textAlign="center" py={10}>
+                <CircularProgress size={60} thickness={4} sx={{ mb: 4 }} />
+                <Typography variant="h5" gutterBottom>Analyzing your finances...</Typography>
+                <Typography color="text.secondary">Currently processing transactions, calculating metrics, and identifying patterns.</Typography>
+            </Box>
+        </Container>
+      );
+  }
+
+  // Main Dashboard View
+  const { insights, health_score, last_analyzed } = insightsData;
+
+  const counts = {
+    good: insights.filter(i => i.severity === 'good' && !i.is_resolved).length,
+    warning: insights.filter(i => i.severity === 'warning' && !i.is_resolved).length,
+    alert: insights.filter(i => i.severity === 'alert' && !i.is_resolved).length
+  };
+
+  const filteredInsights = filter === 'all' 
+    ? insights 
+    : insights.filter(i => i.severity === filter);
+
   return (
     <Box>
       {/* Header */}
@@ -102,10 +202,21 @@ export default function AIInsights() {
             🤖 AI Financial Insights
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Last analyzed: {lastAnalyzed}
+            Last analyzed: {new Date(last_analyzed).toLocaleString()}
           </Typography>
         </Box>
+        
+        <Button 
+            variant="contained" 
+            startIcon={<AutoAwesomeIcon />}
+            onClick={handleGenerate}
+            disabled={generating}
+        >
+            {generating ? 'Analyzing...' : 'New Analysis'}
+        </Button>
       </Box>
+
+      {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
 
       {/* Health Score Card */}
       <Card 
@@ -126,14 +237,14 @@ export default function AIInsights() {
           >
             <Box flex={1}>
               <Typography variant="h3" fontWeight={700}>
-                {healthScore}/100
+                {health_score}/100
               </Typography>
               <Typography variant="h6" sx={{ mb: 1 }}>
                 Financial Health Score
               </Typography>
               <Chip 
-                label={getHealthScoreLabel(healthScore)} 
-                color={getHealthScoreColor(healthScore)}
+                label={getHealthScoreLabel(health_score)} 
+                color={getHealthScoreColor(health_score)}
                 size="small" 
               />
             </Box>
@@ -142,7 +253,7 @@ export default function AIInsights() {
           
           <LinearProgress 
             variant="determinate" 
-            value={healthScore} 
+            value={health_score} 
             sx={{ 
               height: 12, 
               borderRadius: 6, 
@@ -155,7 +266,7 @@ export default function AIInsights() {
           />
           
           <Typography variant="body2" sx={{ mt: 2, opacity: 0.9 }}>
-            You're doing well! Focus on reducing entertainment spending and continue building your emergency fund.
+            {insightsData.summary}
           </Typography>
         </CardContent>
       </Card>
@@ -167,126 +278,106 @@ export default function AIInsights() {
         gap={2} 
         mb={3}
       >
+        {/* All Badge */}
         <Card 
           sx={{ 
             bgcolor: filter === 'all' ? 'action.selected' : 'background.paper',
             cursor: 'pointer',
-            '&:hover': { bgcolor: 'action.hover' },
-            height: '100%',
-            transition: 'transform 0.2s',
-            '&:active': { transform: 'scale(0.98)' }
+            border: filter === 'all' ? 1 : 0,
+            borderColor: 'primary.main',
           }}
           onClick={() => setFilter('all')}
         >
-          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 }, px: 1, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 } }}>
             <Typography variant="h2" sx={{ mb: 0.5, fontSize: { xs: '2rem', sm: '3rem' } }}>📊</Typography>
-            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
+            <Typography variant="h6" fontWeight={700}>
               {counts.good + counts.warning + counts.alert}
             </Typography>
-            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.2, display: 'block' }}>
-              All Insights
-            </Typography>
+            <Typography variant="caption" color="text.secondary">All Insights</Typography>
           </CardContent>
         </Card>
 
+        {/* Good Badge */}
         <Card 
           sx={{ 
             bgcolor: filter === 'good' ? 'success.light' : 'background.paper',
             cursor: 'pointer',
-            '&:hover': { bgcolor: 'success.lighter' },
-            height: '100%',
-            transition: 'transform 0.2s',
-            '&:active': { transform: 'scale(0.98)' }
+            border: filter === 'good' ? 1 : 0,
+            borderColor: 'success.main',
           }}
           onClick={() => setFilter('good')}
         >
-          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 }, px: 1, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 } }}>
             <Typography variant="h2" sx={{ mb: 0.5, fontSize: { xs: '2rem', sm: '3rem' } }}>✅</Typography>
-            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
-              {counts.good}
-            </Typography>
-            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.2, display: 'block' }}>
-              Strengths
-            </Typography>
+            <Typography variant="h6" fontWeight={700}>{counts.good}</Typography>
+            <Typography variant="caption" color="text.secondary">Strengths</Typography>
           </CardContent>
         </Card>
         
+        {/* Warning Badge */}
         <Card 
-          sx={{ 
+           sx={{ 
             bgcolor: filter === 'warning' ? 'warning.light' : 'background.paper',
             cursor: 'pointer',
-            '&:hover': { bgcolor: 'warning.lighter' },
-            height: '100%',
-            transition: 'transform 0.2s',
-            '&:active': { transform: 'scale(0.98)' }
+            border: filter === 'warning' ? 1 : 0,
+            borderColor: 'warning.main',
           }}
           onClick={() => setFilter('warning')}
         >
-          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 }, px: 1, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 } }}>
             <Typography variant="h2" sx={{ mb: 0.5, fontSize: { xs: '2rem', sm: '3rem' } }}>⚠️</Typography>
-            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
-              {counts.warning}
-            </Typography>
-            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.2, display: 'block' }}>
-              Watch Areas
-            </Typography>
+            <Typography variant="h6" fontWeight={700}>{counts.warning}</Typography>
+            <Typography variant="caption" color="text.secondary">Watch Areas</Typography>
           </CardContent>
         </Card>
         
+        {/* Alert Badge */}
         <Card 
           sx={{ 
             bgcolor: filter === 'alert' ? 'error.light' : 'background.paper',
             cursor: 'pointer',
-            '&:hover': { bgcolor: 'error.lighter' },
-            height: '100%',
-            transition: 'transform 0.2s',
-            '&:active': { transform: 'scale(0.98)' }
+            border: filter === 'alert' ? 1 : 0,
+            borderColor: 'error.main',
           }}
           onClick={() => setFilter('alert')}
         >
-          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 }, px: 1, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 1.5, sm: 2 } }}>
             <Typography variant="h2" sx={{ mb: 0.5, fontSize: { xs: '2rem', sm: '3rem' } }}>🔴</Typography>
-            <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.2 }}>
-              {counts.alert}
-            </Typography>
-            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.2, display: 'block' }}>
-              Urgent Alerts
-            </Typography>
+            <Typography variant="h6" fontWeight={700}>{counts.alert}</Typography>
+            <Typography variant="caption" color="text.secondary">Urgent Alerts</Typography>
           </CardContent>
         </Card>
       </Box>
 
       {/* Insights List */}
       <Stack spacing={2}>
-        {filteredInsights.filter(i => !i.is_resolved).map((insight) => (
+        {filteredInsights.map((insight, idx) => (
           <Card 
-            key={insight.id}
+            key={insight.id || idx}
             sx={{ 
               borderLeft: '4px solid',
               borderColor: `${getSeverityColor(insight.severity)}.main`,
-              opacity: insight.is_resolved ? 0.5 : 1
             }}
           >
             <CardContent>
-              {/* Header */}
+              {/* Insight Header */}
               <Box 
                 display="flex" 
                 flexDirection={{ xs: 'column', sm: 'row' }}
                 justifyContent="space-between" 
-                alignItems={{ xs: 'flex-start', sm: 'start' }}
                 gap={2}
                 mb={2}
               >
-                <Box display="flex" gap={2} flex={1} width="100%">
+                <Box display="flex" gap={2}>
                   <Avatar sx={{ bgcolor: `${getSeverityColor(insight.severity)}.main` }}>
                     {getSeverityIcon(insight.severity)}
                   </Avatar>
-                  <Box flex={1} minWidth={0}>
-                    <Typography variant="h6" fontWeight={600} sx={{ wordBreak: 'break-word' }}>
+                  <Box>
+                    <Typography variant="h6" fontWeight={600}>
                       {insight.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ wordBreak: 'break-word' }}>
-                      {insight.category} • Detected {insight.detected_at}
+                    <Typography variant="body2" color="text.secondary">
+                      {insight.category}
                     </Typography>
                   </Box>
                 </Box>
@@ -294,7 +385,6 @@ export default function AIInsights() {
                   label={insight.severity.toUpperCase()} 
                   color={getSeverityColor(insight.severity)}
                   size="small"
-                  sx={{ alignSelf: { xs: 'flex-start', sm: 'auto' } }}
                 />
               </Box>
 
@@ -303,7 +393,7 @@ export default function AIInsights() {
                 {insight.description}
               </Typography>
 
-              {/* AI Analysis */}
+              {/* AI Analysis Box */}
               <Alert severity="info" icon={<TrendingUpIcon />} sx={{ mb: 2 }}>
                 <Typography variant="subtitle2" fontWeight={600} gutterBottom>
                   🤖 AI Analysis
@@ -314,34 +404,28 @@ export default function AIInsights() {
               </Alert>
 
               {/* Recommendations */}
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="subtitle2" fontWeight={600}>
-                    💡 {insight.recommendations.length} Recommendations
+              <Accordion disableGutters elevation={0} sx={{ '&:before': { display: 'none' } }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ px: 0 }}>
+                  <Typography variant="subtitle2" fontWeight={600} color="primary">
+                    💡 View Recommendations ({insight.recommendations?.length || 0})
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={{ px: 0 }}>
                   <List disablePadding>
-                    {insight.recommendations.map((rec, idx) => (
-                      <ListItem key={idx} alignItems="flex-start" sx={{ px: 0 }}>
+                    {insight.recommendations?.map((rec, rIdx) => (
+                      <ListItem key={rIdx} alignItems="flex-start" sx={{ px: 0 }}>
                         <ListItemIcon sx={{ minWidth: 36 }}>
-                          <CheckCircleOutlineIcon color="success" />
+                          <CheckCircleOutlineIcon color="success" fontSize="small" />
                         </ListItemIcon>
                         <ListItemText 
                           primary={<Typography variant="body2" fontWeight={600}>{rec.title}</Typography>}
                           secondary={
                             <>
-                              <Typography variant="body2" color="text.secondary">
+                              <Typography variant="body2" color="text.secondary" sx={{ display: 'block', my: 0.5 }}>
                                 {rec.description}
                               </Typography>
                               {rec.impact && (
-                                <Chip 
-                                  label={rec.impact} 
-                                  size="small" 
-                                  color="success" 
-                                  variant="outlined"
-                                  sx={{ mt: 0.5 }}
-                                />
+                                <Chip label={rec.impact} size="small" color="success" variant="outlined" />
                               )}
                             </>
                           }
@@ -351,58 +435,16 @@ export default function AIInsights() {
                   </List>
                 </AccordionDetails>
               </Accordion>
-
-              {/* Actions */}
-              <Divider sx={{ my: 2 }} />
-              <Stack 
-                direction={{ xs: 'column', sm: 'row' }}
-                spacing={1}
-                flexWrap="wrap"
-              >
-                <Button 
-                  size="small" 
-                  startIcon={<ShowChartIcon />}
-                  onClick={() => alert('View detailed analytics...')}
-                  fullWidth={{ xs: true, sm: false }}
-                >
-                  View Details
-                </Button>
-                <Button 
-                  size="small" 
-                  startIcon={<CheckIcon />}
-                  color="success"
-                  onClick={() => handleResolve(insight.id)}
-                  fullWidth={{ xs: true, sm: false }}
-                >
-                  Mark as Resolved
-                </Button>
-                <Button 
-                  size="small" 
-                  startIcon={<NotificationsOffIcon />}
-                  onClick={() => alert('Snoozed for 7 days')}
-                  fullWidth={{ xs: true, sm: false }}
-                >
-                  Snooze
-                </Button>
-              </Stack>
             </CardContent>
           </Card>
         ))}
 
-        {filteredInsights.filter(i => !i.is_resolved).length === 0 && (
-          <Card>
-            <CardContent sx={{ textAlign: 'center', py: 6 }}>
-              <Typography variant="h2" sx={{ mb: 2 }}>🎉</Typography>
-              <Typography variant="h6" gutterBottom>
-                No {filter !== 'all' && filter} insights to show
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {filter === 'all' 
-                  ? 'All insights have been resolved!' 
-                  : `You have no ${filter} issues at the moment.`}
-              </Typography>
-            </CardContent>
-          </Card>
+        {filteredInsights.length === 0 && (
+          <Box textAlign="center" py={4}>
+            <Typography variant="h6" color="text.secondary">
+               No insights found for this filter.
+            </Typography>
+          </Box>
         )}
       </Stack>
     </Box>
