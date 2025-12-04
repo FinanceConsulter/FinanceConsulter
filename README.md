@@ -74,8 +74,8 @@ npm install
 
 **Backend (Terminal 1):**
 ```powershell
-move to dir `cd .\backend\app`
-execute command `python -m fastapi dev .\main.py`
+pip install -r .\backend\requirements.txt
+python -m fastapi dev .\backend\app\main.py
 ```
 → http://127.0.0.1:8000 | Docs: http://127.0.0.1:8000/docs
 
