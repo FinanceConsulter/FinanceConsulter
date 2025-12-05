@@ -46,15 +46,16 @@ def get_transaction(
         raise HTTPException(status_code=status.HTTP_200_OK, detail="No transaction found for this user")
     return transaction
 
-@router.get('/filter', response_model=TransactionResponse)
+@router.get('/filter', response_model=List[TransactionResponse])
 def filter_transactions(
-    transaction_filter: TransactionFilter,
+    transaction_filter: TransactionFilter = Depends(),
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    transaction = repo.filter_transactions(current_user, transaction_filter)
-    if type(transaction) == InternalResponse:
-        raise HTTPException(status_code=transaction.state, detail=transaction.detail)
+    transactions = repo.filter_transactions(current_user, transaction_filter)
+    if type(transactions) == InternalResponse:
+        raise HTTPException(status_code=transactions.state, detail=transactions.detail)
+    return transactions
 
 @router.post('/', response_model=TransactionResponse)
 def create_transaction(
@@ -75,7 +76,10 @@ def get_tags(
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    transaction = repo.get_transaction(current_user, transaction_id)
+    if transaction is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Transaction not found")
+    return transaction
 
 @router.post('/{transaction_id}/add_tags', response_model=TransactionResponse)
 def add_tags(
@@ -84,7 +88,10 @@ def add_tags(
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    result = repo.add_tags(current_user, transaction_id, tags_id)
+    if type(result) == InternalResponse:
+        raise HTTPException(status_code=result.state, detail=result.detail)
+    return result
 
 @router.put('/{transaction_id}/remove_tags', response_model=TransactionResponse)
 def remove_tags(
@@ -93,7 +100,10 @@ def remove_tags(
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    result = repo.remove_tags(current_user, transaction_id, tags_id)
+    if type(result) == InternalResponse:
+        raise HTTPException(status_code=result.state, detail=result.detail)
+    return result
 
 @router.get('/{transaction_id}/category', response_model=TransactionResponse)
 def get_category(
@@ -101,7 +111,10 @@ def get_category(
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    transaction = repo.get_transaction(current_user, transaction_id)
+    if transaction is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Transaction not found")
+    return transaction
 
 @router.post('/{transaction_id}/set_category', response_model=TransactionResponse)
 def change_category(
@@ -110,7 +123,11 @@ def change_category(
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    update = TransactionUpdate(category_id=category_id)
+    result = repo.update_transaction(current_user, transaction_id, update)
+    if type(result) == InternalResponse:
+        raise HTTPException(status_code=result.state, detail=result.detail)
+    return result
 
 @router.put('/{transaction_id}/remove_category', response_model=TransactionResponse)
 def remove_category(
@@ -119,15 +136,22 @@ def remove_category(
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    result = repo.remove_category(current_user, transaction_id)
+    if type(result) == InternalResponse:
+        raise HTTPException(status_code=result.state, detail=result.detail)
+    return result
 
-@router.put('/', response_model=TransactionResponse)
+@router.put('/{transaction_id}/receipt', response_model=TransactionResponse)
 def set_receipt(
+    transaction_id: int,
     receipt_id: int,
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    pass
+    result = repo.set_receipt(current_user, transaction_id, receipt_id)
+    if type(result) == InternalResponse:
+        raise HTTPException(status_code=result.state, detail=result.detail)
+    return result
 
 
 @router.put('/{transaction_id}', response_model=TransactionResponse)

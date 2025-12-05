@@ -7,6 +7,7 @@ from repository.tag import TagRepository
 from InternalResponse import InternalResponse
 from fastapi import status
 from models.tag import TransactionTag
+from models.receipt import Receipt
 
 class TransactionRepository:
     def __init__(self, db: Session):
