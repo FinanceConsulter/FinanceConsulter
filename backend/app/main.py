@@ -6,7 +6,7 @@ from data_access.db_init import startup
 import password 
 
 # Import Routers
-from routers import user, authentication, merchant, account, category, tag, transaction, receipt, ai_insights
+from routers import user, authentication, merchant, account, category, tag, transaction, receipt, ai_insights, receipt_line_item
 
 app = FastAPI(title="FinanceConsulter API", version="0.1.0")
 
@@ -26,6 +26,7 @@ app.include_router(merchant.router)
 app.include_router(category.router)
 app.include_router(tag.router)
 app.include_router(receipt.router)
+app.include_router(receipt_line_item.router)
 app.include_router(ai_insights.router)
 
 # Datenbank beim Start initialisieren (nur einmalig)

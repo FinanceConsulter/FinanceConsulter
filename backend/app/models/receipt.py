@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Float, Index
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from data_access.data_access import Base
+from schemas.receipt import ReceiptResponse
+from schemas.receipt_line_item import ReceiptLineItemResponse
 
 class Receipt(Base):
     __tablename__ = "receipts"
@@ -25,6 +27,20 @@ class Receipt(Base):
     merchant = relationship("Merchant", back_populates="receipts")
     line_items = relationship("ReceiptLineItem", back_populates="receipt", cascade="all, delete-orphan")
 
+    def to_response(self):
+        return ReceiptResponse(
+            id=self.id,
+            user_id=self.user_id,
+            transaction_id=self.transaction_id,
+            merchant_id=self.merchant_id,
+            purchase_date=self.purchase_date,
+            total_cents=self.total_cents,
+            raw_file_path=self.raw_file_path,
+            ocr_text=self.ocr_text,
+            created_at=self.created_at,
+            line_items=[item.to_response() for item in self.line_items]
+        )
+
 
 class ReceiptLineItem(Base):
     __tablename__ = "receipt_line_items"
@@ -39,3 +55,14 @@ class ReceiptLineItem(Base):
     # Relationships
     receipt = relationship("Receipt", back_populates="line_items")
     tags = relationship("ReceiptLineItemTag", back_populates="line_item", cascade="all, delete-orphan")
+
+    def to_response(self):
+        return ReceiptLineItemResponse(
+            id=self.id,
+            receipt_id=self.receipt_id,
+            product_name=self.product_name,
+            quantity=self.quantity,
+            unit_price_cents=self.unit_price_cents,
+            total_price_cents=self.total_price_cents,
+            tags=[t.tag.to_response() for t in self.tags]
+        )
