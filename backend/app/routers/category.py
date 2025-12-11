@@ -34,9 +34,9 @@ def get_categories(
         raise HTTPException(status_code=status.HTTP_200_OK, detail="No Categories found for this user")
     return categories
 
-@router.get('/{lcategory_id}', response_model=CategoryResponse)
-def get_categories(
-    category_id, 
+@router.get('/{category_id}', response_model=CategoryResponse)
+def get_category(
+    category_id: int, 
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
@@ -74,7 +74,7 @@ def update_category(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 @router.delete('/{category_id}', status_code=status.HTTP_200_OK)
-def update_category(
+def delete_category(
     category_id: int, 
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)

@@ -46,7 +46,7 @@ def get_account(
     return account
 
 
-@router.post('/new', response_model=AccountResponse)
+@router.post('/', response_model=AccountResponse)
 def create_account(
     account:AccountCreate,
     repo:AccountRepository = Depends(get_repository), 
@@ -57,7 +57,7 @@ def create_account(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to create account")
     return account
 
-@router.put('/update')
+@router.put('/')
 def update_account(
     account:AccountUpdate,
     repo:AccountRepository = Depends(get_repository), 
