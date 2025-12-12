@@ -5,6 +5,7 @@ class CategoryCreate(BaseModel):
     name: str
     type: str
     parent_id: Optional[int] = None
+    description: Optional[str] = None
 
     @field_validator('parent_id')
     def empty_str_to_none(cls, v):
@@ -17,8 +18,9 @@ class CategoryUpdate(BaseModel):
     name: Optional[str]
     type: Optional[str]
     parent_id: Optional[int]
+    description: Optional[str]
 
-    @field_validator('name','type')
+    @field_validator('name','type', 'description')
     def empty_str_to_none(cls, item):
         if item == '':
             return None
@@ -35,3 +37,4 @@ class CategoryResponse(BaseModel):
     name: str
     type: str
     parent_id: Optional[int] = None
+    description: Optional[str] = None
