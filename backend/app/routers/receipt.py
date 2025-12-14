@@ -7,6 +7,7 @@ from models.user import User
 from InternalResponse import InternalResponse
 from repository.receipt import ReceiptRepository
 from data_access.data_access import get_db
+from services.receipt_scanner import scanner
 
 router = APIRouter(
     prefix = '/receipt',
@@ -71,3 +72,14 @@ async def create_upload_file(
     repo: ReceiptRepository = Depends(get_repository)
 ):
     return await repo.analyze_receipt(file)
+
+@router.post('/scan')
+async def scan_receipt(
+    file: UploadFile,
+    current_user: User = Depends(oauth2.get_current_user)
+):
+    content = await file.read()
+    result = scanner.scan_image(content, file.filename)
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    return result

@@ -4,11 +4,15 @@ from schemas.receipt_line_item import ReceiptLineItemResponse, ReceiptLineItemCr
 
 class ReceiptCreate(BaseModel):
     merchant_id: Optional[int] = None
+    merchant_name: Optional[str] = None
     purchase_date: str
     total_cents: Optional[int] = None
     raw_file_path: Optional[str] = None
     ocr_text: Optional[str] = None
     line_items: Optional[List[ReceiptLineItemCreate]] = []
+    account_id: Optional[int] = None
+    category_id: Optional[int] = None
+    create_transaction: bool = False
 
 class ReceiptUpdate(BaseModel):
     merchant_id: Optional[int] = None

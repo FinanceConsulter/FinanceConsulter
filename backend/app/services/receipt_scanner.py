@@ -4,6 +4,7 @@ from transformers import DonutProcessor, VisionEncoderDecoderModel
 from PIL import Image
 import io
 import logging
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -25,19 +26,34 @@ class ReceiptScanner:
         logger.info("📥 Loading Receipt Scanner Model...")
         self._device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"   Device: {self._device}")
-        
-        model_name = "naver-clova-ix/donut-base-finetuned-cord-v2"
+
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        backend_dir = os.path.dirname(os.path.dirname(current_dir))
+        local_model_path = os.path.join(backend_dir, "ai_models", "donut_receipt_v1")
+
+        model_name_or_path = local_model_path if os.path.exists(local_model_path) else "naver-clova-ix/donut-base-finetuned-cord-v2"
         try:
-            self._processor = DonutProcessor.from_pretrained(model_name)
-            self._model = VisionEncoderDecoderModel.from_pretrained(model_name).to(self._device)
+            self._processor = DonutProcessor.from_pretrained(
+                model_name_or_path,
+                local_files_only=os.path.exists(local_model_path),
+            )
+            self._model = VisionEncoderDecoderModel.from_pretrained(
+                model_name_or_path,
+                local_files_only=os.path.exists(local_model_path),
+            ).to(self._device)
             self._model.eval()
             logger.info("✅ Model loaded successfully")
         except Exception as e:
             logger.error(f"❌ Failed to load model: {e}")
-            raise e
+            self._processor = None
+            self._model = None
+            logger.warning("Receipt scanner will be unavailable until the model loads correctly.")
 
     def scan_image(self, file_bytes: bytes, filename: str = ""):
         try:
+            if not self._processor or not self._model:
+                return {"error": "AI model not loaded"}
+
             image = None
             
             # Check if PDF

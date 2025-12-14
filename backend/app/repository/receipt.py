@@ -11,6 +11,11 @@ from io import BytesIO
 from PIL import Image
 import torch
 from transformers import AutoProcessor, VisionEncoderDecoderModel 
+from models.merchant import Merchant
+from models.transaction import Transaction
+from models.category import Category
+from repository.transaction import TransactionRepository
+from schemas.transaction import TransactionCreate
 
 class ReceiptRepository:
     def __init__(self, db: Session):
@@ -53,9 +58,56 @@ class ReceiptRepository:
         return receipt.to_response()
 
     def create_receipt(self, current_user: User, receipt_create: ReceiptCreate):
+        merchant_id = receipt_create.merchant_id
+        
+        # Handle merchant_name if provided and no ID
+        if not merchant_id and receipt_create.merchant_name:
+            merchant = self.db.query(Merchant).filter(
+                Merchant.user_id == current_user.id,
+                Merchant.name == receipt_create.merchant_name
+            ).first()
+            
+            if not merchant:
+                merchant = Merchant(user_id=current_user.id, name=receipt_create.merchant_name)
+                self.db.add(merchant)
+                self.db.flush()
+            
+            merchant_id = merchant.id
+
+        # Create Transaction if requested
+        transaction_id = None
+        if receipt_create.create_transaction and receipt_create.account_id:
+            # If no category provided, try to find "Uncategorized" or similar, or just leave it null if allowed
+            # Transaction model usually requires category_id, but let's check if we can make it optional or find a default
+            # For now, we will assume category_id is optional in Transaction model or we pick the first one
+            
+            # Find a default category if none provided
+            final_category_id = receipt_create.category_id
+            if not final_category_id:
+                # Try to find "Uncategorized" or "General"
+                default_cat = self.db.query(Category).filter(Category.user_id == current_user.id).first()
+                if default_cat:
+                    final_category_id = default_cat.id
+            
+            if final_category_id:
+                tx_repo = TransactionRepository(self.db)
+                tx_create = TransactionCreate(
+                    account_id=receipt_create.account_id,
+                    date=receipt_create.purchase_date,
+                    description=f"Receipt from {receipt_create.merchant_name or 'Unknown'}",
+                    amount_cents=-abs(receipt_create.total_cents) if receipt_create.total_cents else 0,
+                    category_id=final_category_id,
+                    currency_code="CHF",
+                    tags=[]
+                )
+                tx_response = tx_repo.create_transaction(current_user, tx_create)
+                if hasattr(tx_response, 'id'):
+                    transaction_id = tx_response.id
+
         new_receipt = Receipt(
             user_id=current_user.id,
-            merchant_id=receipt_create.merchant_id,
+            merchant_id=merchant_id,
+            transaction_id=transaction_id,
             purchase_date=receipt_create.purchase_date,
             total_cents=receipt_create.total_cents,
             raw_file_path=receipt_create.raw_file_path,
