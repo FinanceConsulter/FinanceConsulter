@@ -1,6 +1,5 @@
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { getHelloWorld } from '../services/api';
 import { useState, useEffect } from 'react';
 
 function Header({ handleDrawerToggle }) {
@@ -9,8 +8,10 @@ function Header({ handleDrawerToggle }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getHelloWorld();
-        setHelloText(data.Hello);
+        const response = await fetch('http://127.0.0.1:8000/');
+        if (!response.ok) throw new Error('Failed to load');
+        const data = await response.json();
+        setHelloText(data.message || 'FinanceConsulter');
       } catch (error) {
         setHelloText('Error loading data');
         console.error('Failed to fetch hello world:', error);

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Header from './Components/Header';
 import NavBar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
-import { fetchTransactions} from './services/api';
 import ReceiptCapture from './Pages/ReceiptCapture';
 import Transactions from './Pages/Transactions';
 import Login from './Pages/Login';
@@ -14,11 +13,6 @@ import QuickEntry from './Pages/QuickEntry';
 
 
 function App() {
-  const [tableHeader, setTableHeader] = useState({ date: 'Date', amount: 'Amount', actions: 'Actions' });
-  const [tableData, setTableData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,23 +29,6 @@ function App() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  useEffect(() => {
-    let mounted = true;
-    setLoading(true);
-    fetchTransactions()
-      .then((res) => {
-        if (!mounted) return;
-        setTableHeader(res.header);
-        setTableData(res.data);
-      })
-      .catch((e) => {
-        if (!mounted) return;
-        setError(e);
-      })
-      .finally(() => mounted && setLoading(false));
-    return () => { mounted = false; };
-  }, []);
 
   const handleRegister = async (payload) => {
     try {
@@ -127,9 +104,7 @@ function App() {
           />
         );
       case 'transactions':
-        if (loading) return <div>Loading…</div>;
-        if (error) return <div>Failed to load</div>;
-        return <Transactions header={tableHeader} data={tableData} setCurrentPage={setCurrentPage} />;
+        return <Transactions />;
       case 'quickEntry':
         return <QuickEntry />;
       case 'scanReceipts':

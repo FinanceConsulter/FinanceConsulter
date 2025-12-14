@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { uploadReceipt } from '../services/api';
+import ReceiptReviewDialog from '../Components/ReceiptReviewDialog';
 
 // Basic capture + upload page for receipts
 export default function ReceiptCapture({ onSubmit }) {
@@ -17,9 +17,68 @@ export default function ReceiptCapture({ onSubmit }) {
   const [error, setError] = useState(null);
   const [camLoading, setCamLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  
+  // Review Dialog State
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [scannedData, setScannedData] = useState(null);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const getAuthHeaders = (includeJsonContentType = true) => {
+    const token = localStorage.getItem('authToken');
+    return {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(includeJsonContentType ? { 'Content-Type': 'application/json' } : {})
+    };
+  };
+
+  const scanReceipt = async (fileOrDataUrl) => {
+    const token = localStorage.getItem('authToken');
+    if (!token) throw new Error('No authentication token found');
+
+    const formData = new FormData();
+    if (typeof fileOrDataUrl === 'string') {
+      const res = await fetch(fileOrDataUrl);
+      const blob = await res.blob();
+      formData.append('file', blob, 'capture.jpg');
+    } else {
+      formData.append('file', fileOrDataUrl);
+    }
+
+    const response = await fetch('http://127.0.0.1:8000/receipt/scan', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const detail = await response.text();
+      throw new Error(detail || 'Failed to scan receipt');
+    }
+
+    return response.json();
+  };
+
+  const createReceipt = async (receiptData) => {
+    const token = localStorage.getItem('authToken');
+    if (!token) throw new Error('No authentication token found');
+
+    const response = await fetch('http://127.0.0.1:8000/receipt/', {
+      method: 'POST',
+      headers: getAuthHeaders(true),
+      body: JSON.stringify(receiptData)
+    });
+
+    if (!response.ok) {
+      const detail = await response.text();
+      throw new Error(detail || 'Failed to create receipt');
+    }
+
+    return response.json();
+  };
 
   const stopStream = useCallback(() => {
     const currentStream = streamRef.current;
@@ -184,13 +243,60 @@ export default function ReceiptCapture({ onSubmit }) {
     if (!payload) return;
     try {
       setSubmitting(true);
-      const res = await uploadReceipt(payload);
-      if (onSubmit) onSubmit({ file, preview, response: res });
+      setError(null);
+      // 1. Scan the receipt
+      const res = await scanReceipt(payload);
+      
+      if (res.error) {
+          throw new Error(res.error);
+      }
+
+      // 2. Open review dialog with scanned data
+      setScannedData(res);
+      setReviewOpen(true);
+      
     } catch (e) {
-      setError('Upload failed.');
+      console.error(e);
+      setError('Scanning failed: ' + (e.message || 'Unknown error'));
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleSaveReceipt = async (finalData) => {
+      try {
+          setSubmitting(true);
+          // 3. Create receipt with confirmed data
+          let res = await createReceipt(finalData);
+
+          // 4. Fetch line items via ReceiptLineItemRepository route (sanity + consistent API)
+          if (res?.id) {
+            try {
+              const liRes = await fetch(`http://127.0.0.1:8000/receipt_line_item/${res.id}`, {
+                headers: getAuthHeaders(true)
+              });
+              if (liRes.ok) {
+                const lineItems = await liRes.json();
+                res = { ...res, line_items: Array.isArray(lineItems) ? lineItems : [] };
+              }
+            } catch (e) {
+              // Non-blocking
+              console.error('Failed to fetch receipt line items:', e);
+            }
+          }
+          
+          setReviewOpen(false);
+          if (onSubmit) onSubmit({ response: res });
+          
+          // Reset
+          reset();
+          setMode('camera'); // Go back to camera?
+      } catch (e) {
+          console.error(e);
+          setError('Saving failed: ' + (e.message || 'Unknown error'));
+      } finally {
+          setSubmitting(false);
+      }
   };
 
   return (
@@ -277,11 +383,19 @@ export default function ReceiptCapture({ onSubmit }) {
           size="large" 
           variant="contained" 
           onClick={handleSubmit} 
-          disabled={submitting}
+          disabled={submitting || (!file && !preview)}
         >
-          {submitting ? 'Uploading…' : 'Continue / Upload'}
+          {submitting ? 'Processing…' : 'Scan Receipt'}
         </Button>
       </Stack>
+
+      <ReceiptReviewDialog 
+        open={reviewOpen} 
+        onClose={() => setReviewOpen(false)}
+        initialData={scannedData}
+        onSave={handleSaveReceipt}
+        loading={submitting}
+      />
     </Box>
   );
 }
