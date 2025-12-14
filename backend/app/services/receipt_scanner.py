@@ -42,9 +42,9 @@ class ReceiptScanner:
                 local_files_only=os.path.exists(local_model_path),
             ).to(self._device)
             self._model.eval()
-            logger.info("✅ Model loaded successfully")
+            logger.info(" Model loaded successfully")
         except Exception as e:
-            logger.error(f"❌ Failed to load model: {e}")
+            logger.error(f" Failed to load model: {e}")
             self._processor = None
             self._model = None
             logger.warning("Receipt scanner will be unavailable until the model loads correctly.")
