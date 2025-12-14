@@ -10,12 +10,32 @@ import Register from './Pages/Register';
 import Settings from './Pages/Settings';
 import AIInsights from './Pages/AIInsights';
 import QuickEntry from './Pages/QuickEntry';
+import OnboardingCategories from './Pages/OnboardingCategories';
 
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [onboardingRequired, setOnboardingRequired] = useState(false);
+
+  const fetchWithTimeout = async (url, options = {}, timeoutMs = 20000) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  };
+
+  const safeReadJson = async (res) => {
+    try {
+      return await res.json();
+    } catch {
+      return null;
+    }
+  };
 
   //Token Check
   useEffect(() => {
@@ -23,6 +43,16 @@ function App() {
     setIsAuthenticated(!!token);
     if (!token) {
       setCurrentPage('login');
+      setOnboardingRequired(false);
+      return;
+    }
+
+    const completed = localStorage.getItem('hasCompletedOnboardingCategories') === 'true';
+    if (!completed) {
+      setOnboardingRequired(true);
+      setCurrentPage('onboardingCategories');
+    } else {
+      setOnboardingRequired(false);
     }
   }, []);
 
@@ -32,21 +62,82 @@ function App() {
 
   const handleRegister = async (payload) => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/user/', {
+        const registerUrl = 'http://127.0.0.1:8000/user/register';
+        const loginUrl = 'http://127.0.0.1:8000/login';
+
+        console.log('[register] start', { email: payload?.email });
+
+        let didCreateAccount = false;
+
+        const response = await fetchWithTimeout(
+          registerUrl,
+          {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify(payload)
-        });
+            body: JSON.stringify(payload),
+          },
+          20000
+        );
+
+        console.log('[register] response', response.status);
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || 'Registration failed');
+          const errorData = await safeReadJson(response);
+          const detail = errorData?.detail || 'Registration failed';
+          const lower = String(detail).toLowerCase();
+          const alreadyRegistered =
+            lower.includes('bereits registriert') ||
+            lower.includes('already registered') ||
+            lower.includes('already exists');
+
+          if (!alreadyRegistered) {
+            throw new Error(detail);
+          }
+
+          console.warn('[register] email exists; attempting login');
+        } else {
+          didCreateAccount = true;
         }
 
-        setCurrentPage('login');
+        // Auto-login after registration (or if user already exists)
+        const formData = new URLSearchParams();
+        formData.append('username', payload.email);
+        formData.append('password', payload.password);
+
+        console.log('[register] login start');
+        const loginResponse = await fetchWithTimeout(
+          loginUrl,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData.toString(),
+          },
+          20000
+        );
+
+        console.log('[register] login response', loginResponse.status);
+
+        if (!loginResponse.ok) {
+          const errorData = await safeReadJson(loginResponse);
+          const detail = errorData?.detail || 'Login failed';
+          if (didCreateAccount) {
+            throw new Error(`Account created, but auto-login failed (${detail}). Please go to login.`);
+          }
+          throw new Error(`Account already exists, but login failed (${detail}). Please go to login.`);
+        }
+
+        const result = await loginResponse.json();
+        localStorage.setItem('authToken', result.access_token);
+        setIsAuthenticated(true);
+        localStorage.setItem('hasCompletedOnboardingCategories', 'false');
+        setOnboardingRequired(true);
+        setCurrentPage('onboardingCategories');
     } catch (error) {
+        console.error('[register] failed', error);
         throw error;
     }
   };
@@ -57,25 +148,38 @@ function App() {
         formData.append('username', payload.email);
         formData.append('password', payload.password);
 
-        const response = await fetch('http://127.0.0.1:8000/login', {
+      console.log('[login] start', { email: payload?.email });
+
+      const response = await fetchWithTimeout('http://127.0.0.1:8000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: formData.toString()
-        });
+      }, 20000);
+
+      console.log('[login] response', response.status);
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || 'Login failed');
+        const errorData = await safeReadJson(response);
+        throw new Error(errorData?.detail || 'Login failed');
         }
 
         const result = await response.json();
         localStorage.setItem('authToken', result.access_token);
         setIsAuthenticated(true);
-        setCurrentPage('dashboard');
+
+        const completed = localStorage.getItem('hasCompletedOnboardingCategories') === 'true';
+        if (!completed) {
+          setOnboardingRequired(true);
+          setCurrentPage('onboardingCategories');
+        } else {
+          setOnboardingRequired(false);
+          setCurrentPage('dashboard');
+        }
     } catch (error) {
-        throw error;
+      console.error('[login] failed', error);
+      throw error;
     }
 };
 
@@ -83,6 +187,7 @@ function App() {
     localStorage.removeItem('authToken');
     setIsAuthenticated(false);
     setCurrentPage('login');
+    setOnboardingRequired(false);
   };
 
   const renderPage = () => {
@@ -113,6 +218,16 @@ function App() {
         return <Settings />;
       case 'aiInsights':
         return <AIInsights />;
+      case 'onboardingCategories':
+        return (
+          <OnboardingCategories
+            onDone={() => {
+              localStorage.setItem('hasCompletedOnboardingCategories', 'true');
+              setOnboardingRequired(false);
+              setCurrentPage('dashboard');
+            }}
+          />
+        );
       default:
         return <Dashboard onNavigate={setCurrentPage} />;
     }
@@ -139,6 +254,21 @@ function App() {
             onNavigate={(page) => setCurrentPage(page)}
           />
         )}
+      </Box>
+    );
+  }
+
+  // Lock app navigation during onboarding
+  if (onboardingRequired || currentPage === 'onboardingCategories') {
+    return (
+      <Box
+        sx={{
+          minHeight: '100vh',
+          bgcolor: 'background.default',
+          p: { xs: 1, md: 3 },
+        }}
+      >
+        {renderPage()}
       </Box>
     );
   }

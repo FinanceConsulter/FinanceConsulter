@@ -91,7 +91,7 @@ export default function Register({ onSubmit, onNavigate }) {
                         <Stack spacing={2}>
                             <TextField name="email" label="Email" type="email" required fullWidth autoComplete="email" />
                             <TextField name="password" label="Password" type="password" required fullWidth autoComplete="new-password" />
-                            <TextField name="username" label="Username" type="text" required fullWidth autoComplete="name" />
+                            <TextField name="name" label="Username" type="text" required fullWidth autoComplete="name" />
                             <TextField name="first_name" label="First Name" type="text" required fullWidth autoComplete="given-name" />
                             <TextField name="last_name" label="Last Name" type="text" required fullWidth autoComplete="family-name" />
                         </Stack>
