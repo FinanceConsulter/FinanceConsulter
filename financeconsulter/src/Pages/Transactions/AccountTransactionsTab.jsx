@@ -41,6 +41,7 @@ export default function AccountTransactionsTab() {
   const [accounts, setAccounts] = useState([]);
   const [accountTransactions, setAccountTransactions] = useState({});
   const [categories, setCategories] = useState([]);
+  const [receiptByTransactionId, setReceiptByTransactionId] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedAccounts, setExpandedAccounts] = useState([]);
@@ -100,6 +101,22 @@ export default function AccountTransactionsTab() {
         categoriesData = Array.isArray(data) ? data : [];
       }
       setCategories(categoriesData);
+
+      // Fetch receipts to detect receipt-backed transactions
+      const receiptsResponse = await fetch('http://127.0.0.1:8000/receipt/', {
+        headers: getAuthHeaders()
+      });
+      let receiptMap = {};
+      if (receiptsResponse.ok) {
+        const receiptsData = await receiptsResponse.json();
+        const receipts = Array.isArray(receiptsData) ? receiptsData : [];
+        receipts.forEach(r => {
+          if (r?.transaction_id) {
+            receiptMap[r.transaction_id] = r;
+          }
+        });
+      }
+      setReceiptByTransactionId(receiptMap);
 
       // Group transactions by account
       const grouped = {};
@@ -298,6 +315,28 @@ export default function AccountTransactionsTab() {
                                 {formatDate(transaction.date)}
                               </Typography>
 
+                              {/* Transaction ID */}
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
+                                  ID:
+                                </Typography>
+                                <Chip label={`#${transaction.id}`} size="small" variant="outlined" />
+                              </Box>
+
+                              {/* Receipt (only for receipt transactions) */}
+                              {receiptByTransactionId[transaction.id]?.id && (
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                  <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
+                                    Receipt:
+                                  </Typography>
+                                  <Chip
+                                    label={`#${receiptByTransactionId[transaction.id].id}`}
+                                    size="small"
+                                    variant="outlined"
+                                  />
+                                </Box>
+                              )}
+
                               {/* Category */}
                               {transaction.category_id && (() => {
                                 const category = getCategoryById(transaction.category_id);
@@ -362,6 +401,8 @@ export default function AccountTransactionsTab() {
                       <Table size="small">
                         <TableHead>
                           <TableRow>
+                            <TableCell>ID</TableCell>
+                            <TableCell>Receipt</TableCell>
                             <TableCell>Date</TableCell>
                             <TableCell>Description</TableCell>
                             <TableCell>Category</TableCell>
@@ -373,6 +414,20 @@ export default function AccountTransactionsTab() {
                         <TableBody>
                           {transactions.map(transaction => (
                             <TableRow key={transaction.id}>
+                              <TableCell>
+                                <Typography variant="body2" color="text.secondary" noWrap>
+                                  #{transaction.id}
+                                </Typography>
+                              </TableCell>
+                              <TableCell>
+                                {receiptByTransactionId[transaction.id]?.id ? (
+                                  <Typography variant="body2" color="text.secondary" noWrap>
+                                    #{receiptByTransactionId[transaction.id].id}
+                                  </Typography>
+                                ) : (
+                                  <Typography variant="caption" color="text.secondary">-</Typography>
+                                )}
+                              </TableCell>
                               <TableCell>{formatDate(transaction.date)}</TableCell>
                               <TableCell>{transaction.description}</TableCell>
                               <TableCell>

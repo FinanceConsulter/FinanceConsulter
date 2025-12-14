@@ -36,6 +36,7 @@ export default function AllTransactionsTab() {
   const [transactions, setTransactions] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [receiptByTransactionId, setReceiptByTransactionId] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -94,6 +95,23 @@ export default function AllTransactionsTab() {
       }
       
       setTransactions(transactionsData);
+
+      // Fetch receipts to detect receipt-backed transactions
+      const receiptsResponse = await fetch('http://127.0.0.1:8000/receipt/', {
+        headers: getAuthHeaders()
+      });
+      let receiptMap = {};
+      if (receiptsResponse.ok) {
+        const receiptsData = await receiptsResponse.json();
+        const receipts = Array.isArray(receiptsData) ? receiptsData : [];
+        receipts.forEach(r => {
+          if (r?.transaction_id) {
+            receiptMap[r.transaction_id] = r;
+          }
+        });
+      }
+      setReceiptByTransactionId(receiptMap);
+
       setError(null); // Clear any previous errors
     } catch (err) {
       setError(err.message);
@@ -272,6 +290,7 @@ export default function AllTransactionsTab() {
             <Stack spacing={2} sx={{ mt: 2 }}>
               {transactions.map(transaction => {
                 const account = getAccountById(transaction.account_id);
+                const receipt = receiptByTransactionId[transaction.id];
                 return (
                   <Card key={transaction.id} variant="outlined">
                     <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
@@ -297,6 +316,24 @@ export default function AllTransactionsTab() {
                         <Typography variant="body2" color="text.secondary">
                           {formatDate(transaction.date)}
                         </Typography>
+
+                        {/* Transaction ID */}
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
+                            ID:
+                          </Typography>
+                          <Chip label={`#${transaction.id}`} size="small" variant="outlined" />
+                        </Box>
+
+                        {/* Receipt (only for receipt transactions) */}
+                        {receipt?.id && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
+                              Receipt:
+                            </Typography>
+                            <Chip label={`#${receipt.id}`} size="small" variant="outlined" />
+                          </Box>
+                        )}
 
                         {/* Account */}
                         {account && (
@@ -378,6 +415,8 @@ export default function AllTransactionsTab() {
               <Table>
                 <TableHead>
                   <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Receipt</TableCell>
                     <TableCell>Date</TableCell>
                     <TableCell>Description</TableCell>
                     <TableCell>Account</TableCell>
@@ -390,8 +429,23 @@ export default function AllTransactionsTab() {
                 <TableBody>
                   {transactions.map(transaction => {
                     const account = getAccountById(transaction.account_id);
+                    const receipt = receiptByTransactionId[transaction.id];
                     return (
                       <TableRow key={transaction.id} hover>
+                        <TableCell>
+                          <Typography variant="body2" color="text.secondary" noWrap>
+                            #{transaction.id}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          {receipt?.id ? (
+                            <Typography variant="body2" color="text.secondary" noWrap>
+                              #{receipt.id}
+                            </Typography>
+                          ) : (
+                            <Typography variant="caption" color="text.secondary">-</Typography>
+                          )}
+                        </TableCell>
                         <TableCell>{formatDate(transaction.date)}</TableCell>
                         <TableCell>{transaction.description}</TableCell>
                         <TableCell>
