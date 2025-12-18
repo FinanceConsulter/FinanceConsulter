@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, Typography, CircularProgress, Alert, Card, CardContent, Divider } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
@@ -17,19 +17,15 @@ export default function Dashboard({ onNavigate }) {
   const [error, setError] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem('authToken');
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
-  };
+  }, []);
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -87,7 +83,7 @@ export default function Dashboard({ onNavigate }) {
 
       // Spending breakdown by category (current month - only negative transactions = expenses)
       const categorySpending = {};
-      
+
       monthTransactions.forEach(t => {
         if (t.category_id) {
           const category = categories.find(c => c.id === t.category_id);
@@ -150,7 +146,11 @@ export default function Dashboard({ onNavigate }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getAuthHeaders]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   if (loading) {
     return (

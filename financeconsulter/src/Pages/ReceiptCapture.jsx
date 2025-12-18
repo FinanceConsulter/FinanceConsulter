@@ -173,6 +173,7 @@ export default function ReceiptCapture({ onSubmit }) {
   }, [mode, stopStream]);
 
   useEffect(() => {
+    const videoEl = videoRef.current;
     return () => {
       // Ensure camera stream is stopped when component unmounts
       const currentStream = streamRef.current;
@@ -183,8 +184,8 @@ export default function ReceiptCapture({ onSubmit }) {
         streamRef.current = null;
       }
       
-      if (videoRef.current) {
-        videoRef.current.srcObject = null;
+      if (videoEl) {
+        videoEl.srcObject = null;
       }
     };
   }, []); 

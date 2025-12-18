@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -27,7 +27,6 @@ import {
   Snackbar,
   useMediaQuery,
   useTheme,
-  Divider,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
@@ -51,19 +50,15 @@ export default function AccountTransactionsTab() {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [transactionToEdit, setTransactionToEdit] = useState(null);
 
-  useEffect(() => {
-    fetchAccountsWithTransactions();
-  }, []);
-
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem('authToken');
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
-  };
+  }, []);
 
-  const fetchAccountsWithTransactions = async () => {
+  const fetchAccountsWithTransactions = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -131,7 +126,11 @@ export default function AccountTransactionsTab() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getAuthHeaders]);
+
+  useEffect(() => {
+    fetchAccountsWithTransactions();
+  }, [fetchAccountsWithTransactions]);
 
   const handleAccordionChange = (accountId) => {
     setExpandedAccounts(prev =>

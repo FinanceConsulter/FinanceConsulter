@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -34,13 +34,55 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem('authToken');
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
-  };
+  }, []);
+
+  const fetchAccounts = useCallback(async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/account/', {
+        headers: getAuthHeaders(),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setAccounts(data);
+      }
+    } catch (error) {
+      console.error('Error fetching accounts:', error);
+    }
+  }, [getAuthHeaders]);
+
+  const fetchCategories = useCallback(async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/category/', {
+        headers: getAuthHeaders(),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setCategories(data);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }, [getAuthHeaders]);
+
+  const fetchTags = useCallback(async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/tag/', {
+        headers: getAuthHeaders(),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setAvailableTags(data);
+      }
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+    }
+  }, [getAuthHeaders]);
 
   useEffect(() => {
     if (open) {
@@ -60,49 +102,7 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
         });
       }
     }
-  }, [open, transaction]);
-
-  const fetchAccounts = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/account/', {
-        headers: getAuthHeaders(),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setAccounts(data);
-      }
-    } catch (error) {
-      console.error('Error fetching accounts:', error);
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/category/', {
-        headers: getAuthHeaders(),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setCategories(data);
-      }
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
-  };
-
-  const fetchTags = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/tag/', {
-        headers: getAuthHeaders(),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setAvailableTags(data);
-      }
-    } catch (error) {
-      console.error('Error fetching tags:', error);
-    }
-  };
+  }, [open, transaction, fetchAccounts, fetchCategories, fetchTags]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

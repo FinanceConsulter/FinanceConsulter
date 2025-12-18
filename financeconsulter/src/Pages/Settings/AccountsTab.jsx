@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Button,
@@ -41,19 +41,15 @@ export default function AccountsTab({ onSuccess, onError, isMobile }) {
   const [deleteAccountDialogOpen, setDeleteAccountDialogOpen] = useState(false);
   const [accountToDelete, setAccountToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchAccounts();
-  }, []);
-
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem('authToken');
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
-  };
+  }, []);
 
-  const fetchAccounts = async () => {
+  const fetchAccounts = useCallback(async () => {
     try {
       setAccountsLoading(true);
       const response = await fetch('http://127.0.0.1:8000/account/', {
@@ -63,7 +59,7 @@ export default function AccountsTab({ onSuccess, onError, isMobile }) {
       if (response.ok) {
         const data = await response.json();
         setAccounts(Array.isArray(data) ? data : []);
-      } else if (response.status === 200) {
+      } else {
         setAccounts([]);
       }
     } catch (err) {
@@ -71,7 +67,11 @@ export default function AccountsTab({ onSuccess, onError, isMobile }) {
     } finally {
       setAccountsLoading(false);
     }
-  };
+  }, [getAuthHeaders]);
+
+  useEffect(() => {
+    fetchAccounts();
+  }, [fetchAccounts]);
 
   const handleCreateAccount = () => {
     setEditingAccount(null);
@@ -108,9 +108,7 @@ export default function AccountsTab({ onSuccess, onError, isMobile }) {
     }
 
     try {
-      const url = editingAccount 
-        ? 'http://127.0.0.1:8000/account/update'
-        : 'http://127.0.0.1:8000/account/new';
+      const url = 'http://127.0.0.1:8000/account/';
       
       const body = editingAccount
         ? { 

@@ -33,7 +33,6 @@ export default function LatestTransactionsList({ transactions, accounts, onViewA
         {transactions.map((txn, idx) => {
           const amount = txn.amount_cents / 100;
           const isIncome = amount > 0;
-          const account = getAccountById(txn.account_id);
 
           return (
             <ListItem

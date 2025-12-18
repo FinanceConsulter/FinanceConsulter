@@ -64,7 +64,7 @@ def update_account(
     current_user: User = Depends(oauth2.get_current_user)
 ):
     updated_account =  repo.update_account(current_user, account)
-    if update_account == None:
+    if updated_account == None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to update account")
     return updated_account
 

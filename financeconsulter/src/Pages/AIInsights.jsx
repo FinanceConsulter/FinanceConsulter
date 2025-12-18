@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Card,
@@ -16,7 +16,6 @@ import {
   ListItemIcon,
   ListItemText,
   Avatar,
-  Divider,
   Alert,
   CircularProgress,
   Container
@@ -24,9 +23,6 @@ import {
 import {
   ExpandMore as ExpandMoreIcon,
   CheckCircleOutline as CheckCircleOutlineIcon,
-  ShowChart as ShowChartIcon,
-  Check as CheckIcon,
-  NotificationsOff as NotificationsOffIcon,
   TrendingUp as TrendingUpIcon,
   AutoAwesome as AutoAwesomeIcon 
 } from '@mui/icons-material';
@@ -38,19 +34,15 @@ export default function AIInsights() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // 'all', 'good', 'warning', 'alert'
 
-  useEffect(() => {
-    fetchInsights();
-  }, []);
-
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem('authToken');
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
-  };
+  }, []);
 
-  const fetchInsights = async () => {
+  const fetchInsights = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('http://127.0.0.1:8000/ai-insights/', {
@@ -72,7 +64,11 @@ export default function AIInsights() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getAuthHeaders]);
+
+  useEffect(() => {
+    fetchInsights();
+  }, [fetchInsights]);
 
   const handleGenerate = async () => {
     try {
