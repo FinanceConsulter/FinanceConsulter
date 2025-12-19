@@ -20,7 +20,7 @@ class AICategoryOnboardingGenerator:
             raise ValueError('GEMINI_API_KEY must be set in .env file or provided as argument')
 
         genai.configure(api_key=self.api_key)
-        model_name = os.getenv('GEMINI_MODEL') or 'models/gemini-2.0-flash'
+        model_name = os.getenv('GEMINI_MODEL') or 'models/gemini-2.5-flash'
         self.model = genai.GenerativeModel(model_name)
 
     def build_prompt(self, behavior_text: str) -> str:

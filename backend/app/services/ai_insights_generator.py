@@ -29,7 +29,7 @@ class AIInsightsGenerator:
             raise ValueError("GEMINI_API_KEY must be set in .env file or provided as argument")
         
         genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel('models/gemini-2.0-flash')
+        self.model = genai.GenerativeModel('models/gemini-2.5-flash')
     
     def prepare_financial_data(
         self,
