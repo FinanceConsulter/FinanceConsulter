@@ -80,11 +80,12 @@ class AIInsightsGenerator:
         uncategorized = len(transactions) - categorized
         
         # Format data for AI
+        current_month_label = now.strftime("%B %Y")
+
         data_summary = f"""
 # User Financial Data Summary
 
 ## User Information
-- Name: {user.get('first_name', '')} {user.get('last_name', '')}
 - User ID: {user.get('id', 'N/A')}
 
 ## Overall Financial Position
@@ -94,7 +95,7 @@ class AIInsightsGenerator:
 - Categorized Transactions: {categorized} ({(categorized/len(transactions)*100):.1f}%)
 - Uncategorized Transactions: {uncategorized}
 
-## Current Month (November 2025)
+## Current Month ({current_month_label})
 - Income: CHF {current_month_income:.2f}
 - Expenses: CHF {current_month_expenses:.2f}
 - Net: CHF {current_month_income - current_month_expenses:.2f}
@@ -258,15 +259,6 @@ Return ONLY the JSON object, no additional text or markdown formatting.
             if response_text.endswith('```'):
                 response_text = response_text[:-3]
             
-            # Save raw response to JSON file
-            try:
-                output_dir = Path("output")
-                output_dir.mkdir(exist_ok=True)
-                with open(output_dir / "ai_response.json", "w", encoding="utf-8") as f:
-                    f.write(response_text)
-            except Exception as e:
-                print(f"Failed to save AI response to file: {e}")
-
             insights_data = json.loads(response_text.strip())
             
             # Add metadata
