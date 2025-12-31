@@ -8,6 +8,10 @@ from InternalResponse import InternalResponse
 from fastapi import status
 from models.tag import TransactionTag
 from models.receipt import Receipt
+from repository.category import CategoryRepository
+import os
+
+from services.transaction_categorizer import CategoryCandidate, suggest_category_for_transaction
 
 class TransactionRepository:
     def __init__(self, db: Session):
@@ -39,13 +43,51 @@ class TransactionRepository:
         account_response = AccountRepository(self.db).check_existing_account_id(current_user, new_transaction.account_id)
         if account_response.state == status.HTTP_409_CONFLICT:
             return account_response
+
+        category_id = new_transaction.category_id
+        if category_id is None:
+            try:
+                threshold = float(os.getenv('CATEGORY_AUTO_THRESHOLD', '0.5'))
+                min_threshold = float(os.getenv('CATEGORY_AUTO_MIN_THRESHOLD', '0.35'))
+                min_margin = float(os.getenv('CATEGORY_AUTO_MIN_MARGIN', '0.03'))
+                categories = CategoryRepository(self.db).get_userspecific_categories(current_user)
+                candidates = [
+                    CategoryCandidate(
+                        id=c.id,
+                        name=c.name,
+                        type=c.type,
+                        parent_id=c.parent_id,
+                        description=c.description,
+                    )
+                    for c in categories
+                ]
+
+                suggestion = suggest_category_for_transaction(
+                    categories=candidates,
+                    description=new_transaction.description,
+                    amount_cents=new_transaction.amount_cents,
+                    currency_code=new_transaction.currency_code,
+                    threshold=threshold,
+                )
+                category_id = suggestion.category_id
+                if (
+                    category_id is None
+                    and suggestion.best_category_id is not None
+                    and suggestion.score >= min_threshold
+                    and suggestion.margin >= min_margin
+                ):
+                    category_id = suggestion.best_category_id
+            except Exception:
+                # Categorization is best-effort; creating the transaction must still succeed.
+                category_id = None
+
         transaction = Transaction(
             user_id = current_user.id,
             account_id = new_transaction.account_id,
             date = new_transaction.date,
             description = new_transaction.description,
             amount_cents = new_transaction.amount_cents,
-            category_id = new_transaction.category_id,
+            category_id = category_id,
             currency_code = new_transaction.currency_code
         )
         self.db.add(transaction)

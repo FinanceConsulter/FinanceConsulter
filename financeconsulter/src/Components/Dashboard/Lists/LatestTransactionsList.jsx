@@ -11,10 +11,6 @@ export default function LatestTransactionsList({ transactions, accounts, onViewA
     );
   }
 
-  const getAccountById = (accountId) => {
-    return accounts?.find(acc => acc.id === accountId);
-  };
-
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>

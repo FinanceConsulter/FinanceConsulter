@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator
 from typing import Optional
 from datetime import date as date_type
 from schemas.tag import TagResponse
@@ -60,6 +60,8 @@ class TransactionResponse(BaseModel):
     currency_code: str
     created_at: str
     tags: Optional[list[TagResponse]]
+
+    model_config = ConfigDict(from_attributes=True)
 
 class TransactionFilter(BaseModel):
     account_id: Optional[int]

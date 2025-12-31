@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Button,
@@ -38,19 +38,15 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
   const [deleteCategoryDialogOpen, setDeleteCategoryDialogOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem('authToken');
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
-  };
+  }, []);
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       setCategoriesLoading(true);
       const response = await fetch('http://127.0.0.1:8000/category/', {
@@ -70,7 +66,11 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
     } finally {
       setCategoriesLoading(false);
     }
-  };
+  }, [getAuthHeaders]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const handleCreateCategory = () => {
     setEditingCategory(null);
@@ -222,7 +222,13 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
     let iterations = 0;
     
     while (currentId && iterations < maxIterations) {
-      const category = categories.find(cat => cat.id === currentId);
+      let category = null;
+      for (const cat of categories) {
+        if (cat.id === currentId) {
+          category = cat;
+          break;
+        }
+      }
       if (!category || !category.parent_id || category.parent_id === 0) {
         break;
       }
@@ -309,7 +315,6 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
           <List>
             {buildCategoryTree().map((category) => {
               const parentName = getParentCategoryName(category.parent_id);
-              const isSubcategory = category.parent_id && category.parent_id !== 0;
               const indentLevel = category.depth || 0;
               
               // Color gradient for depth levels
