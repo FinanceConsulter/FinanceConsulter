@@ -1,0 +1,162 @@
+[
+  {
+    "file": "1005-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> Drackcus</s_nm> 7.</s_price> \"bo\"ozeye<s_price>5.00<s_nm>ke Ite</s_nm> <s_nm> Lo</s_nm> 21.</s_price>  Man ( ()<s_price></s_price> Whitegy</s_nm> 20.00<s_price>0.00<s_nm>BD</s_nm> 2.</s_price> \"</s_nm> 16.<s_nm> Topin<s_price>4.00<s_nm>ke It</s_nm> </s_menu><s_subtotal_price>.</s_subtotal_price><s_total> 17994</s_total>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1009-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> Ste Tipers<s_price>99<s_nm>togo</s_nm> 12.</s_price> Roo Be</s_nm> 2.</s_price><s_sub_total> 28.</s_subtotal_price><s_total> 28.</s_subtotal_price><s_total> 28.</s_total_price>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1030-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> Coffee<s_price>50<s_nm> Houseine<s_price>95<s_nm>botailrimp<s_nm>mboca Sh</s_nm> 10.</s_price> Esrotgugo</s_nm> 10.<s_nm>allingar</s_nm> 23.</s_price> Dulingaacio<s_price>95</s_menu><s_subtotal_price>.</s_subtotal_price><s_total> 9478</s_total>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1052-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> gl White<s_price>75<s_nm>uon</s_nm> 6.</s_price> Morellatomat<s_price>95<s_nm> Por Queilla<s_price>95<s_nm> On So</s_nm> 5.</s_price> Por Cho</s_nm> 21.</s_price> 1ner fiz</s_nm> 24.</s_menu><s_subtotal_price>.</s_subtotal_price><s_total> 8650</s_total> 9418</s_total>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1068-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> Por</s_nm> 17.00<s_nm>cak</s_nm> 12.00<s_nm> Ba</s_nm> </s_price> Regula</s_nm> </s_price><s_sub_total> 4290</s_sub_total><s_total_price>90</s_total>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1074-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> 2kendffet 2rink<s_price>18</s_menu><s_subtotal_price>.</s_price><s_sub_total> 33.</s_subtotal_price><s_total> 33.</s_subtotal_price><s_total> 33.</s_total_price>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1087-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> Guest</s_nm> 0<s_nm>cher</s_nm> 3.</s_price> 1</s_nm> 9.</s_price><s_sub_total> 10.</s_subtotal_price><s_total> 10.</s_subtotal_price><s_total> 10.</s_total_price>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1113-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> Ad Din</s_nm> 23.</s_price> So</s_nm> 3.</s_price><s_sub_total> 29.</s_subtotal_price><s_total> 29.</s_subtotal_price><s_total> 29.</s_total_price>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1114-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> PERER<s_price>80<s_nm>CA-OLA<s_price>80<s_nm>USRAN</s_nm> 5.</s_price><s_sub_total> 17.00</s_sub_total><s_total_price> 17.00</s_sub_total><s_total_price> 17.00</s_total>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  },
+  {
+    "file": "1122-receipt.jpg",
+    "token_sequence": "<s_cord-v2><s_menu> SOP DE TILALL TA SA CHN</s_nm> 9.</s_price> HO MARITA JBO<s_price>50<s_nm> Pe</s_nm> 2.</s_price> S CHSE</s_nm> 1.</s_price> HO MARITA JBO<s_price>50</s_menu><s_subtotal_price>50</s_sub_total><s_total_price>50</s_total>",
+    "cord_parsed": {},
+    "custom_format": {
+      "data": {
+        "merchant": "",
+        "date": "",
+        "menu": [],
+        "total": ""
+      }
+    },
+    "merchant": "",
+    "total": "",
+    "menu_count": 0
+  }
+]

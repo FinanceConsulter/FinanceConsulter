@@ -1,0 +1,249 @@
+import os
+import json
+import torch
+from torch.utils.data import Dataset
+from transformers import (
+    VisionEncoderDecoderConfig,
+    VisionEncoderDecoderModel,
+    DonutProcessor,
+    Seq2SeqTrainingArguments,
+    Seq2SeqTrainer,
+)
+from datasets import load_dataset
+from PIL import Image
+
+# --- KONFIGURATION ---
+BASE_MODEL_NAME = "naver-clova-ix/donut-base-finetuned-cord-v2"
+DATASET_PATH = r"C:\Users\basti\Documents\GitHub\FinanceConsulter\backend\ai_models\data"
+OUTPUT_DIR = r"C:\Users\basti\Documents\GitHub\FinanceConsulter\backend\ai_models\donut_custom_v3"
+
+# --- HYPERPARAMETER ---
+MAX_LENGTH = 1024 
+IMAGE_SIZE = (1280, 960) 
+BATCH_SIZE = 2 
+GRADIENT_ACCUMULATION_STEPS = 4 
+EPOCHS = 10 
+LEARNING_RATE = 2e-5 
+NUM_WORKERS = 0 
+
+def json2token(obj, update_special_tokens_for_json_key=True, sort_json_key=True):
+    if type(obj) == dict:
+        if len(obj) == 1 and "text_sequence" in obj:
+            return obj["text_sequence"]
+        output = ""
+        keys = list(obj.keys())
+        if sort_json_key:
+            keys.sort()
+        for k in keys:
+            if update_special_tokens_for_json_key:
+                output += f"<s_{k}>" + json2token(obj[k], update_special_tokens_for_json_key, sort_json_key) + f"</s_{k}>"
+            else:
+                output += f"<{k}>" + json2token(obj[k], update_special_tokens_for_json_key, sort_json_key) + f"</{k}>"
+        return output
+    elif type(obj) == list:
+        return "".join([json2token(item, update_special_tokens_for_json_key, sort_json_key) for item in obj])
+    else:
+        return str(obj)
+
+class DonutDataset(Dataset):
+    def __init__(self, dataset_split, processor, root_dir, task_start_token, max_length=MAX_LENGTH, split="train"):
+        self.dataset_split = dataset_split
+        self.processor = processor
+        self.root_dir = root_dir
+        self.max_length = max_length
+        self.split = split
+        self.gt_token_sequences = []
+
+        for item in self.dataset_split:
+            try:
+                ground_truth = json.loads(item["ground_truth"])
+                parsed_sequence = json2token(ground_truth)
+                token_sequence = task_start_token + parsed_sequence + "</s>"
+                self.gt_token_sequences.append(token_sequence)
+            except Exception as e:
+                print(f"Skipping broken entry: {e}")
+                self.gt_token_sequences.append(task_start_token + "</s>")
+
+    def __len__(self):
+        return len(self.dataset_split)
+
+    def __getitem__(self, idx):
+        item = self.dataset_split[idx]
+        img_path = os.path.join(self.root_dir, "images", item["file_name"])
+        try:
+            image = Image.open(img_path).convert("RGB")
+        except:
+            img_path_alt = os.path.join(self.root_dir, item["file_name"])
+            try:
+                image = Image.open(img_path_alt).convert("RGB")
+            except:
+                image = Image.new('RGB', IMAGE_SIZE, color='black')
+
+        pixel_values = self.processor(image, random_padding=self.split=="train", return_tensors="pt").pixel_values
+        pixel_values = pixel_values.squeeze()
+
+        target_sequence = self.gt_token_sequences[idx]
+        input_ids = self.processor.tokenizer(
+            target_sequence,
+            add_special_tokens=False,
+            max_length=self.max_length,
+            padding="max_length",
+            truncation=True,
+            return_tensors="pt",
+        )["input_ids"].squeeze(0)
+
+        labels = input_ids.clone()
+        labels[labels == self.processor.tokenizer.pad_token_id] = -100 
+        return {"pixel_values": pixel_values, "labels": labels}
+
+def main():
+    print(f"CUDA verfügbar: {torch.cuda.is_available()}")
+    
+    print(f"Lade Basis-Modell: {BASE_MODEL_NAME}")
+    processor = DonutProcessor.from_pretrained(BASE_MODEL_NAME)
+    model = VisionEncoderDecoderModel.from_pretrained(BASE_MODEL_NAME)
+
+    print("Lade Dataset...")
+    data_files = {
+        "train": os.path.join(DATASET_PATH, "train", "metadata.jsonl"),
+        "test": os.path.join(DATASET_PATH, "test", "metadata.jsonl"),
+        "validation": os.path.join(DATASET_PATH, "validate", "metadata.jsonl")
+    }
+    # Nur existierende laden
+    data_files = {k: v for k, v in data_files.items() if os.path.exists(v)}
+    dataset = load_dataset("json", data_files=data_files)
+
+    # 1. TOKENS FINDEN
+    print("Suche nach neuen Keys im Dataset...")
+    new_special_tokens = set()
+    
+    def get_keys_recursive(obj):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                new_special_tokens.add(f"<s_{k}>")
+                new_special_tokens.add(f"</s_{k}>")
+                get_keys_recursive(v)
+        elif isinstance(obj, list):
+            for item in obj:
+                get_keys_recursive(item)
+
+    if "train" in dataset:
+        for i in range(len(dataset["train"])): 
+            try:
+                gt = json.loads(dataset["train"][i]["ground_truth"])
+                get_keys_recursive(gt)
+            except: pass
+    
+    # 2. TOKENS HINZUFÜGEN & RESIZEN (DER WICHTIGE TEIL)
+    if len(new_special_tokens) > 0:
+        print(f"Füge {len(new_special_tokens)} neue Tokens hinzu...")
+        num_added = processor.tokenizer.add_tokens(list(new_special_tokens))
+        print(f"Tatsächlich hinzugefügt: {num_added}")
+        
+        # Start Token Check
+        task_start_token = "<s_cord-v2>" 
+        if task_start_token not in processor.tokenizer.get_vocab():
+            processor.tokenizer.add_tokens([task_start_token])
+        
+        # WICHTIG: Korrekte neue Größe ermitteln
+        new_vocab_size = len(processor.tokenizer)
+        print(f"Neue Tokenizer Größe: {new_vocab_size}")
+        
+        # Modell Resizen - explizit für den Decoder!
+        model.decoder.resize_token_embeddings(new_vocab_size)
+        
+        # Config updaten (damit Huggingface nicht verwirrt ist)
+        model.config.decoder_vocab_size = new_vocab_size
+        
+        print(f"Modell Embedding Größe nach Resize: {model.decoder.get_input_embeddings().weight.shape[0]}")
+    else:
+        task_start_token = "<s_cord-v2>"
+
+    # Config Updates
+    model.config.pad_token_id = processor.tokenizer.pad_token_id
+    model.config.decoder_start_token_id = processor.tokenizer.convert_tokens_to_ids(task_start_token)
+    model.config.max_length = MAX_LENGTH
+
+    # Datasets erstellen
+    train_root = os.path.join(DATASET_PATH, "train")
+    validate_root = os.path.join(DATASET_PATH, "validate")
+
+    train_dataset = DonutDataset(dataset["train"], processor, train_root, task_start_token, split="train") if "train" in dataset else None
+    eval_dataset = DonutDataset(dataset["validation"], processor, validate_root, task_start_token, split="validation") if "validation" in dataset else None
+
+    # --- ULTIMATIVER SICHERHEITS-CHECK ---
+    print("\n🔍 Führe Sicherheits-Check durch...")
+    # Hole die echte Größe der Embedding-Matrix im Speicher
+    embedding_matrix_size = model.decoder.get_input_embeddings().weight.shape[0]
+    tokenizer_size = len(processor.tokenizer)
+    
+    print(f"Tokenizer Length: {tokenizer_size}")
+    print(f"Embedding Matrix: {embedding_matrix_size}")
+    
+    if tokenizer_size > embedding_matrix_size:
+        print("🚨 ALARM: Tokenizer ist größer als Embedding Matrix! Führe Zwangs-Resize durch.")
+        model.decoder.resize_token_embeddings(tokenizer_size)
+        embedding_matrix_size = model.decoder.get_input_embeddings().weight.shape[0]
+    
+    # Teste erstes Sample
+    if train_dataset and len(train_dataset) > 0:
+        sample = train_dataset[0]
+        # Ignore -100 (Padding) für den Max-Check
+        valid_ids = sample["labels"][sample["labels"] != -100]
+        if len(valid_ids) > 0:
+            max_id = valid_ids.max().item()
+            print(f"Max Token ID im ersten Sample: {max_id}")
+            
+            if max_id >= embedding_matrix_size:
+                raise ValueError(f"❌ FATAL: Datensatz enthält Token ID {max_id}, aber Modell geht nur bis {embedding_matrix_size-1}. Training würde sofort crashen!")
+            else:
+                print("✅ Sicherheits-Check bestanden. IDs liegen im gültigen Bereich.")
+    
+    # Check Eval Strategy Name
+    try:
+        from transformers import TrainingArguments
+        TrainingArguments(output_dir="test", eval_strategy="no")
+        strategy_name = "eval_strategy"
+    except:
+        strategy_name = "evaluation_strategy"
+
+    args_dict = {
+        "output_dir": OUTPUT_DIR,
+        "num_train_epochs": EPOCHS,
+        "learning_rate": LEARNING_RATE,
+        "per_device_train_batch_size": BATCH_SIZE,
+        "per_device_eval_batch_size": BATCH_SIZE,
+        "gradient_accumulation_steps": GRADIENT_ACCUMULATION_STEPS,
+        "weight_decay": 0.01,
+        "logging_steps": 10,
+        "save_strategy": "epoch",
+        "save_total_limit": 2,
+        "fp16": torch.cuda.is_available(),
+        "dataloader_num_workers": NUM_WORKERS,
+        "remove_unused_columns": False,
+        "report_to": ["tensorboard"],
+        "warmup_ratio": 0.1, 
+        "load_best_model_at_end": True if eval_dataset else False,
+    }
+    args_dict[strategy_name] = "epoch" if eval_dataset else "no"
+
+    if train_dataset:
+        trainer = Seq2SeqTrainer(
+            model=model,
+            args=Seq2SeqTrainingArguments(**args_dict),
+            train_dataset=train_dataset,
+            eval_dataset=eval_dataset,
+        )
+
+        print(f"🚀 Starte Fine-Tuning auf DEIN Format ({EPOCHS} Epochen)...")
+        trainer.train()
+        
+        print(f"Speichere Modell in {OUTPUT_DIR}...")
+        trainer.save_model(OUTPUT_DIR)
+        processor.save_pretrained(OUTPUT_DIR)
+        print("Fertig!")
+    else:
+        print("Keine Trainingsdaten gefunden!")
+
+if __name__ == "__main__":
+    main()

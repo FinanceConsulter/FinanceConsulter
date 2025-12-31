@@ -9,34 +9,31 @@ from transformers import (
     Seq2SeqTrainingArguments,
     Seq2SeqTrainer,
 )
-from datasets import load_dataset, Features, Image as ImageFeature, Value
+from datasets import load_dataset
 from PIL import Image
-from typing import Any, List, Dict
 
 # --- KONFIGURATION ---
-# Pfad zu deinem lokalen Modell
-LOCAL_MODEL_PATH = r"C:\Users\basti\Documents\GitHub\FinanceConsulter\backend\ai_models\donut_receipt_v1" 
-
-# Pfad zu deinen Daten
+# WICHTIG: Wir laden jetzt dein BEREITS TRAINIERTES Modell!
+LOCAL_MODEL_PATH = r"C:\Users\basti\Documents\GitHub\FinanceConsulter\backend\ai_models\donut_receipt_trained_v1" 
 DATASET_PATH = r"C:\Users\basti\Documents\GitHub\FinanceConsulter\backend\ai_models\data"
-
-OUTPUT_DIR = r"C:\Users\basti\Documents\GitHub\FinanceConsulter\backend\ai_models\donut_receipt_trained_v1"
+# Wir speichern es in einem neuen Ordner (v2), damit wir v1 nicht überschreiben
+OUTPUT_DIR = r"C:\Users\basti\Documents\GitHub\FinanceConsulter\backend\ai_models\donut_receipt_trained_v2"
 
 # --- HYPERPARAMETER ---
 MAX_LENGTH = 768
 IMAGE_SIZE = (1280, 960) 
 BATCH_SIZE = 2 
 GRADIENT_ACCUMULATION_STEPS = 4 
-EPOCHS = 15 
-LEARNING_RATE = 3e-5 
-NUM_WORKERS = 4 
+EPOCHS = 23 
+LEARNING_RATE = 2e-5 # Etwas niedriger, da wir schon "grob" richtig liegen
+NUM_WORKERS = 1 
 
-# --- DATASET KLASSE (GLOBAL DEFINIERT FÜR WINDOWS) ---
+# --- DATASET KLASSE ---
 class DonutDataset(Dataset):
     def __init__(self, dataset_split, processor, root_dir, task_start_token, max_length=MAX_LENGTH, split="train"):
         self.dataset_split = dataset_split
         self.processor = processor
-        self.root_dir = root_dir # Pfad zum 'train', 'test' oder 'validate' Ordner
+        self.root_dir = root_dir 
         self.max_length = max_length
         self.split = split
         self.gt_token_sequences = []
@@ -58,19 +55,15 @@ class DonutDataset(Dataset):
 
     def __getitem__(self, idx):
         item = self.dataset_split[idx]
-        
-        # Bild manuell laden
         img_path = os.path.join(self.root_dir, "images", item["file_name"])
-        
         try:
             image = Image.open(img_path).convert("RGB")
         except FileNotFoundError:
-            # Fallback: Vielleicht liegt es direkt im Ordner?
+            # Fallback
             img_path_alt = os.path.join(self.root_dir, item["file_name"])
             try:
                 image = Image.open(img_path_alt).convert("RGB")
             except FileNotFoundError:
-                print(f"ERROR: Image not found: {img_path}")
                 image = Image.new('RGB', IMAGE_SIZE, color='black')
 
         pixel_values = self.processor(image, random_padding=self.split=="train", return_tensors="pt").pixel_values
@@ -88,98 +81,68 @@ class DonutDataset(Dataset):
 
         labels = input_ids.clone()
         labels[labels == self.processor.tokenizer.pad_token_id] = -100 
-        
-        return {
-            "pixel_values": pixel_values,
-            "labels": labels,
-        }
+        return {"pixel_values": pixel_values, "labels": labels}
 
 def main():
     print(f"CUDA verfügbar: {torch.cuda.is_available()}")
     
-    print("Lade Prozessor und Modell...")
+    # Lade das V1 Modell
+    print(f"Lade vortrainiertes Modell aus {LOCAL_MODEL_PATH}...")
     processor = DonutProcessor.from_pretrained(LOCAL_MODEL_PATH)
     model = VisionEncoderDecoderModel.from_pretrained(LOCAL_MODEL_PATH)
 
-    # --- DATEN LADEN ---
     print("Lade Dataset...")
-    
     data_files = {
         "train": os.path.join(DATASET_PATH, "train", "metadata.jsonl"),
         "test": os.path.join(DATASET_PATH, "test", "metadata.jsonl"),
         "validation": os.path.join(DATASET_PATH, "validate", "metadata.jsonl")
     }
-    
     dataset = load_dataset("json", data_files=data_files)
 
-    # --- TOKENIZER ANPASSEN ---
-    print("Analysiere JSON Keys für Special Tokens...")
-    new_special_tokens = set()
-    
-    scan_limit = min(len(dataset["train"]), 200)
-    for i in range(scan_limit): 
-        try:
-            gt = json.loads(dataset["train"][i]["ground_truth"])
-            for key in gt.keys():
-                new_special_tokens.add(f"<s_{key}>")
-                new_special_tokens.add(f"</s_{key}>")
-        except:
-            continue
-    
-    newly_added_num = processor.tokenizer.add_tokens(list(new_special_tokens))
-    if newly_added_num > 0:
-        print(f"{newly_added_num} neue Special Tokens hinzugefügt.")
-        model.decoder.resize_token_embeddings(len(processor.tokenizer))
-    
+    # Tokenizer müssen wir hier nicht mehr anpassen, da das Modell die Tokens aus V1 schon kennt!
     task_start_token = "<s_cord-v2>"
-    if task_start_token not in processor.tokenizer.get_vocab():
-        processor.tokenizer.add_tokens([task_start_token])
-        model.decoder.resize_token_embeddings(len(processor.tokenizer))
 
-    # Pfade zu den Splits explizit angeben
     train_root = os.path.join(DATASET_PATH, "train")
     validate_root = os.path.join(DATASET_PATH, "validate")
 
-    # Datasets erstellen (jetzt mit globaler Klasse und übergebenem Token)
-    train_dataset = DonutDataset(
-        dataset["train"], 
-        processor, 
-        root_dir=train_root, 
-        task_start_token=task_start_token, 
-        split="train"
-    )
-    
-    eval_dataset = DonutDataset(
-        dataset["validation"], 
-        processor, 
-        root_dir=validate_root, 
-        task_start_token=task_start_token, 
-        split="validation"
-    ) if "validation" in dataset else None
+    train_dataset = DonutDataset(dataset["train"], processor, root_dir=train_root, task_start_token=task_start_token, split="train")
+    eval_dataset = DonutDataset(dataset["validation"], processor, root_dir=validate_root, task_start_token=task_start_token, split="validation") if "validation" in dataset else None
 
-    # --- TRAINING SETUP ---
     model.config.pad_token_id = processor.tokenizer.pad_token_id
     model.config.decoder_start_token_id = processor.tokenizer.convert_tokens_to_ids(task_start_token)
 
-    training_args = Seq2SeqTrainingArguments(
-        output_dir=OUTPUT_DIR,
-        num_train_epochs=EPOCHS,
-        learning_rate=LEARNING_RATE,
-        per_device_train_batch_size=BATCH_SIZE,
-        per_device_eval_batch_size=BATCH_SIZE,
-        gradient_accumulation_steps=GRADIENT_ACCUMULATION_STEPS,
-        weight_decay=0.01,
-        logging_steps=10,
-        save_strategy="epoch",
-        eval_strategy="epoch" if eval_dataset else "no",
-        save_total_limit=2,
-        fp16=torch.cuda.is_available(),
-        dataloader_num_workers=NUM_WORKERS,
-        remove_unused_columns=False,
-        report_to=["tensorboard"],
-        warmup_ratio=0.1, 
-        load_best_model_at_end=True if eval_dataset else False,
-    )
+    # Check Eval Strategy Name
+    try:
+        from transformers import TrainingArguments
+        # Prüfe ob eval_strategy existiert (neu)
+        test_args = TrainingArguments(output_dir="test", eval_strategy="no")
+        strategy_name = "eval_strategy"
+    except:
+        strategy_name = "evaluation_strategy"
+
+    # Argumente dynamisch bauen
+    args_dict = {
+        "output_dir": OUTPUT_DIR,
+        "num_train_epochs": EPOCHS,
+        "learning_rate": LEARNING_RATE,
+        "per_device_train_batch_size": BATCH_SIZE,
+        "per_device_eval_batch_size": BATCH_SIZE,
+        "gradient_accumulation_steps": GRADIENT_ACCUMULATION_STEPS,
+        "weight_decay": 0.01,
+        "logging_steps": 10,
+        "save_strategy": "epoch",
+        "save_total_limit": 2,
+        "fp16": torch.cuda.is_available(),
+        "dataloader_num_workers": NUM_WORKERS,
+        "remove_unused_columns": False,
+        "report_to": ["tensorboard"],
+        "warmup_ratio": 0.1, 
+        "load_best_model_at_end": True if eval_dataset else False,
+    }
+    # Strategie hinzufügen
+    args_dict[strategy_name] = "epoch" if eval_dataset else "no"
+
+    training_args = Seq2SeqTrainingArguments(**args_dict)
 
     trainer = Seq2SeqTrainer(
         model=model,
@@ -188,13 +151,13 @@ def main():
         eval_dataset=eval_dataset,
     )
 
-    print(f"Starte Training für {EPOCHS} Epochen...")
+    print(f"Starte Runde 2 Training für weitere {EPOCHS} Epochen...")
     trainer.train()
     
-    print("Training beendet. Speichere Modell...")
+    print("Training beendet. Speichere Modell V2...")
     trainer.save_model(OUTPUT_DIR)
     processor.save_pretrained(OUTPUT_DIR)
-    print(f"✅ Modell gespeichert in {OUTPUT_DIR}")
+    print(f"✅ Modell V2 gespeichert in {OUTPUT_DIR}")
 
 if __name__ == "__main__":
     main()
