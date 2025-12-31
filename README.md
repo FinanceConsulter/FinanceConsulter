@@ -87,6 +87,9 @@ npm start
 → http://localhost:3000
 
 ## Login
+- Email: `e93rzw9erwe9zw@e.ch`
+- Password: `TestPassword`
+
 - Email: `admin@test.ch`
 - Password: `admin`
 
