@@ -7,7 +7,7 @@ from schemas.user import UserCreate
 from models.user import User
 
 # Import Request
-from schemas.user import UserCreate, UserResponse
+from schemas.user import UserCreate, UserResponse, UserUpdate, PasswordChangeRequest
 
 # Import Model
 from models.user import User
@@ -54,7 +54,7 @@ def create_user(
 @router.put("/{user_id}", response_model=UserResponse)
 def update_user(
     user_id: int, 
-    request: UserCreate, 
+    request: UserUpdate, 
     repo: UserRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
@@ -71,3 +71,31 @@ def update_user(
         raise HTTPException(status_code=404, detail="User not found")
     
     return updated_user
+
+
+@router.put("/{user_id}/password", response_model=UserResponse)
+def change_password(
+    user_id: int,
+    request: PasswordChangeRequest,
+    repo: UserRepository = Depends(get_repository),
+    current_user: User = Depends(oauth2.get_current_user)
+):
+    """Change user password"""
+    if current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    if len(request.new_password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
+
+    result = repo.change_password(user_id, request.current_password, request.new_password)
+
+    if result is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if result == "NO_PASSWORD_SET":
+        raise HTTPException(status_code=400, detail="No password set for this user")
+
+    if result == "INVALID_CURRENT_PASSWORD":
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+
+    return result

@@ -1,7 +1,7 @@
 
 from sqlalchemy.orm import Session
 from models.user import User
-from schemas.user import UserCreate, UserResponse
+from schemas.user import UserCreate, UserResponse, UserUpdate
 import password
 
 class UserRepository:
@@ -44,7 +44,7 @@ class UserRepository:
             return True
         return False
     
-    def update_user(self, user_id: int, request: UserCreate):
+    def update_user(self, user_id: int, request: UserUpdate):
         user = self.get_user(user_id)
         if not user:
             return None
@@ -66,6 +66,22 @@ class UserRepository:
         for field, value in update_data.items():
             setattr(user, field, value)
 
+        self.db.commit()
+        self.db.refresh(user)
+        return user
+
+    def change_password(self, user_id: int, current_password: str, new_password: str):
+        user = self.get_user(user_id)
+        if not user:
+            return None
+
+        if not user.password_hash:
+            return "NO_PASSWORD_SET"
+
+        if not password.verify_password(current_password, user.password_hash):
+            return "INVALID_CURRENT_PASSWORD"
+
+        user.password_hash = password.get_pwd_hash(new_password)
         self.db.commit()
         self.db.refresh(user)
         return user

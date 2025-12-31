@@ -19,6 +19,9 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [onboardingRequired, setOnboardingRequired] = useState(false);
 
+  const ONBOARDING_PENDING_KEY = 'onboardingCategoriesPending';
+  const ONBOARDING_DONE_KEY = 'hasCompletedOnboardingCategories';
+
   const fetchWithTimeout = async (url, options = {}, timeoutMs = 20000) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -47,8 +50,11 @@ function App() {
       return;
     }
 
-    const completed = localStorage.getItem('hasCompletedOnboardingCategories') === 'true';
-    if (!completed) {
+    // Only show onboarding if it was triggered by registration and is still pending.
+    const onboardingPending = localStorage.getItem(ONBOARDING_PENDING_KEY) === 'true';
+    const onboardingDone = localStorage.getItem(ONBOARDING_DONE_KEY) === 'true';
+
+    if (onboardingPending && !onboardingDone) {
       setOnboardingRequired(true);
       setCurrentPage('onboardingCategories');
     } else {
@@ -133,7 +139,10 @@ function App() {
         const result = await loginResponse.json();
         localStorage.setItem('authToken', result.access_token);
         setIsAuthenticated(true);
-        localStorage.setItem('hasCompletedOnboardingCategories', 'false');
+
+        // Trigger onboarding only after registration.
+        localStorage.setItem(ONBOARDING_PENDING_KEY, 'true');
+        localStorage.setItem(ONBOARDING_DONE_KEY, 'false');
         setOnboardingRequired(true);
         setCurrentPage('onboardingCategories');
     } catch (error) {
@@ -169,8 +178,10 @@ function App() {
         localStorage.setItem('authToken', result.access_token);
         setIsAuthenticated(true);
 
-        const completed = localStorage.getItem('hasCompletedOnboardingCategories') === 'true';
-        if (!completed) {
+        // Normal login should not trigger onboarding unless it was previously marked as pending.
+        const onboardingPending = localStorage.getItem(ONBOARDING_PENDING_KEY) === 'true';
+        const onboardingDone = localStorage.getItem(ONBOARDING_DONE_KEY) === 'true';
+        if (onboardingPending && !onboardingDone) {
           setOnboardingRequired(true);
           setCurrentPage('onboardingCategories');
         } else {
@@ -222,7 +233,8 @@ function App() {
         return (
           <OnboardingCategories
             onDone={() => {
-              localStorage.setItem('hasCompletedOnboardingCategories', 'true');
+              localStorage.setItem(ONBOARDING_DONE_KEY, 'true');
+              localStorage.setItem(ONBOARDING_PENDING_KEY, 'false');
               setOnboardingRequired(false);
               setCurrentPage('dashboard');
             }}

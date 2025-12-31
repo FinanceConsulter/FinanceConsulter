@@ -79,6 +79,7 @@ export default function Settings() {
 
       const userData = await response.json();
       setUser(userData);
+      window.dispatchEvent(new Event('fc:user-updated'));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -94,8 +95,18 @@ export default function Settings() {
     );
   }
 
+  if (!user) {
+    return (
+      <Box sx={{ p: { xs: 2, sm: 3 } }}>
+        <Alert severity="error" variant="filled">
+          {error || 'Failed to load user data'}
+        </Alert>
+      </Box>
+    );
+  }
+
   const settingsSections = [
-    { id: 'panel0', label: 'Profile', icon: <PersonIcon />, component: <ProfileTab user={user} onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
+    { id: 'panel0', label: 'Profile', icon: <PersonIcon />, component: <ProfileTab user={user} onUserUpdated={setUser} onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
     { id: 'panel1', label: 'Security', icon: <LockIcon />, component: <SecurityTab user={user} onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
     { id: 'panel2', label: 'Tags', icon: <LabelIcon />, component: <TagsTab onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },
     { id: 'panel3', label: 'Categories', icon: <CategoryIcon />, component: <CategoriesTab onSuccess={setSuccess} onError={setError} isMobile={isMobile} /> },

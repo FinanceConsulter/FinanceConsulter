@@ -8,7 +8,7 @@ import {
   Divider,
 } from '@mui/material';
 
-export default function ProfileTab({ user, onSuccess, onError, isMobile }) {
+export default function ProfileTab({ user, onUserUpdated, onSuccess, onError, isMobile }) {
   const [profileData, setProfileData] = useState({
     email: user?.email || '',
     name: user?.name || '',
@@ -18,6 +18,9 @@ export default function ProfileTab({ user, onSuccess, onError, isMobile }) {
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('No authentication token found');
+    }
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -37,10 +40,46 @@ export default function ProfileTab({ user, onSuccess, onError, isMobile }) {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to update profile');
+        const errorData = await response.json().catch(() => null);
+        const detail = errorData?.detail;
+
+        if (Array.isArray(detail)) {
+          const msg = detail
+            .map((d) => d?.msg)
+            .filter(Boolean)
+            .join(', ');
+          throw new Error(msg || 'Failed to update profile');
+        }
+
+        throw new Error(detail || 'Failed to update profile');
       }
 
+      // Re-fetch current user to ensure the backend persisted the change
+      const token = localStorage.getItem('authToken');
+      const meRes = await fetch('http://127.0.0.1:8000/user/me', {
+        cache: 'no-store',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!meRes.ok) {
+        throw new Error('Profile update succeeded, but failed to reload user');
+      }
+
+      const updatedUser = await meRes.json();
+      if (typeof onUserUpdated === 'function') {
+        onUserUpdated(updatedUser);
+      }
+
+      // If the server still returns the old values, surface it explicitly.
+      const expectedName = (profileData?.name || '').trim();
+      const actualName = (updatedUser?.name || '').trim();
+      if (expectedName && actualName && expectedName !== actualName) {
+        throw new Error('Profile was not persisted by the backend (name did not change). Please restart the backend and try again.');
+      }
+
+      window.dispatchEvent(new Event('fc:user-updated'));
       onSuccess('Profile updated successfully!');
     } catch (err) {
       onError(err.message);
