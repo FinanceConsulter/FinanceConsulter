@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Button,
@@ -33,19 +33,15 @@ export default function TagsTab({ onSuccess, onError, isMobile }) {
   const [deleteTagDialogOpen, setDeleteTagDialogOpen] = useState(false);
   const [tagToDelete, setTagToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchTags();
-  }, []);
-
-  const getAuthHeaders = () => {
+  const getAuthHeaders = useCallback(() => {
     const token = localStorage.getItem('authToken');
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
-  };
+  }, []);
 
-  const fetchTags = async () => {
+  const fetchTags = useCallback(async () => {
     try {
       setTagsLoading(true);
       const response = await fetch('http://127.0.0.1:8000/tag/', {
@@ -63,7 +59,11 @@ export default function TagsTab({ onSuccess, onError, isMobile }) {
     } finally {
       setTagsLoading(false);
     }
-  };
+  }, [getAuthHeaders]);
+
+  useEffect(() => {
+    fetchTags();
+  }, [fetchTags]);
 
   const handleCreateTag = () => {
     setEditingTag(null);
