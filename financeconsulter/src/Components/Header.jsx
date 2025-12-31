@@ -3,18 +3,36 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState, useEffect } from 'react';
 
 function Header({ handleDrawerToggle }) {
-  const [helloText, setHelloText] = useState('Loading...');
+  const [helloText, setHelloText] = useState('Hallo');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/');
-        if (!response.ok) throw new Error('Failed to load');
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          setHelloText('Hallo');
+          return;
+        }
+
+        const response = await fetch('http://127.0.0.1:8000/user/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) throw new Error('Failed to load user');
         const data = await response.json();
-        setHelloText(data.message || 'FinanceConsulter');
+
+        const displayName =
+          data?.first_name?.trim() ||
+          data?.name?.trim() ||
+          data?.email?.trim() ||
+          '';
+
+        setHelloText(displayName ? `Hallo ${displayName}` : 'Hallo');
       } catch (error) {
-        setHelloText('Error loading data');
-        console.error('Failed to fetch hello world:', error);
+        setHelloText('Hallo');
+        console.error('Failed to fetch current user:', error);
       }
     };
 
