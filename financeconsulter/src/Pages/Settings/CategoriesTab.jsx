@@ -28,6 +28,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CategoryIcon from '@mui/icons-material/Category';
 import CloseIcon from '@mui/icons-material/Close';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
+import { API_URL } from '../../services/api';
 
 export default function CategoriesTab({ onSuccess, onError, isMobile }) {
   const [categories, setCategories] = useState([]);
@@ -49,7 +50,7 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
   const fetchCategories = useCallback(async () => {
     try {
       setCategoriesLoading(true);
-      const response = await fetch('http://127.0.0.1:8000/category/', {
+      const response = await fetch(`${API_URL}/category/`, {
         headers: getAuthHeaders()
       });
 
@@ -104,7 +105,7 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
     }
 
     try {
-      const url = 'http://127.0.0.1:8000/category/';
+      const url = `${API_URL}/category/`;
       
       // Clean the data before sending
       const cleanName = categoryFormData.name.trim();
@@ -122,7 +123,8 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
             id: editingCategory.id, 
             name: cleanName, 
             type: cleanType, 
-            parent_id: cleanParentId
+            parent_id: cleanParentId,
+            description: editingCategory.description ?? null
           }
         : { 
             name: cleanName, 
@@ -144,8 +146,11 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
         let errorMessage = editingCategory ? 'Unable to update category' : 'Unable to create category';
         try {
           const errorJson = JSON.parse(errorData);
-          if (errorJson.detail) {
-            errorMessage = errorJson.detail.replace(/[{}"]/g, '');
+          if (Array.isArray(errorJson.detail)) {
+            // FastAPI validation errors (422) return a list of error objects
+            errorMessage = errorJson.detail.map(d => d.msg || JSON.stringify(d)).join(', ');
+          } else if (errorJson.detail) {
+            errorMessage = String(errorJson.detail).replace(/[{}"]/g, '');
           }
         } catch {
           errorMessage = errorData || errorMessage;
@@ -168,7 +173,7 @@ export default function CategoriesTab({ onSuccess, onError, isMobile }) {
     try {
       const subcategoryCount = getSubcategoryCount(categoryId);
       
-      const response = await fetch(`http://127.0.0.1:8000/category/${categoryId}`, {
+      const response = await fetch(`${API_URL}/category/${categoryId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });

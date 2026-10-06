@@ -7,6 +7,7 @@ import {
   Typography,
   Divider,
 } from '@mui/material';
+import { API_URL } from '../../services/api';
 
 export default function ProfileTab({ user, onUserUpdated, onSuccess, onError, isMobile }) {
   const [profileData, setProfileData] = useState({
@@ -33,7 +34,7 @@ export default function ProfileTab({ user, onUserUpdated, onSuccess, onError, is
 
   const handleSaveProfile = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/user/${user.id}`, {
+      const response = await fetch(`${API_URL}/user/${user.id}`, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify(profileData)
@@ -54,9 +55,9 @@ export default function ProfileTab({ user, onUserUpdated, onSuccess, onError, is
         throw new Error(detail || 'Failed to update profile');
       }
 
-      // Re-fetch current user to ensure the backend persisted the change
+      // Re-fetch current user (token stays valid after an email change: JWT subject is the user id)
       const token = localStorage.getItem('authToken');
-      const meRes = await fetch('http://127.0.0.1:8000/user/me', {
+      const meRes = await fetch(`${API_URL}/user/me`, {
         cache: 'no-store',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -70,13 +71,6 @@ export default function ProfileTab({ user, onUserUpdated, onSuccess, onError, is
       const updatedUser = await meRes.json();
       if (typeof onUserUpdated === 'function') {
         onUserUpdated(updatedUser);
-      }
-
-      // If the server still returns the old values, surface it explicitly.
-      const expectedName = (profileData?.name || '').trim();
-      const actualName = (updatedUser?.name || '').trim();
-      if (expectedName && actualName && expectedName !== actualName) {
-        throw new Error('Profile was not persisted by the backend (name did not change). Please restart the backend and try again.');
       }
 
       window.dispatchEvent(new Event('fc:user-updated'));

@@ -19,12 +19,12 @@ class Tag(Base):
 
     # Relationships
     user = relationship("User", back_populates="tags")
-    transaction_tags = relationship("TransactionTag", back_populates="tag", cascade="all, delete-orphan")
+    transaction_tags = relationship("TransactionTag", back_populates="tag", cascade="all, delete-orphan", overlaps="tags,transactions")
     line_item_tags = relationship("ReceiptLineItemTag", back_populates="tag", cascade="all, delete-orphan")
     transactions = relationship(
-        "Transaction", 
-        secondary="transaction_tags", 
-        overlaps="tags" 
+        "Transaction",
+        secondary="transaction_tags",
+        overlaps="tags,_tag_links,transaction_tags"
     )
     def to_response(self):
         return TagResponse(
@@ -45,8 +45,9 @@ class TransactionTag(Base):
     tag_id = Column(Integer, ForeignKey('tags.id', ondelete='CASCADE'), primary_key=True)
 
     # Relationships
-    transaction = relationship("Transaction", back_populates="_tag_links") 
-    tag = relationship("Tag", back_populates="transaction_tags")
+    # overlaps: the same link rows are also reachable via the Transaction.tags / Tag.transactions shortcuts
+    transaction = relationship("Transaction", back_populates="_tag_links", overlaps="tags,transactions")
+    tag = relationship("Tag", back_populates="transaction_tags", overlaps="tags,transactions")
 
 
 class ReceiptLineItemTag(Base):

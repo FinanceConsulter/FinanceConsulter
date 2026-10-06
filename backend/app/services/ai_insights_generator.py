@@ -1,13 +1,18 @@
 import os
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
-import google.generativeai as genai
 import json
 from pathlib import Path
 from dotenv import load_dotenv
 import time
 
+from services.gemini_config import get_gemini_api_key, import_genai
+
 load_dotenv()
+
+
+class AIInsightsFormatError(ValueError):
+    """Raised when Gemini returns a response that is not a usable insights JSON object."""
 
 
 class AIInsightsGenerator:
@@ -22,12 +27,13 @@ class AIInsightsGenerator:
         Initialize the AI Insights Generator.
         
         Args:
-            api_key: Google Gemini API key. If None, reads from GEMINI_API_KEY env variable from .env file.
+            api_key: Google Gemini API key. If None, reads GEMINI_API_KEY (or GOOGLE_API_KEY) from the .env file.
         """
-        self.api_key = api_key or os.getenv('GEMINI_API_KEY')
+        self.api_key = api_key or get_gemini_api_key()
         if not self.api_key:
-            raise ValueError("GEMINI_API_KEY must be set in .env file or provided as argument")
+            raise ValueError("GEMINI_API_KEY (or GOOGLE_API_KEY) must be set in .env file or provided as argument")
         
+        genai = import_genai()
         genai.configure(api_key=self.api_key)
         self.model = genai.GenerativeModel('models/gemini-2.5-flash')
     
@@ -78,6 +84,16 @@ class AIInsightsGenerator:
         # Count transactions with/without categories
         categorized = len([t for t in transactions if t.get('category_id')])
         uncategorized = len(transactions) - categorized
+        categorized_pct = (categorized / len(transactions) * 100) if transactions else 0.0
+
+        # Month-over-month change (guard against division by zero when there were no expenses last month)
+        if last_month_expenses:
+            expense_change = (
+                f"{(current_month_expenses - last_month_expenses) / last_month_expenses * 100:.1f}% "
+                f"{'increase' if current_month_expenses > last_month_expenses else 'decrease'}"
+            )
+        else:
+            expense_change = "n/a (no expenses last month)"
         
         # Format data for AI
         current_month_label = now.strftime("%B %Y")
@@ -92,7 +108,7 @@ class AIInsightsGenerator:
 - Total Balance: CHF {total_balance:.2f}
 - Number of Accounts: {len(accounts)}
 - Total Transactions: {len(transactions)}
-- Categorized Transactions: {categorized} ({(categorized/len(transactions)*100):.1f}%)
+- Categorized Transactions: {categorized} ({categorized_pct:.1f}%)
 - Uncategorized Transactions: {uncategorized}
 
 ## Current Month ({current_month_label})
@@ -103,7 +119,7 @@ class AIInsightsGenerator:
 
 ## Last Month Comparison
 - Last Month Expenses: CHF {last_month_expenses:.2f}
-- Change: {((current_month_expenses - last_month_expenses) / last_month_expenses * 100):.1f}% {'increase' if current_month_expenses > last_month_expenses else 'decrease'}
+- Change: {expense_change}
 
 ## Spending by Category (Current Month)
 {json.dumps(category_spending, indent=2)}
@@ -119,9 +135,9 @@ class AIInsightsGenerator:
 Date,Description,Amount,Category ID,Account ID
 """
         # Add all transactions in CSV format to save tokens while providing all data
-        for t in sorted(transactions, key=lambda x: x.get('date', ''), reverse=True):
-            date = t.get('date', '').split('T')[0]
-            desc = t.get('description', '').replace(',', ' ')
+        for t in sorted(transactions, key=lambda x: str(x.get('date') or ''), reverse=True):
+            date = str(t.get('date') or '').split('T')[0]
+            desc = (t.get('description') or '').replace(',', ' ').replace('\n', ' ')
             amount = t.get('amount_cents', 0) / 100
             cat_id = t.get('category_id', '')
             acc_id = t.get('account_id', '')
@@ -260,12 +276,23 @@ Return ONLY the JSON object, no additional text or markdown formatting.
                 response_text = response_text[:-3]
             
             insights_data = json.loads(response_text.strip())
+            if not isinstance(insights_data, dict):
+                raise AIInsightsFormatError("AI returned malformed data: expected a JSON object")
+
+            # Gemini sometimes returns the score as float/string -> normalize to int 0-100
+            # (anything unusable is left as-is and rejected by schema validation in the router)
+            try:
+                insights_data['health_score'] = max(0, min(100, int(round(float(insights_data.get('health_score'))))))
+            except (TypeError, ValueError):
+                pass
             
             # Add metadata
             insights_data['last_analyzed'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             
             # Add IDs and timestamps to insights
-            for idx, insight in enumerate(insights_data.get('insights', [])):
+            for idx, insight in enumerate(insights_data.get('insights') or []):
+                if not isinstance(insight, dict):
+                    continue
                 insight['id'] = idx + 1
                 insight['detected_at'] = self._get_relative_time(datetime.now())
                 insight['is_resolved'] = False
@@ -275,7 +302,7 @@ Return ONLY the JSON object, no additional text or markdown formatting.
         except json.JSONDecodeError as e:
             print(f"Failed to parse JSON response: {e}")
             print(f"Raw response: {response.text}")
-            raise
+            raise AIInsightsFormatError("AI returned malformed data (invalid JSON)") from e
         except Exception as e:
             print(f"Error generating insights: {e}")
             raise

@@ -5,6 +5,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ReceiptReviewDialog from '../Components/ReceiptReviewDialog';
+import { API_URL } from '../services/api';
 
 // Basic capture + upload page for receipts
 export default function ReceiptCapture({ onSubmit }) {
@@ -46,7 +47,7 @@ export default function ReceiptCapture({ onSubmit }) {
       formData.append('file', fileOrDataUrl);
     }
 
-    const response = await fetch('http://127.0.0.1:8000/receipt/scan', {
+    const response = await fetch(`${API_URL}/receipt/scan`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`
@@ -66,7 +67,7 @@ export default function ReceiptCapture({ onSubmit }) {
     const token = localStorage.getItem('authToken');
     if (!token) throw new Error('No authentication token found');
 
-    const response = await fetch('http://127.0.0.1:8000/receipt/', {
+    const response = await fetch(`${API_URL}/receipt/`, {
       method: 'POST',
       headers: getAuthHeaders(true),
       body: JSON.stringify(receiptData)
@@ -267,13 +268,14 @@ export default function ReceiptCapture({ onSubmit }) {
   const handleSaveReceipt = async (finalData) => {
       try {
           setSubmitting(true);
+          setError(null);
           // 3. Create receipt with confirmed data
           let res = await createReceipt(finalData);
 
           // 4. Fetch line items via ReceiptLineItemRepository route (sanity + consistent API)
           if (res?.id) {
             try {
-              const liRes = await fetch(`http://127.0.0.1:8000/receipt_line_item/${res.id}`, {
+              const liRes = await fetch(`${API_URL}/receipt_line_item/${res.id}`, {
                 headers: getAuthHeaders(true)
               });
               if (liRes.ok) {
@@ -396,6 +398,7 @@ export default function ReceiptCapture({ onSubmit }) {
         initialData={scannedData}
         onSave={handleSaveReceipt}
         loading={submitting}
+        error={error}
       />
     </Box>
   );

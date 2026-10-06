@@ -1,10 +1,19 @@
 import re
-import torch
-from transformers import DonutProcessor, VisionEncoderDecoderModel
-from PIL import Image
 import io
 import logging
 import os
+import threading
+
+# torch / transformers / PIL are imported lazily (see _load_model / scan_image),
+# so the API can start without the receipt-scanning extras installed.
+
+DEFAULT_HUB_MODEL = "naver-clova-ix/donut-base-finetuned-cord-v2"
+_WEIGHT_FILES = (
+    "model.safetensors",
+    "model.safetensors.index.json",
+    "pytorch_model.bin",
+    "pytorch_model.bin.index.json",
+)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -15,6 +24,7 @@ class ReceiptScanner:
     _model = None
     _processor = None
     _device = None
+    _load_error = None
 
     def __new__(cls):
         if cls._instance is None:
@@ -24,6 +34,16 @@ class ReceiptScanner:
 
     def _load_model(self):
         logger.info("📥 Loading Receipt Scanner Model...")
+        try:
+            import torch
+            from transformers import DonutProcessor, VisionEncoderDecoderModel
+        except ImportError as e:
+            self._load_error = f"Receipt scanning dependencies not installed (torch/transformers): {e}"
+            logger.error(f" {self._load_error}")
+            self._processor = None
+            self._model = None
+            return
+
         self._device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"   Device: {self._device}")
 
@@ -31,20 +51,27 @@ class ReceiptScanner:
         backend_dir = os.path.dirname(os.path.dirname(current_dir))
         local_model_path = os.path.join(backend_dir, "ai_models", "donut_receipt_v1")
 
-        model_name_or_path = local_model_path if os.path.exists(local_model_path) else "naver-clova-ix/donut-base-finetuned-cord-v2"
+        # The local folder may only contain tokenizer/config files (weights are not in git);
+        # fall back to the hub model in that case.
+        use_local = os.path.isdir(local_model_path) and any(
+            os.path.exists(os.path.join(local_model_path, f)) for f in _WEIGHT_FILES
+        )
+        model_name_or_path = local_model_path if use_local else DEFAULT_HUB_MODEL
         try:
             self._processor = DonutProcessor.from_pretrained(
                 model_name_or_path,
-                local_files_only=os.path.exists(local_model_path),
+                local_files_only=use_local,
             )
             self._model = VisionEncoderDecoderModel.from_pretrained(
                 model_name_or_path,
-                local_files_only=os.path.exists(local_model_path),
+                local_files_only=use_local,
             ).to(self._device)
             self._model.eval()
+            self._load_error = None
             logger.info(" Model loaded successfully")
         except Exception as e:
-            logger.error(f" Failed to load model: {e}")
+            self._load_error = f"Failed to load model: {e}"
+            logger.error(f" {self._load_error}")
             self._processor = None
             self._model = None
             logger.warning("Receipt scanner will be unavailable until the model loads correctly.")
@@ -52,7 +79,13 @@ class ReceiptScanner:
     def scan_image(self, file_bytes: bytes, filename: str = ""):
         try:
             if not self._processor or not self._model:
+                if self._load_error:
+                    return {"error": f"AI model not loaded: {self._load_error}"}
                 return {"error": "AI model not loaded"}
+
+            # Only reachable when the model loaded, i.e. torch/transformers are installed.
+            import torch
+            from PIL import Image
 
             image = None
             
@@ -207,7 +240,11 @@ class ReceiptScanner:
         
         return False
 
-    def _extract_menu_item_from_sub(self, sub_dict: dict) -> list:
+    def _extract_menu_item_from_sub(self, sub_dict) -> list:
+        # Donut returns `sub` either as a single dict or as a list of dicts.
+        if isinstance(sub_dict, list):
+            return [x for s in sub_dict for x in self._extract_menu_item_from_sub(s)]
+
         items = []
         if not isinstance(sub_dict, dict):
             return items
@@ -358,4 +395,30 @@ class ReceiptScanner:
         
         return custom_data
 
-scanner = ReceiptScanner()
+
+_scanner = None
+_scanner_lock = threading.Lock()
+
+
+def get_scanner() -> ReceiptScanner:
+    """Return the shared ReceiptScanner, loading the model on first use (not at import time)."""
+    global _scanner
+    if _scanner is None:
+        with _scanner_lock:
+            if _scanner is None:
+                _scanner = ReceiptScanner()
+    return _scanner
+
+
+class _LazyScanner:
+    """Backwards-compatible stand-in for the old module-level `scanner` instance.
+
+    `from services.receipt_scanner import scanner` keeps working, but the model is
+    only loaded when an attribute is first used (e.g. `scanner.scan_image(...)`).
+    """
+
+    def __getattr__(self, name):
+        return getattr(get_scanner(), name)
+
+
+scanner = _LazyScanner()

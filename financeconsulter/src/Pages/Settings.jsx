@@ -29,6 +29,7 @@ import SecurityTab from './Settings/SecurityTab';
 import TagsTab from './Settings/TagsTab';
 import CategoriesTab from './Settings/CategoriesTab';
 import AccountsTab from './Settings/AccountsTab';
+import { API_URL } from '../services/api';
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -67,7 +68,7 @@ export default function Settings() {
         return;
       }
 
-      const response = await fetch('http://127.0.0.1:8000/user/me', {
+      const response = await fetch(`${API_URL}/user/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

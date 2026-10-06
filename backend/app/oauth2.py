@@ -17,8 +17,12 @@ def get_current_user(
         headers={"WWW-Authenticate": "Bearer"}
     )
     token_data = JWTToken.verify_token(token, credentials_exception)
-    user = db.query(User).filter(User.email == token_data.username).first()
-    # user = db.query(User).filter(User.id == token_data.user_id).first()
+    # Token-Subject ist die User-ID (nicht die E-Mail, die sich ändern kann)
+    try:
+        user_id = int(token_data.username)
+    except (TypeError, ValueError):
+        raise credentials_exception
+    user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise credentials_exception
     

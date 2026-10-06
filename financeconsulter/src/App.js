@@ -11,6 +11,7 @@ import Settings from './Pages/Settings';
 import AIInsights from './Pages/AIInsights';
 import QuickEntry from './Pages/QuickEntry';
 import OnboardingCategories from './Pages/OnboardingCategories';
+import { API_URL } from './services/api';
 
 
 function App() {
@@ -68,8 +69,8 @@ function App() {
 
   const handleRegister = async (payload) => {
     try {
-        const registerUrl = 'http://127.0.0.1:8000/user/register';
-        const loginUrl = 'http://127.0.0.1:8000/login';
+        const registerUrl = `${API_URL}/user/register`;
+        const loginUrl = `${API_URL}/login`;
 
         console.log('[register] start', { email: payload?.email });
 
@@ -159,7 +160,7 @@ function App() {
 
       console.log('[login] start', { email: payload?.email });
 
-      const response = await fetchWithTimeout('http://127.0.0.1:8000/login', {
+      const response = await fetchWithTimeout(`${API_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+// Installs the global 401 handler (fetch + axios) before any request is made
+import './services/authInterceptor';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

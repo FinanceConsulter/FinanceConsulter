@@ -1,6 +1,5 @@
 # Import Standard
 from fastapi import APIRouter, Depends, HTTPException
-from typing import List
 from sqlalchemy.orm import Session
 import oauth2 as oauth2
 from schemas.user import UserCreate
@@ -31,11 +30,14 @@ def get_current_user_info(
     """Get current authenticated user"""
     return current_user
 
-@router.get("/{user_id}", response_model=List[UserResponse])
+@router.get("/{user_id}", response_model=UserResponse)
 def get_user(
     user_id: int,
-    repo: UserRepository = Depends(get_repository)
+    repo: UserRepository = Depends(get_repository),
+    current_user: User = Depends(oauth2.get_current_user)
 ):
+    if current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Not authorized")
     guser = repo.get_user(user_id)
     if not guser:
         raise HTTPException(status_code=404, detail="Benutzer nicht gefunden")
@@ -46,6 +48,8 @@ def create_user(
     request: UserCreate, 
     repo: UserRepository = Depends(get_repository)
 ):
+    if len(request.password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
     new_user = repo.create_user(request)
     if new_user == None:
         raise HTTPException(status_code=400, detail="Email bereits registriert")

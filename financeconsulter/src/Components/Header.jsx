@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState, useEffect, useCallback } from 'react';
+import { API_URL } from '../services/api';
 
 function Header({ handleDrawerToggle }) {
   const [helloText, setHelloText] = useState('Hallo');
@@ -13,7 +14,7 @@ function Header({ handleDrawerToggle }) {
         return;
       }
 
-      const response = await fetch('http://127.0.0.1:8000/user/me', {
+      const response = await fetch(`${API_URL}/user/me`, {
         cache: 'no-store',
         headers: {
           Authorization: `Bearer ${token}`,

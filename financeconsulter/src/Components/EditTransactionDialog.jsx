@@ -18,16 +18,18 @@ import {
   Stack,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { API_URL } from '../services/api';
 
 const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
   const [formData, setFormData] = useState({
     date: '',
     description: '',
-    amount_cents: 0,
     account_id: '',
     category_id: '',
     tags: [],
   });
+  // Raw input string so the amount can be retyped/cleared freely
+  const [amountInput, setAmountInput] = useState('');
   const [accounts, setAccounts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [availableTags, setAvailableTags] = useState([]);
@@ -44,7 +46,7 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
 
   const fetchAccounts = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/account/', {
+      const response = await fetch(`${API_URL}/account/`, {
         headers: getAuthHeaders(),
       });
       if (response.ok) {
@@ -58,7 +60,7 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/category/', {
+      const response = await fetch(`${API_URL}/category/`, {
         headers: getAuthHeaders(),
       });
       if (response.ok) {
@@ -72,7 +74,7 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
 
   const fetchTags = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/tag/', {
+      const response = await fetch(`${API_URL}/tag/`, {
         headers: getAuthHeaders(),
       });
       if (response.ok) {
@@ -95,11 +97,11 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
         setFormData({
           date: transaction.date?.split('T')[0] || '',
           description: transaction.description || '',
-          amount_cents: transaction.amount_cents || 0,
           account_id: transaction.account_id || '',
           category_id: transaction.category_id || '',
           tags: transaction.tags?.map(tag => tag.id) || [],
         });
+        setAmountInput(((transaction.amount_cents || 0) / 100).toFixed(2));
       }
     }
   }, [open, transaction, fetchAccounts, fetchCategories, fetchTags]);
@@ -113,13 +115,7 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
   };
 
   const handleAmountChange = (e) => {
-    const value = e.target.value;
-    // Convert to cents
-    const amountCents = Math.round(parseFloat(value) * 100);
-    setFormData(prev => ({
-      ...prev,
-      amount_cents: isNaN(amountCents) ? 0 : amountCents,
-    }));
+    setAmountInput(e.target.value);
   };
 
   const handleTagChange = (event) => {
@@ -131,22 +127,30 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
   };
 
   const handleSubmit = async () => {
+    // Convert to cents
+    const amountCents = Math.round(parseFloat(amountInput) * 100);
+    if (!Number.isFinite(amountCents)) {
+      setError('Please enter a valid amount');
+      return;
+    }
+
     setLoading(true);
     setError('');
 
     try {
+      // category_id/tags are always sent explicitly (null / []) so they can be cleared
       const submitData = {
         date: formData.date,
         description: formData.description,
-        amount_cents: formData.amount_cents,
+        amount_cents: amountCents,
         account_id: formData.account_id || null,
         category_id: formData.category_id || null,
-        tags: formData.tags && formData.tags.length > 0 ? formData.tags : null,
+        tags: formData.tags || [],
       };
 
       console.log('Submitting transaction update:', submitData);
 
-      const response = await fetch(`http://127.0.0.1:8000/transaction/${transaction.id}`, {
+      const response = await fetch(`${API_URL}/transaction/${transaction.id}`, {
         method: 'PUT',
         headers: {
           ...getAuthHeaders(),
@@ -227,7 +231,7 @@ const EditTransactionDialog = ({ open, onClose, transaction, onSuccess }) => {
           <TextField
             label="Amount"
             type="number"
-            value={(formData.amount_cents / 100).toFixed(2)}
+            value={amountInput}
             onChange={handleAmountChange}
             fullWidth
             required

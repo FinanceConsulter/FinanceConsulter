@@ -6,7 +6,7 @@ Uses Repository Pattern and Pydantic Schemas.
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import Dict, Any, Optional
 from sqlalchemy.orm import Session
-import os
+from pydantic import ValidationError
 from dotenv import load_dotenv
 
 from data_access.data_access import get_db
@@ -20,7 +20,8 @@ from repository.transaction import TransactionRepository
 from repository.category import CategoryRepository
 from repository.account import AccountRepository
 
-from services.ai_insights_generator import AIInsightsGenerator
+from services.ai_insights_generator import AIInsightsGenerator, AIInsightsFormatError
+from services.gemini_config import get_gemini_api_key
 
 load_dotenv()
 
@@ -56,13 +57,13 @@ def generate_new_insights(
     Triggers generation and saves via Repository.
     """
     try:
-        api_key = os.getenv('GEMINI_API_KEY')
+        api_key = get_gemini_api_key()
         
         if not api_key:
-            print("❌ FEHLER: GEMINI_API_KEY Environment Variable ist leer!")
+            print("❌ FEHLER: GEMINI_API_KEY (bzw. GOOGLE_API_KEY) Environment Variable ist leer!")
             raise HTTPException(
                 status_code=500,
-                detail="AI service not configured. Please set GEMINI_API_KEY in .env file in the backend root directory."
+                detail="AI service not configured. Please set GEMINI_API_KEY (or GOOGLE_API_KEY) in .env file in the backend root directory."
             )
         
         # 1. Fetch Data
@@ -110,11 +111,25 @@ def generate_new_insights(
             user=user_data
         )
         
-        # 4. Save via Repository
-        saved_insight = repo.create_insight(current_user, insights_result)
+        # 4. Validate before saving, so malformed Gemini output never ends up in the DB
+        try:
+            validated = AIInsightsResponse.model_validate(insights_result)
+        except ValidationError as e:
+            print(f"AI returned malformed insights: {e}")
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail="AI returned malformed data. Please try again."
+            )
+
+        # 5. Save via Repository
+        saved_insight = repo.create_insight(current_user, validated.model_dump())
         
         return saved_insight
         
+    except HTTPException:
+        raise
+    except AIInsightsFormatError as e:
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=f"{e}. Please try again.")
     except ValueError as e:
         raise HTTPException(status_code=500, detail=str(e))
     except Exception as e:

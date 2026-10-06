@@ -16,12 +16,14 @@ import {
   Select,
   MenuItem,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  Alert
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import { API_URL } from '../services/api';
 
-export default function ReceiptReviewDialog({ open, onClose, initialData, onSave, loading }) {
+export default function ReceiptReviewDialog({ open, onClose, initialData, onSave, loading, error }) {
   const [merchantName, setMerchantName] = useState('');
   const [date, setDate] = useState('');
   const [total, setTotal] = useState('');
@@ -48,7 +50,7 @@ export default function ReceiptReviewDialog({ open, onClose, initialData, onSave
             const token = localStorage.getItem('authToken');
             if (!token) return;
 
-            const accountsRes = await fetch('http://127.0.0.1:8000/account/', {
+            const accountsRes = await fetch(`${API_URL}/account/`, {
               headers: getAuthHeaders()
             });
             if (!accountsRes.ok) return;
@@ -169,6 +171,7 @@ export default function ReceiptReviewDialog({ open, onClose, initialData, onSave
       <DialogTitle>Review Scanned Receipt</DialogTitle>
       <DialogContent dividers>
         <Stack spacing={3}>
+          {!!error && <Alert severity="error">{error}</Alert>}
           <TextField
             label="Merchant"
             value={merchantName}

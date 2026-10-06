@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile
+from starlette.concurrency import run_in_threadpool
 from typing import List
 from sqlalchemy.orm import Session
 import oauth2 as oauth2
@@ -7,7 +8,7 @@ from models.user import User
 from InternalResponse import InternalResponse
 from repository.receipt import ReceiptRepository
 from data_access.data_access import get_db
-from services.receipt_scanner import scanner
+# services.receipt_scanner (torch/transformers) wird erst beim ersten Scan importiert
 
 router = APIRouter(
     prefix = '/receipt',
@@ -16,6 +17,19 @@ router = APIRouter(
 
 def get_repository(db: Session = Depends(get_db)) -> ReceiptRepository:
     return ReceiptRepository(db)
+
+def _get_scanner():
+    """Lazy, cached (singleton) receipt scanner; the optional ML packages are only needed here."""
+    try:
+        import services.receipt_scanner as receipt_scanner
+    except ImportError as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Receipt scanner unavailable (optional ML dependencies not installed: {e})"
+        )
+    # get_scanner() (lazy singleton) if the service provides it, otherwise the module-level instance
+    get_scanner = getattr(receipt_scanner, 'get_scanner', None)
+    return get_scanner() if get_scanner else receipt_scanner.scanner
 
 @router.get('/', response_model=List[ReceiptResponse])
 def get_receipts(
@@ -41,7 +55,10 @@ def create_receipt(
     repo: ReceiptRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    return repo.create_receipt(current_user, receipt_create)
+    result = repo.create_receipt(current_user, receipt_create)
+    if isinstance(result, InternalResponse):
+        raise HTTPException(status_code=result.state, detail=result.detail)
+    return result
 
 @router.put('/{receipt_id}', response_model=ReceiptResponse)
 def update_receipt(
@@ -66,20 +83,15 @@ def delete_receipt(
         raise HTTPException(status_code=result.state, detail=result.detail)
     return {"message": result.detail}
 
-@router.post("/uploadfile/")
-async def create_upload_file(
-    file: UploadFile, 
-    repo: ReceiptRepository = Depends(get_repository)
-):
-    return await repo.analyze_receipt(file)
-
 @router.post('/scan')
 async def scan_receipt(
     file: UploadFile,
     current_user: User = Depends(oauth2.get_current_user)
 ):
     content = await file.read()
-    result = scanner.scan_image(content, file.filename)
+    # Modell-Laden und Inferenz sind blockierend -> im Threadpool, nicht im Event-Loop
+    scanner = await run_in_threadpool(_get_scanner)
+    result = await run_in_threadpool(scanner.scan_image, content, file.filename or "")
     if "error" in result:
         raise HTTPException(status_code=400, detail=result["error"])
     return result

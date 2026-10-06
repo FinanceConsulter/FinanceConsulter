@@ -30,10 +30,7 @@ def get_tags(
     repo: TagRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    tags = repo.get_userspecific_tags(current_user)
-    if tags == []:
-        raise HTTPException(status_code=status.HTTP_200_OK, detail="No tag found for this user")
-    return tags
+    return repo.get_userspecific_tags(current_user)
 
 @router.get('/{tag_id}', response_model=TagResponse)
 def get_tag(
@@ -43,7 +40,7 @@ def get_tag(
 ):
     tag = repo.get_tag(current_user, tag_id)
     if tag == None:
-        raise HTTPException(status_code=status.HTTP_200_OK, detail=f"No tag with id {tag_id} found for this user")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No tag with id {tag_id} found for this user")
     return tag
 
 @router.post('/', response_model=TagResponse)

@@ -26,6 +26,7 @@ import {
   TrendingUp as TrendingUpIcon,
   AutoAwesome as AutoAwesomeIcon 
 } from '@mui/icons-material';
+import { API_URL } from '../services/api';
 
 export default function AIInsights() {
   const [insightsData, setInsightsData] = useState(null);
@@ -45,7 +46,7 @@ export default function AIInsights() {
   const fetchInsights = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://127.0.0.1:8000/ai-insights/', {
+      const response = await fetch(`${API_URL}/ai-insights/`, {
         headers: getAuthHeaders()
       });
       
@@ -74,13 +75,17 @@ export default function AIInsights() {
     try {
       setGenerating(true);
       setError(null);
-      const response = await fetch('http://127.0.0.1:8000/ai-insights/generate', {
+      const response = await fetch(`${API_URL}/ai-insights/generate`, {
         method: 'POST',
         headers: getAuthHeaders()
       });
 
       if (!response.ok) {
-        throw new Error('Generation failed');
+        // Surface the server detail (e.g. missing API key, no transactions)
+        const errData = await response.json().catch(() => null);
+        const detail = typeof errData?.detail === 'string' ? errData.detail : null;
+        setError(detail ? `Failed to generate new insights: ${detail}` : "Failed to generate new insights. Please try again.");
+        return;
       }
 
       const data = await response.json();
@@ -151,6 +156,7 @@ export default function AIInsights() {
                 >
                     Generate Analysis
                 </Button>
+                {error && <Alert severity="error" sx={{ mt: 3, textAlign: 'left' }}>{error}</Alert>}
             </Box>
         </Container>
       );

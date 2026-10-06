@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 import json
+from pydantic import ValidationError
 from models.user import User
 from models.ai_insights import AIInsight
 from schemas.ai_insights import AIInsightsResponse
@@ -21,9 +22,11 @@ class AIInsightRepository:
             return None
 
         try:
-            # Wir geben das geparste JSON zurück, das passt auf unser Schema
-            return json.loads(latest_insight.raw_json)
-        except json.JSONDecodeError:
+            # Wir geben das geparste JSON zurück, validiert gegen unser Schema
+            data = json.loads(latest_insight.raw_json)
+            return AIInsightsResponse.model_validate(data).model_dump()
+        except (json.JSONDecodeError, TypeError, ValidationError):
+            # Alte/fehlerhafte Einträge (z.B. unvalidierte Gemini-Antworten) -> null statt 500
             return None
 
     def create_insight(self, current_user: User, insight_data: dict) -> dict:

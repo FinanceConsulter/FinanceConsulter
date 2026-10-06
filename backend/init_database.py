@@ -10,7 +10,7 @@ from pathlib import Path
 app_dir = Path(__file__).resolve().parent / "app"
 sys.path.insert(0, str(app_dir))
 
-from app.data_access.data_access import init_db, engine
+from data_access.data_access import init_db, engine, DATABASE_PATH
 from sqlalchemy import text
 
 def check_existing_tables():
@@ -32,9 +32,10 @@ def main():
         
         if response.lower() == 'j':
             print("🗑️  Lösche alte Datenbank...")
-            from app.data_access.data_access import DATABASE_PATH, Base
-            if DATABASE_PATH.exists():
-                DATABASE_PATH.unlink()
+            # Pool-Verbindungen schließen, sonst landet das neue Schema in der gelöschten Datei
+            engine.dispose()
+            for suffix in ("", "-wal", "-shm"):
+                Path(f"{DATABASE_PATH}{suffix}").unlink(missing_ok=True)
             print("✅ Datenbank gelöscht")
             
             print("📦 Erstelle neue Datenbank mit allen Tabellen...")

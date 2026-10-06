@@ -15,10 +15,10 @@ class CategoryCreate(BaseModel):
 
 class CategoryUpdate(BaseModel):
     id: int
-    name: Optional[str]
-    type: Optional[str]
-    parent_id: Optional[int]
-    description: Optional[str]
+    name: Optional[str] = None
+    type: Optional[str] = None
+    parent_id: Optional[int] = None
+    description: Optional[str] = None
 
     @field_validator('name','type', 'description')
     def empty_str_to_none(cls, item):

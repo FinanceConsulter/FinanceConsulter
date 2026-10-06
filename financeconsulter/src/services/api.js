@@ -2,7 +2,7 @@
 import { MOCK_TRANSACTIONS, TABLE_HEADER } from '../data/transactions';
 import axios from 'axios';
 
-export const API_URL = 'http://127.0.0.1:8000';
+export const API_URL = (process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000').replace(/\/+$/, '');
 
 export async function fetchTransactions() {
   return Promise.resolve({ header: TABLE_HEADER, data: MOCK_TRANSACTIONS });
@@ -47,14 +47,4 @@ export async function createReceipt(receiptData) {
 /* Deprecated mock function */
 export async function uploadReceipt(fileOrDataUrl) {
   return scanReceipt(fileOrDataUrl);
-}
-
-export async function getHelloWorld() {
-  try {
-    const response = await axios.get('http://127.0.0.1:8000/');
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
 }

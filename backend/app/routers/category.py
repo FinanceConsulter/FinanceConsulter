@@ -20,7 +20,7 @@ from repository.category import CategoryRepository
 
 # Import Services
 from services.standard_categories import STANDARD_CATEGORIES
-from services.category_onboarding_generator import AICategoryOnboardingGenerator
+# services.category_onboarding_generator (google-generativeai) wird erst bei Bedarf importiert
 
 # Import DataAccess
 from data_access.data_access import get_db
@@ -67,10 +67,7 @@ def get_categories(
     repo: CategoryRepository = Depends(get_repository), 
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    categories = repo.get_userspecific_categories(current_user)
-    if categories == []:
-        raise HTTPException(status_code=status.HTTP_200_OK, detail="No Categories found for this user")
-    return categories
+    return repo.get_userspecific_categories(current_user)
 
 @router.get('/{category_id}', response_model=CategoryResponse)
 def get_category(
@@ -80,7 +77,7 @@ def get_category(
 ):
     category = repo.get_category(current_user, category_id)
     if category == None:
-        raise HTTPException(status_code=status.HTTP_200_OK, detail=f"No category with id {category_id} found for this user")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No category with id {category_id} found for this user")
     return category
 
 @router.post('/', response_model=CategoryResponse)
@@ -106,7 +103,7 @@ def update_category(
     try:
         category = repo.update_category(current_user, updated_category)
         if category == None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="unable to update category")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No category with id {updated_category.id} found for this user")
         return category
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
@@ -162,13 +159,15 @@ def create_onboarding_categories(
                     _AI_LAST_ATTEMPT_BY_USER[current_user.id] = now
 
                 try:
+                    # Lazy import: optional dependency, not part of the core install
+                    from services.category_onboarding_generator import AICategoryOnboardingGenerator
                     generator = AICategoryOnboardingGenerator()
                     ai_tree = generator.generate_tree(behavior)
                     if isinstance(ai_tree, list) and ai_tree:
                         with _AI_LOCK:
                             _AI_TREE_CACHE[key] = (now, ai_tree)
-                except ValueError as e:
-                    # e.g. missing GEMINI_API_KEY or invalid AI output
+                except (ImportError, ValueError) as e:
+                    # e.g. google-generativeai not installed, missing GEMINI_API_KEY or invalid AI output
                     warning = f"AI unavailable: {str(e)}"
                 except Exception as e:
                     if _is_quota_error(e):

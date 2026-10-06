@@ -21,6 +21,13 @@ import {
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'; 
+import { API_URL } from '../services/api';
+
+// Lokales Datum (YYYY-MM-DD); toISOString() liefert UTC und ergibt kurz nach Mitternacht den Vortag
+const todayLocal = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+};
 
 export default function QuickEntry() {
   // States
@@ -32,7 +39,7 @@ export default function QuickEntry() {
   const [targetAccount, setTargetAccount] = useState('');     // Zielkonto
   
   const [selectedTags, setSelectedTags] = useState([]);
-  const [transactionDate, setTransactionDate] = useState(new Date().toISOString().split('T')[0]);
+  const [transactionDate, setTransactionDate] = useState(todayLocal);
   
   const [accounts, setAccounts] = useState([]);
   const [tags, setTags] = useState([]);
@@ -56,7 +63,7 @@ export default function QuickEntry() {
       setDataLoading(true);
       
       // 1. Fetch Accounts
-      const accountsRes = await fetch('http://127.0.0.1:8000/account/', { headers: getAuthHeaders() });
+      const accountsRes = await fetch(`${API_URL}/account/`, { headers: getAuthHeaders() });
       if (accountsRes.ok) {
         const accountsData = await accountsRes.json();
         setAccounts(Array.isArray(accountsData) ? accountsData : []);
@@ -64,14 +71,14 @@ export default function QuickEntry() {
       }
       
       // 2. Fetch Tags
-      const tagsRes = await fetch('http://127.0.0.1:8000/tag/', { headers: getAuthHeaders() });
+      const tagsRes = await fetch(`${API_URL}/tag/`, { headers: getAuthHeaders() });
       if (tagsRes.ok) {
         const tagsData = await tagsRes.json();
         setTags(Array.isArray(tagsData) ? tagsData : []);
       }
 
       // 3. Fetch Categories (NEU: Damit wir nach "Banktransfer" suchen können)
-      const catRes = await fetch('http://127.0.0.1:8000/category/', { headers: getAuthHeaders() });
+      const catRes = await fetch(`${API_URL}/category/`, { headers: getAuthHeaders() });
       if (catRes.ok) {
         const catData = await catRes.json();
         setCategories(Array.isArray(catData) ? catData : []);
@@ -165,13 +172,13 @@ export default function QuickEntry() {
             tags: finalTags
         };
 
-        const req1 = fetch('http://127.0.0.1:8000/transaction/', {
+        const req1 = fetch(`${API_URL}/transaction/`, {
             method: 'POST',
             headers: getAuthHeaders(),
             body: JSON.stringify(withdrawalPayload)
         });
         
-        const req2 = fetch('http://127.0.0.1:8000/transaction/', {
+        const req2 = fetch(`${API_URL}/transaction/`, {
             method: 'POST',
             headers: getAuthHeaders(),
             body: JSON.stringify(depositPayload)
@@ -198,7 +205,7 @@ export default function QuickEntry() {
             tags: selectedTags.length > 0 ? selectedTags : null
         };
 
-        const response = await fetch('http://127.0.0.1:8000/transaction/', {
+        const response = await fetch(`${API_URL}/transaction/`, {
             method: 'POST',
             headers: getAuthHeaders(),
             body: JSON.stringify(transactionData)
@@ -230,7 +237,7 @@ export default function QuickEntry() {
     setDescription('');
     setSelectedTags([]);
     setTargetAccount('');
-    setTransactionDate(new Date().toISOString().split('T')[0]);
+    setTransactionDate(todayLocal());
     setError(null);
     setSuccess(false);
   };
@@ -497,7 +504,7 @@ export default function QuickEntry() {
                             {description}
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
-                             {new Date(transactionDate).toLocaleDateString()}
+                             {new Date(`${transactionDate}T00:00:00`).toLocaleDateString()}
                              {transactionType === 'transfer' && targetAccountData && (
                                  <span> • {selectedAccountData?.name} ➝ {targetAccountData?.name}</span>
                              )}

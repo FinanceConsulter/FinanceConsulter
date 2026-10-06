@@ -13,6 +13,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { API_URL } from '../services/api';
 
 export default function OnboardingCategories({ onDone }) {
   const [mode, setMode] = useState('standard');
@@ -47,7 +48,7 @@ export default function OnboardingCategories({ onDone }) {
         behavior: mode === 'ai' ? behavior.trim() : null,
       };
 
-      const res = await fetch('http://127.0.0.1:8000/category/onboarding', {
+      const res = await fetch(`${API_URL}/category/onboarding`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(payload),

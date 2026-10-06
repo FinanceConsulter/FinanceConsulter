@@ -7,8 +7,8 @@ class TagCreate(BaseModel):
 
 class TagUpdate(BaseModel):
     id: int
-    name: Optional[str]
-    color: Optional[str]
+    name: Optional[str] = None
+    color: Optional[str] = None
 
     @field_validator('name','color')
     def empty_str_to_none(cls, item):

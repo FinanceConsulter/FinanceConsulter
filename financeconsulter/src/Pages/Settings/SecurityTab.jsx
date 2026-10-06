@@ -7,6 +7,7 @@ import {
   Typography,
   Divider,
 } from '@mui/material';
+import { API_URL } from '../../services/api';
 
 export default function SecurityTab({ user, onSuccess, onError, isMobile }) {
   const [passwordData, setPasswordData] = useState({
@@ -40,7 +41,7 @@ export default function SecurityTab({ user, onSuccess, onError, isMobile }) {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/user/${user.id}/password`, {
+      const response = await fetch(`${API_URL}/user/${user.id}/password`, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify({

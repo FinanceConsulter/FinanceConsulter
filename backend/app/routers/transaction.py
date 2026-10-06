@@ -1,8 +1,9 @@
 # Import Standard
 from fastapi import APIRouter, Depends, HTTPException, status
-from typing import List
+from typing import List, Optional
 from sqlalchemy.orm import Session
 import oauth2 as oauth2
+import logging
 import os
 
 # Import Request
@@ -21,15 +22,12 @@ from schemas.transaction_categorize import (
     TransactionCategorySuggestionResponse,
 )
 
-from services.transaction_categorizer import (
-    CategoryCandidate,
-    CategorySuggestion,
-    suggest_categories_batch,
-    gemini_suggest_categories_batch,
-)
+# services.transaction_categorizer (sentence-transformers) wird erst bei Bedarf importiert
 
 # Import DataAccess
 from data_access.data_access import get_db
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(
     prefix = '/transaction',
@@ -46,6 +44,21 @@ def categorize_transactions_batch(
     db: Session = Depends(get_db),
     current_user: User = Depends(oauth2.get_current_user),
 ):
+    # Der ML-Kategorisierer ist optional: fehlt er oder schlägt er fehl, gibt es leere Vorschläge statt 500.
+    try:
+        from services.transaction_categorizer import (
+            CategoryCandidate,
+            CategorySuggestion,
+            suggest_categories_batch,
+            gemini_suggest_categories_batch,
+        )
+    except ImportError as e:
+        logger.warning("Transaction categorizer unavailable: %s", e)
+        return [
+            TransactionCategorySuggestionResponse(client_id=item.client_id, category_id=None, score=0.0)
+            for item in items
+        ]
+
     categories = CategoryRepository(db).get_userspecific_categories(current_user)
     candidates = [
         CategoryCandidate(
@@ -61,13 +74,17 @@ def categorize_transactions_batch(
     threshold = float(os.getenv('CATEGORY_AUTO_THRESHOLD', '0.5'))
     min_threshold = float(os.getenv('CATEGORY_AUTO_MIN_THRESHOLD', '0.35'))
     min_margin = float(os.getenv('CATEGORY_AUTO_MIN_MARGIN', '0.03'))
-    suggestions = suggest_categories_batch(
-        categories=candidates,
-        descriptions=[i.description for i in items],
-        amount_cents_list=[i.amount_cents for i in items],
-        currency_codes=[i.currency_code for i in items],
-        threshold=threshold,
-    )
+    try:
+        suggestions = suggest_categories_batch(
+            categories=candidates,
+            descriptions=[i.description for i in items],
+            amount_cents_list=[i.amount_cents for i in items],
+            currency_codes=[i.currency_code for i in items],
+            threshold=threshold,
+        )
+    except Exception as e:
+        logger.warning("Transaction categorization failed: %s", e)
+        suggestions = [CategorySuggestion(category_id=None, score=0.0) for _ in items]
 
     # Local fallback: if primary threshold fails but match is still reasonably strong,
     # assign the best category to reduce uncategorized manual entries.
@@ -101,10 +118,15 @@ def categorize_transactions_batch(
                 for idx in low_indices
             ]
 
-            gemini_map = gemini_suggest_categories_batch(
-                categories=candidates,
-                items=payload,
-            )
+            try:
+                gemini_map = gemini_suggest_categories_batch(
+                    categories=candidates,
+                    items=payload,
+                )
+            except Exception as e:
+                # Gemini-Fallback ist best-effort
+                logger.warning("Gemini category fallback failed: %s", e)
+                gemini_map = None
             if gemini_map:
                 for idx in low_indices:
                     key = items[idx].client_id or str(idx)
@@ -125,22 +147,9 @@ def get_transactions(
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    transactions = repo.get_userspecific_transaction(current_user)
-    if transactions == []:
-        raise HTTPException(status_code=status.HTTP_200_OK, detail="No transactions found for this user")
-    return transactions
+    return repo.get_userspecific_transaction(current_user)
 
-@router.get('/{transaction_id}', response_model=TransactionResponse)
-def get_transaction(
-    transaction_id: int,
-    repo: TransactionRepository = Depends(get_repository),
-    current_user: User = Depends(oauth2.get_current_user)
-):
-    transaction =  repo.get_transaction(current_user, transaction_id)
-    if transaction == None:
-        raise HTTPException(status_code=status.HTTP_200_OK, detail="No transaction found for this user")
-    return transaction
-
+# Muss vor '/{transaction_id}' registriert sein, sonst wird 'filter' als transaction_id interpretiert
 @router.get('/filter', response_model=List[TransactionResponse])
 def filter_transactions(
     transaction_filter: TransactionFilter = Depends(),
@@ -151,6 +160,17 @@ def filter_transactions(
     if type(transactions) == InternalResponse:
         raise HTTPException(status_code=transactions.state, detail=transactions.detail)
     return transactions
+
+@router.get('/{transaction_id}', response_model=TransactionResponse)
+def get_transaction(
+    transaction_id: int,
+    repo: TransactionRepository = Depends(get_repository),
+    current_user: User = Depends(oauth2.get_current_user)
+):
+    transaction =  repo.get_transaction(current_user, transaction_id)
+    if transaction == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No transaction found for this user")
+    return transaction
 
 @router.post('/', response_model=TransactionResponse)
 def create_transaction(
@@ -175,30 +195,6 @@ def get_tags(
     if transaction is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Transaction not found")
     return transaction
-
-@router.post('/{transaction_id}/add_tags', response_model=TransactionResponse)
-def add_tags(
-    transaction_id: int,
-    tags_id: list[int],
-    repo: TransactionRepository = Depends(get_repository),
-    current_user: User = Depends(oauth2.get_current_user)
-):
-    result = repo.add_tags(current_user, transaction_id, tags_id)
-    if type(result) == InternalResponse:
-        raise HTTPException(status_code=result.state, detail=result.detail)
-    return result
-
-@router.put('/{transaction_id}/remove_tags', response_model=TransactionResponse)
-def remove_tags(
-    transaction_id: int,
-    tags_id: list[int],
-    repo: TransactionRepository = Depends(get_repository),
-    current_user: User = Depends(oauth2.get_current_user)
-):
-    result = repo.remove_tags(current_user, transaction_id, tags_id)
-    if type(result) == InternalResponse:
-        raise HTTPException(status_code=result.state, detail=result.detail)
-    return result
 
 @router.get('/{transaction_id}/category', response_model=TransactionResponse)
 def get_category(
@@ -227,23 +223,11 @@ def change_category(
 @router.put('/{transaction_id}/remove_category', response_model=TransactionResponse)
 def remove_category(
     transaction_id: int,
-    category_id: int,
+    category_id: Optional[int] = None,  # optional, nur aus Kompatibilitätsgründen akzeptiert
     repo: TransactionRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
     result = repo.remove_category(current_user, transaction_id)
-    if type(result) == InternalResponse:
-        raise HTTPException(status_code=result.state, detail=result.detail)
-    return result
-
-@router.put('/{transaction_id}/receipt', response_model=TransactionResponse)
-def set_receipt(
-    transaction_id: int,
-    receipt_id: int,
-    repo: TransactionRepository = Depends(get_repository),
-    current_user: User = Depends(oauth2.get_current_user)
-):
-    result = repo.set_receipt(current_user, transaction_id, receipt_id)
     if type(result) == InternalResponse:
         raise HTTPException(status_code=result.state, detail=result.detail)
     return result

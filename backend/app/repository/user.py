@@ -54,7 +54,8 @@ class UserRepository:
             if self.db.query(User).filter(User.email == request.email).first():
                 return "EMAIL_EXISTS"
 
-        update_data = request.model_dump(exclude_unset=True)
+        # None-Felder ignorieren (z.B. explizites "email": null -> sonst IntegrityError)
+        update_data = request.model_dump(exclude_unset=True, exclude_none=True)
         
         if 'password' in update_data and update_data['password']:
             update_data['password_hash'] = password.get_pwd_hash(update_data['password'])

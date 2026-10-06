@@ -23,6 +23,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import LabelIcon from '@mui/icons-material/Label';
 import CloseIcon from '@mui/icons-material/Close';
+import { API_URL } from '../../services/api';
 
 export default function TagsTab({ onSuccess, onError, isMobile }) {
   const [tags, setTags] = useState([]);
@@ -44,7 +45,7 @@ export default function TagsTab({ onSuccess, onError, isMobile }) {
   const fetchTags = useCallback(async () => {
     try {
       setTagsLoading(true);
-      const response = await fetch('http://127.0.0.1:8000/tag/', {
+      const response = await fetch(`${API_URL}/tag/`, {
         headers: getAuthHeaders()
       });
 
@@ -84,7 +85,7 @@ export default function TagsTab({ onSuccess, onError, isMobile }) {
     }
 
     try {
-      const url = 'http://127.0.0.1:8000/tag/';
+      const url = `${API_URL}/tag/`;
       
       const body = editingTag
         ? { id: editingTag.id, name: tagFormData.name, color: tagFormData.color }
@@ -124,7 +125,7 @@ export default function TagsTab({ onSuccess, onError, isMobile }) {
 
   const handleDeleteTag = async (tagId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tag/${tagId}`, {
+      const response = await fetch(`${API_URL}/tag/${tagId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });

@@ -28,10 +28,7 @@ def get_merchants(
     repo: MerchantRepository = Depends(get_repository),
     current_user: User = Depends(oauth2.get_current_user)
 ):
-    merchants = repo.get_userspecific_merchants(current_user)
-    if merchants == []:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No merchants from this user were found")
-    return merchants
+    return repo.get_userspecific_merchants(current_user)
 
 @router.get("/{merchant_id}", response_model=MerchantResponse)
 def get_merchant(

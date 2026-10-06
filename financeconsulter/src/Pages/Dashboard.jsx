@@ -11,6 +11,7 @@ import CashflowTimelineChart from '../Components/Dashboard/Charts/CashflowTimeli
 
 // Lists
 import LatestTransactionsList from '../Components/Dashboard/Lists/LatestTransactionsList';
+import { API_URL } from '../services/api';
 
 export default function Dashboard({ onNavigate }) {
   const [loading, setLoading] = useState(true);
@@ -34,10 +35,10 @@ export default function Dashboard({ onNavigate }) {
 
       // Fetch all required data in parallel
       const [accountsRes, transactionsRes, categoriesRes, userRes] = await Promise.all([
-        fetch('http://127.0.0.1:8000/account/', { headers }),
-        fetch('http://127.0.0.1:8000/transaction/', { headers }),
-        fetch('http://127.0.0.1:8000/category/', { headers }),
-        fetch('http://127.0.0.1:8000/user/me', { headers })
+        fetch(`${API_URL}/account/`, { headers }),
+        fetch(`${API_URL}/transaction/`, { headers }),
+        fetch(`${API_URL}/category/`, { headers }),
+        fetch(`${API_URL}/user/me`, { headers })
       ]);
 
       if (!accountsRes.ok || !transactionsRes.ok || !categoriesRes.ok || !userRes.ok) {
@@ -59,13 +60,15 @@ export default function Dashboard({ onNavigate }) {
 
       // Get current date for period calculations
       const now = new Date();
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      // Month key 'YYYY-MM' in local time; t.date is a plain 'YYYY-MM-DD' string, so compare
+      // by string instead of new Date(t.date) (parsed as UTC -> shifts days across timezones)
+      const monthKey = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const currentMonthKey = monthKey(now);
       const last30Days = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
       // Month Spend: sum of negative transactions in current month
       const monthTransactions = transactions.filter(t => {
-        const tDate = new Date(t.date);
-        return tDate >= startOfMonth && (t.amount_cents || 0) < 0;
+        return String(t.date).slice(0, 7) === currentMonthKey && (t.amount_cents || 0) < 0;
       });
       const monthSpend = Math.abs(monthTransactions.reduce((sum, t) => sum + (t.amount_cents || 0), 0)) / 100;
 
@@ -101,13 +104,10 @@ export default function Dashboard({ onNavigate }) {
       const cashflowData = [];
       for (let i = 5; i >= 0; i--) {
         const monthDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const monthEnd = new Date(now.getFullYear(), now.getMonth() - i + 1, 0);
         const monthName = monthDate.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+        const key = monthKey(monthDate);
 
-        const monthTxs = transactions.filter(t => {
-          const tDate = new Date(t.date);
-          return tDate >= monthDate && tDate <= monthEnd;
-        });
+        const monthTxs = transactions.filter(t => String(t.date).slice(0, 7) === key);
 
         // Income: all positive amounts
         const income = monthTxs.filter(t => (t.amount_cents || 0) > 0).reduce((sum, t) => sum + (t.amount_cents || 0), 0) / 100;

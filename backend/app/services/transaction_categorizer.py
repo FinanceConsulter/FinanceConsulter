@@ -3,9 +3,9 @@ import json
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import Iterable, List, Optional, Sequence
+from typing import Any, Iterable, List, Optional, Sequence
 
-from sentence_transformers import SentenceTransformer
+from services.gemini_config import get_gemini_api_key
 
 
 DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
@@ -63,7 +63,10 @@ def _squash(text: str) -> str:
 
 def _has_ancestor_named(candidate: CategoryCandidate, by_id: dict[int, CategoryCandidate], names: set[str]) -> bool:
     cur = candidate
-    while cur.parent_id and cur.parent_id in by_id:
+    # Guard against parent cycles (e.g. A -> B -> A), which would otherwise loop forever.
+    seen = {candidate.id}
+    while cur.parent_id and cur.parent_id in by_id and cur.parent_id not in seen:
+        seen.add(cur.parent_id)
         parent = by_id[cur.parent_id]
         if parent.name.lower() in names:
             return True
@@ -203,12 +206,19 @@ def _rule_based_override(
     return None
 
 
-_model: Optional[SentenceTransformer] = None
+_model: Optional[Any] = None
 
 
-def _get_model() -> SentenceTransformer:
+def _get_model() -> Any:
     global _model
     if _model is None:
+        # Lazy import so the API starts without the ML extras installed.
+        try:
+            from sentence_transformers import SentenceTransformer
+        except ImportError as e:
+            raise RuntimeError(
+                "sentence-transformers is not installed (pip install sentence-transformers)"
+            ) from e
         model_name = os.getenv("EMBEDDING_MODEL", DEFAULT_EMBEDDING_MODEL)
         _model = SentenceTransformer(model_name)
     return _model
@@ -394,7 +404,7 @@ def gemini_suggest_categories_batch(
     Expected `items` shape:
       {"client_id": str, "description": str|None, "amount_cents": int, "currency_code": str|None}
     """
-    api_key = api_key or os.getenv("GEMINI_API_KEY")
+    api_key = api_key or get_gemini_api_key()
     if not api_key:
         return None
 
@@ -407,9 +417,12 @@ def gemini_suggest_categories_batch(
     except Exception:
         return None
 
-    genai.configure(api_key=api_key)
-    model_name = model_name or os.getenv("CATEGORY_GEMINI_MODEL", "models/gemini-2.5-flash")
-    model = genai.GenerativeModel(model_name)
+    try:
+        genai.configure(api_key=api_key)
+        model_name = model_name or os.getenv("CATEGORY_GEMINI_MODEL", "models/gemini-2.5-flash")
+        model = genai.GenerativeModel(model_name)
+    except Exception:
+        return None
 
     # Build leaf-only candidates to keep selection stable.
     leaves = _leaf_categories(categories)
@@ -425,15 +438,18 @@ def gemini_suggest_categories_batch(
         for c in leaves
     ]
 
-    tx_payload = [
-        {
-            "client_id": str(i.get("client_id") or ""),
-            "description": _normalize(i.get("description")),
-            "amount_cents": int(i.get("amount_cents")),
-            "currency_code": _normalize(i.get("currency_code")),
-        }
-        for i in items
-    ]
+    try:
+        tx_payload = [
+            {
+                "client_id": str(i.get("client_id") or ""),
+                "description": _normalize(i.get("description")),
+                "amount_cents": int(i.get("amount_cents")),
+                "currency_code": _normalize(i.get("currency_code")),
+            }
+            for i in items
+        ]
+    except Exception:
+        return None
 
     prompt = (
         "You are a transaction categorization assistant. "
@@ -457,7 +473,11 @@ def gemini_suggest_categories_batch(
     except Exception:
         return None
 
-    raw = getattr(response, "text", "") or ""
+    # response.text raises ValueError e.g. when the answer was blocked (no candidates/parts).
+    try:
+        raw = response.text or ""
+    except Exception:
+        return None
     arr = _extract_json_array(raw)
     if arr is None:
         return None

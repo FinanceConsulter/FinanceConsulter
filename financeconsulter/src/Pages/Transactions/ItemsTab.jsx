@@ -19,6 +19,7 @@ import {
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { API_URL } from '../../services/api';
 
 export default function ItemsTab() {
   const theme = useTheme();
@@ -39,10 +40,10 @@ export default function ItemsTab() {
         };
 
         const [receiptsRes, merchantsRes, transactionsRes, categoriesRes] = await Promise.all([
-          fetch('http://127.0.0.1:8000/receipt/', { headers }),
-          fetch('http://127.0.0.1:8000/merchant/', { headers }),
-          fetch('http://127.0.0.1:8000/transaction/', { headers }),
-          fetch('http://127.0.0.1:8000/category/', { headers }),
+          fetch(`${API_URL}/receipt/`, { headers }),
+          fetch(`${API_URL}/merchant/`, { headers }),
+          fetch(`${API_URL}/transaction/`, { headers }),
+          fetch(`${API_URL}/category/`, { headers }),
         ]);
 
         if (!receiptsRes.ok) {

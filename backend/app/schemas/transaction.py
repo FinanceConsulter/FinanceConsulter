@@ -6,11 +6,11 @@ from schemas.tag import TagResponse
 class TransactionCreate(BaseModel):
     account_id: int
     date: date_type
-    description: Optional[str]
+    description: Optional[str] = None
     amount_cents: int
-    currency_code: Optional[str]
-    tags: Optional[list[int]]
-    category_id: Optional[int]
+    currency_code: Optional[str] = None
+    tags: Optional[list[int]] = None
+    category_id: Optional[int] = None
     
     @field_validator('description')
     def empty_str_to_none(cls,item):
@@ -64,15 +64,15 @@ class TransactionResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 class TransactionFilter(BaseModel):
-    account_id: Optional[int]
-    category_id: Optional[int]
-    date: Optional[date_type]
-    date_operation: Optional[str]
-    description: Optional[str]
-    amount_cents: Optional[int]
-    amount_operation: Optional[str]
-    currency_code: Optional[str]
-    created_at: Optional[str]
+    account_id: Optional[int] = None
+    category_id: Optional[int] = None
+    date: Optional[date_type] = None
+    date_operation: Optional[str] = None
+    description: Optional[str] = None
+    amount_cents: Optional[int] = None
+    amount_operation: Optional[str] = None
+    currency_code: Optional[str] = None
+    created_at: Optional[str] = None
 
     @field_validator('date', 'date_operation', 'description', 'amount_operation', 'currency_code', 'created_at')
     def empty_str_to_none(cls,item):

@@ -27,6 +27,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CloseIcon from '@mui/icons-material/Close';
+import { API_URL } from '../../services/api';
 
 export default function AccountsTab({ onSuccess, onError, isMobile }) {
   const [accounts, setAccounts] = useState([]);
@@ -52,7 +53,7 @@ export default function AccountsTab({ onSuccess, onError, isMobile }) {
   const fetchAccounts = useCallback(async () => {
     try {
       setAccountsLoading(true);
-      const response = await fetch('http://127.0.0.1:8000/account/', {
+      const response = await fetch(`${API_URL}/account/`, {
         headers: getAuthHeaders()
       });
 
@@ -108,7 +109,7 @@ export default function AccountsTab({ onSuccess, onError, isMobile }) {
     }
 
     try {
-      const url = 'http://127.0.0.1:8000/account/';
+      const url = `${API_URL}/account/`;
       
       const body = editingAccount
         ? { 
@@ -157,7 +158,7 @@ export default function AccountsTab({ onSuccess, onError, isMobile }) {
 
   const handleDeleteAccount = async (accountId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/account/${accountId}`, {
+      const response = await fetch(`${API_URL}/account/${accountId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });

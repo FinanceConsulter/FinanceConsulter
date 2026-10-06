@@ -6,7 +6,8 @@ import re
 from typing import Any
 
 from dotenv import load_dotenv
-import google.generativeai as genai
+
+from services.gemini_config import get_gemini_api_key, import_genai
 
 load_dotenv()
 
@@ -15,10 +16,12 @@ class AICategoryOnboardingGenerator:
     """Generate a category + subcategory tree for a user via Gemini."""
 
     def __init__(self, api_key: str | None = None):
-        self.api_key = api_key or os.getenv('GEMINI_API_KEY')
+        self.api_key = api_key or get_gemini_api_key()
         if not self.api_key:
-            raise ValueError('GEMINI_API_KEY must be set in .env file or provided as argument')
+            raise ValueError('GEMINI_API_KEY (or GOOGLE_API_KEY) must be set in .env file or provided as argument')
 
+        # Lazy import: raises ValueError if google-generativeai is not installed
+        genai = import_genai()
         genai.configure(api_key=self.api_key)
         model_name = os.getenv('GEMINI_MODEL') or 'models/gemini-2.5-flash'
         self.model = genai.GenerativeModel(model_name)

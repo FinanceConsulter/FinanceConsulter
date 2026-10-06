@@ -29,6 +29,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import EditTransactionDialog from '../../Components/EditTransactionDialog';
+import { API_URL } from '../../services/api';
 
 export default function AllTransactionsTab() {
   const theme = useTheme();
@@ -58,14 +59,14 @@ export default function AllTransactionsTab() {
       setLoading(true);
 
       // Fetch accounts
-      const accountsResponse = await fetch('http://127.0.0.1:8000/account/', {
+      const accountsResponse = await fetch(`${API_URL}/account/`, {
         headers: getAuthHeaders()
       });
       const accountsData = await accountsResponse.json();
       setAccounts(accountsData);
 
       // Fetch categories
-      const categoriesResponse = await fetch('http://127.0.0.1:8000/category/', {
+      const categoriesResponse = await fetch(`${API_URL}/category/`, {
         headers: getAuthHeaders()
       });
       let categoriesData = [];
@@ -76,7 +77,7 @@ export default function AllTransactionsTab() {
       setCategories(categoriesData);
 
       // Fetch transactions
-      const transactionsResponse = await fetch('http://127.0.0.1:8000/transaction/', {
+      const transactionsResponse = await fetch(`${API_URL}/transaction/`, {
         headers: getAuthHeaders()
       });
 
@@ -93,7 +94,7 @@ export default function AllTransactionsTab() {
       setTransactions(transactionsData);
 
       // Fetch receipts to detect receipt-backed transactions
-      const receiptsResponse = await fetch('http://127.0.0.1:8000/receipt/', {
+      const receiptsResponse = await fetch(`${API_URL}/receipt/`, {
         headers: getAuthHeaders()
       });
       let receiptMap = {};
@@ -162,7 +163,7 @@ export default function AllTransactionsTab() {
     if (!transactionToDelete) return;
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/transaction/${transactionToDelete.id}`, {
+      const response = await fetch(`${API_URL}/transaction/${transactionToDelete.id}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
       });

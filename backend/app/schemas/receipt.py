@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 from typing import Optional, List
+from datetime import date as date_type
 from schemas.receipt_line_item import ReceiptLineItemResponse, ReceiptLineItemCreate
 
 class ReceiptCreate(BaseModel):
     merchant_id: Optional[int] = None
     merchant_name: Optional[str] = None
-    purchase_date: str
+    purchase_date: date_type
     total_cents: Optional[int] = None
     raw_file_path: Optional[str] = None
     ocr_text: Optional[str] = None
@@ -16,7 +17,7 @@ class ReceiptCreate(BaseModel):
 
 class ReceiptUpdate(BaseModel):
     merchant_id: Optional[int] = None
-    purchase_date: Optional[str] = None
+    purchase_date: Optional[date_type] = None
     total_cents: Optional[int] = None
     raw_file_path: Optional[str] = None
     ocr_text: Optional[str] = None
