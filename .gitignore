@@ -30,6 +30,9 @@ build/
 
 # Local data
 *.db
+*.db-wal
+*.db-shm
+*.db-journal
 *.sqlite
 finance.db
 
@@ -87,3 +90,7 @@ weights/
 
 # Environment files
 .env
+.env.local
+
+# Locally generated JWT signing key (see backend/app/JWTToken.py)
+.jwt_secret

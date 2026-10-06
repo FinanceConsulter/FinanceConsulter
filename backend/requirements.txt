@@ -1,26 +1,19 @@
-fastapi==0.114.2
-uvicorn[standard]==0.30.6
-pydantic==2.9.1
-SQLAlchemy==2.0.36
+# Full install: core API + optional AI/receipt-scanning features.
+# For the API only, `requirements-core.txt` is enough.
+-r requirements-core.txt
+
 alembic==1.13.2
-python-multipart==0.0.9
 pytesseract==0.3.13
 Pillow==10.4.0
 opencv-python-headless==4.10.0.84
-email-validator==2.2.0
-pytest==8.3.3
-httpx==0.27.2
-python-jose[cryptography]==3.5.0
-python-multipart
 easyocr
 matplotlib
 transformers
 timm
 sentence-transformers==3.3.1
 google-generativeai==0.8.3
-python-dotenv==1.0.0
 datasets
-sentencepiece 
+sentencepiece
 protobuf
 accelerate>=0.26.0
 tensorboardX
