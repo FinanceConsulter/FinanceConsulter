@@ -24,6 +24,16 @@ Main folders:
 - `financeconsulter`: React frontend
 - `db`: SQLite database file + SQL docs
 
+## Quick start (one click)
+Prerequisites: Python 3.10+ and Node.js (LTS).
+
+- **Windows:** double-click `start.bat`, or in PowerShell: `.\start.ps1` (`-Full` also installs the ML packages).
+- **macOS / Linux:** `./start.sh` (`--full` for the ML packages).
+
+The script creates `.venv`, installs the Python and npm packages, then starts the backend
+(http://127.0.0.1:8000) and the frontend (http://localhost:3000, opens in the browser).
+Log in or register to get started.
+
 ## Step-by-step setup (Windows / PowerShell)
 
 ### 1) Prerequisites
@@ -37,8 +47,11 @@ From the repo root:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r .\backend\requirements.txt
-python -m fastapi dev .\backend\app\main.py
+pip install -r .\backend\requirements.txt        # full (incl. receipt scanning / ML)
+# or, API only (much smaller):
+# pip install -r .\backend\requirements-core.txt
+cd .\backend\app
+python -m uvicorn main:app --reload --port 8000
 ```
 
 Backend URLs:
@@ -73,9 +86,13 @@ Frontend URL:
 - Password: `admin`
 
 
-### AI keys
-Some features require a provider API key (depending on how you run AI Insights / AI onboarding):
-- `GOOGLE_API_KEY` (if Google Generative AI is enabled in your environment)
+### Configuration (`backend/.env`)
+- `JWT_SECRET_KEY`: signing key for login tokens. If unset, a random key is generated once and
+  stored in the git-ignored file `.jwt_secret` in the repo root.
+- `ACCESS_TOKEN_EXPIRE_MINUTES` (default 720)
+- `GEMINI_API_KEY` (or `GOOGLE_API_KEY`): only needed for AI Insights / AI category onboarding.
+- `FINANCE_DB_PATH`: alternative database file.
+- Frontend: `REACT_APP_API_URL` (default `http://127.0.0.1:8000`).
 
 ### Categorization tuning
 Auto-categorization is best-effort and configurable via environment variables:
@@ -83,6 +100,12 @@ Auto-categorization is best-effort and configurable via environment variables:
 - `CATEGORY_AUTO_MIN_THRESHOLD` (default: 0.35)
 - `CATEGORY_AUTO_MIN_MARGIN` (default: 0.03)
 - `EMBEDDING_MODEL` (optional; sentence-transformers model id)
+
+## Tests
+```bash
+cd backend && python -m pytest            # backend (offline, uses temporary databases)
+cd financeconsulter && CI=true npx react-scripts test --watchAll=false
+```
 
 ## Troubleshooting
 
